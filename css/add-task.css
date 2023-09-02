@@ -108,19 +108,20 @@ textarea::placeholder {
 
 #assignedToSelection label,
 #assignedToSelection div,
-#categorySelection div{
+#categorySelection div {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-  
+
 }
 
-#assignedToSelection label:hover{
+#assignedToSelection label:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
+
 #assignedToSelection div p,
 #categorySelection div p {
     margin-block-end: 0;
@@ -144,21 +145,22 @@ textarea::placeholder {
     outline: none;
 }
 
-.inputCat{
+.inputCat {
     font-size: 21px;
     border: none;
     outline: none;
 }
 
-.inputCat span img{
+.inputCat span img {
     padding: 0px 2px 0px 2px
 }
 
-.smallSeperator{
+.smallSeperator {
     display: inline-block;
     border-left: 1px solid black;
     height: 25px;
 }
+
 .description {
 
     border-radius: 10px;
@@ -190,12 +192,12 @@ textarea::placeholder {
     color: #D1D1D1;
 }
 
-#date::placeholder{
-    color: #D1D1D1!important;
-  
+#date::placeholder {
+    color: #D1D1D1 !important;
+
 }
 
-.calender input{
+.calender input {
     width: 100%;
     border: none;
     outline: none;
@@ -296,23 +298,37 @@ textarea::placeholder {
     object-fit: contain;
 }
 
-#subtask{
+#subtask {
     border: none;
     width: 100%;
     font-size: 21px;
 }
 
-#colorSelection{
+#colorSelection {
     display: none;
     margin-top: 10px;
     gap: 10px
 }
 
-#colorSelection div{
+#colorSelection div {
     width: 12px;
     height: 12px;
     border-radius: 6px;
 }
+
+.deleteCategory{
+    background-color: white;
+    border: none;
+    outline: none;
+    border-radius: 25%;
+}
+
+.deleteCategory:hover{
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 4px 9px -1px rgba(0, 0, 0, 0.4);
+}
+
 @media(max-width: 1340px) {
 
     .leftElementAddTask,
@@ -323,7 +339,7 @@ textarea::placeholder {
     .addTaskElements {
         flex-direction: column;
         width: unset;
-        margin-top:unset
+        margin-top: unset
     }
 
     .rightElementAddTask {
@@ -335,13 +351,13 @@ textarea::placeholder {
         padding: 100px 0px 0px 420px;
     }
 
-    .clearAndCreateButtons{
+    .clearAndCreateButtons {
         padding-bottom: 100px;
         padding-right: 16px;
         justify-content: right;
     }
 
-    .content h1{
+    .content h1 {
         margin-block-end: 0;
     }
 }
@@ -361,15 +377,14 @@ textarea::placeholder {
     }
 
     .content h1 {
-        font-size: 47px!important;
-        margin-block-end: 0
-        ;
+        font-size: 47px !important;
+        margin-block-end: 0;
     }
 
     .content h3 {
         font-size: 16px;
     }
-    
+
     .priorities span,
     .description,
     .input,
@@ -377,7 +392,7 @@ textarea::placeholder {
     .selectionAssignedTo {
         font-size: 16px;
     }
-    
+
     .category,
     .input,
     .description,
@@ -388,28 +403,28 @@ textarea::placeholder {
         width: 396px;
     }
 
-    
-.clearAndCreateButtons {
-    width: 396px;
-}
+    .clearAndCreateButtons {
+        width: 396px;
+    }
 
-.addTaskElements{
-    margin-top: 20px;
-}
+    .addTaskElements {
+        margin-top: 20px;
+    }
 
-.rightElementAddTask{
-    padding-top: unset;
-}
-}
-
-@media(max-width: 650px){
-    .content {
-        padding: 100px 0px 0px 16px;
-      
+    .rightElementAddTask {
+        padding-top: unset;
     }
 }
 
-@media(max-width: 420px){
+@media(max-width: 650px) {
+    .content {
+        padding: 100px 0px 0px 16px;
+
+    }
+}
+
+@media(max-width: 420px) {
+
     .clearAndCreateButtons,
     .category,
     .input,
@@ -421,12 +436,13 @@ textarea::placeholder {
         width: 350px;
     }
 
-    .priorities{
+    .priorities {
         gap: 5px
     }
 }
 
-@media(max-width: 370px){
+@media(max-width: 370px) {
+
     .clearAndCreateButtons,
     .category,
     .input,
@@ -440,7 +456,8 @@ textarea::placeholder {
 }
 
 
-@media(max-width: 373px){
+@media(max-width: 373px) {
+
     .clearAndCreateButtons,
     .category,
     .input,
