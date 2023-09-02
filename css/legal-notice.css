@@ -1,0 +1,59 @@
+.impressum {
+    padding-top: 100px;
+    padding-left: 350px;
+    z-index: -1;
+    padding-right: 40px;
+}
+
+.data-protection {
+    padding-left: 350px;
+    z-index: -1;
+    padding-right: 40px;
+}
+
+#menu_legal-notice {
+    background-color: #0a1931;
+}
+
+.d-none {
+    display: none;
+}
+
+.break {
+    word-break: break-all;
+}
+
+.data-protection h1,
+.impressum h1 {
+    font-size: 61px;
+}
+
+.data-protection h2 {
+    font-size: 27px;
+}
+
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+
+
+@media(max-width: 800px) {
+    .impressum {
+        padding-left: 15px;
+        padding-right: 55px;
+ 
+    }
+
+    .data-protection {
+        padding-left: 15px;
+        padding-right: 55px;
+        padding-bottom: 171px;
+    }
+
+    .data-protection h1,
+    .impressum h1 {
+        font-size: 47px;
+    }
+}

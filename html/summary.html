@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Summary</title>
+        <link rel="icon" href="../img/JoinLogoDark.png">
+        <link rel="apple-touch-icon" sizes="20x20" href="../img/mobilLogo.ico">
+        <link rel="stylesheet" href="../css/summary.css">
+        <link rel="stylesheet" href="../css/interFont.css">
+        <script src="../scripts/generalFunctions.js"></script>
+        <script src="../scripts/summary.js"></script>
+    </head>
+
+    <body onload="initSummary()">
+
+        <div id="sidebar">
+            <div w3-include-html="./sidebar.html"></div>
+        </div>
+
+        <div class="content">
+            <div id="line" w3-include-html="./header.html"></div>
+            <div class="headline">
+                <span class="textForResponsive">Kanban Project Management Tool</span>
+                <h1>Summary</h1>
+                <img src="../img/summary/BlueLine.png">
+                <span>Everything in a nutshell!</span>
+            </div>
+
+            <div class="summary">
+                <div class="tasks">
+                    <div onclick="openBoard()" class="task">
+                        <span id="amountBoard"></span>
+                        <span>Tasks in<br>Board</span>
+                    </div>
+                    <div onclick="openBoard()" class="task">
+                        <span id="amountProgress"></span>
+                        <span>Tasks in<br>Progress</span>
+                    </div>
+                    <div onclick="openBoard()" class="task">
+                        <span id="amountFeedback"></span>
+                        <span>Awaiting<br>Feedback</span>
+                    </div>
+                </div>
+
+                <div onclick="openBoard()" class="urgent">
+                    <div class="urgentLeft">
+                        <img src="../img/summary/PrioUrgent.png" style="object-fit: contain">
+                        <div class="amountContainer">
+                            <span id="amountUrgent"></span>
+                            <span>Urgent</span>
+                        </div>
+                    </div>
+                    <img class="seperator" src="../img/summary/GreyLine.png">
+                    <div class="deadline">
+                        <span id="date"></span>
+                        <span>Upcoming Deadline</span>
+                    </div>
+                </div>
+
+                <div class="todoAndDone">
+                    <div onclick="openBoard()" class="todo">
+                        <img src="../img/summary/summaryPencil.png">
+                        <div class="amountContainer">
+                            <span id="amountTodo"></span>
+                            <span>To-do</span>
+                        </div>
+                    </div>
+                    <div onclick="openBoard()" class="done">
+                        <img src="../img/summaryCheck.png">
+                        <div class="amountContainer">
+                            <span id="amountDone"></span>
+                            <span>Done</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="greeting" style="font-size: 50px; font-weight: 500;">
+                    <span id="greetingText"></span><br>
+                    <span id="user"></span>
+
+                </div>
+            </div>
+        </div>
+      
+    </body>
+
+</html>

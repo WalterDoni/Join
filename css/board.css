@@ -1,0 +1,854 @@
+body {
+    background-color: #F6F7F8;
+}
+
+#menu_board {
+    background-color: #0a1931;
+}
+
+.d-none {
+    display: none;
+}
+
+.content {
+    position: absolute;
+    left: 232px;
+    width: calc(100% - 232px);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-left: 70px;
+    padding-right: 70px;
+    box-sizing: border-box;
+    padding-top: 80px;
+}
+
+
+.headline {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1477px;
+    padding-top: 82px;
+    padding-bottom: 99px;
+}
+
+.headline h1 {
+    font-size: 61px;
+    font-weight: 700;
+}
+
+.inputAndButtonHeadline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputDiv {
+    height: 51px;
+    padding: 13px 21px 13px 21px;
+    border-radius: 10px;
+    border: solid 1px;
+    border-color: #A8A8A8;
+    width: 251px;
+    background-color: white;
+    display: flex;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.inputDiv input {
+    border: none;
+    width: 100px;
+    outline: none;
+}
+
+.inputDiv img {
+    border-left: solid 1px;
+    border-color: #D1D1D1;
+    padding-left: 15px;
+    cursor: pointer;
+    object-fit: contain;
+}
+
+.taskContent {
+    display: flex;
+    gap: 26px;
+    flex-wrap: wrap;
+}
+
+.buttonAdd {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 21px 13px 21px;
+    background-color: #2A3647;
+    color: white;
+    border-radius: 10px;
+    font-size: 21px;
+    font-weight: 700;
+    margin-left: 35px;
+}
+
+.editTaskOkButton:hover,
+.plusForResponsive:hover,
+.buttonAdd:hover {
+    cursor: pointer;
+    background-color: #29ABE2;
+    box-shadow: 0px 4px 9px -1px rgba(0, 0, 0, 0.4);
+
+}
+
+.taskContent {
+    width: 100%;
+    max-width: 1500px;
+}
+
+.taskContainer {
+    flex: 1;
+    min-width: 250px;
+    max-width: 350px;
+    box-sizing: border-box;
+    min-height: 100px;
+}
+
+.taskCategoryName {
+    height: 30px;
+    display: flex;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 120%;
+    justify-content: space-between;
+    align-items: center;
+    color: #2A3647;
+    padding-left: 10px;
+}
+
+
+.hoverPlusEffect:hover img {
+    cursor: pointer;
+    box-shadow: 0px 4px 9px -1px rgba(0, 0, 0, 0.4);
+    filter: invert(54%) sepia(38%) saturate(920%) hue-rotate(153deg) brightness(101%) contrast(90%);
+}
+
+.noTask {
+    background-color: #D1D1D1;
+    color: #A8A8A8;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 35px;
+}
+
+.plusForResponsive {
+    width: 40px;
+    height: 40px;
+    background-color: #2A3647;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+#editTaskPopUpWindowContent {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    font-size: 21px;
+}
+
+.editPopUpWindow {
+    width: 623px;
+    max-height: 90vh;
+    background-color: white;
+    border-radius: 30px;
+    top: 50px;
+    left: 35%;
+    box-sizing: border-box;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    z-index: 3;
+    padding-bottom: 140px;
+    position: fixed;
+}
+
+.editPopUpCatAndCanc {
+    display: flex;
+    justify-content: space-between;
+}
+
+.editPopUpCatAndCanc img:hover {
+    cursor: pointer;
+}
+
+.editPopUpCategory {
+    height: fit-content;
+    width: fit-content;
+    padding: 4px 37px 4px 37px;
+    border-radius: 8px;
+    font-size: 27px;
+    line-height: 120%;
+    color: white;
+    background-color: #1FD7C1;
+}
+
+.editPopUpTitle {
+    font-size: 61px;
+    font-weight: 700;
+    line-height: 120%;
+    margin-top: 25px;
+}
+
+.editPopUpText {
+    color: black;
+    font-size: 21px;
+    line-height: 120%;
+    font-weight: 400;
+}
+
+.editPopUpPriority {
+    padding: 3px 33px 3px 18px;
+    border-radius: 10px;
+    color: white;
+    background-color: #ffea00;
+}
+
+.editPopUpPriority img {
+    padding-bottom: 2px;
+}
+
+.editPopUpIconAndName {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 15px;
+}
+
+.editPopUpName {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.editPopUpIconName {
+    width: 46px;
+    height: 46px;
+    border-radius: 23px;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #29ABE2;
+}
+
+.editPopUpList {
+    padding: 10px 0px 10px 0px;
+}
+
+.editPopUpList input:hover {
+    cursor: pointer;
+}
+
+.editPopUpDelAndEditButton {
+    position: absolute;
+    display: flex;
+    bottom: 61px;
+    right: 47px;
+}
+
+.editPopUpDelAndEditButton span:hover {
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.editPopUpDelAndEditButton span {
+    display: flex;
+    padding: 5px;
+}
+
+.editPopUpDelAndEditButton span img {
+    padding-left: 2px;
+    padding-right: 2px;
+
+}
+
+.editPopUpDelAndEditButton seperator {
+    width: 2px;
+    background: #D1D1D1;
+
+}
+
+
+
+#addTaskPopUpWindowContent {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.addTaskElementsPopUpWindow {
+    display: flex;
+}
+
+.popUpWindow {
+    background-color: white;
+    max-width: 1145px;
+    max-height: 846px;
+    border-radius: 15px;
+    top: 30px;
+    padding: 50px;
+    position: fixed;
+
+}
+
+.popUpWindow h1 {
+    font-size: 61px;
+}
+
+.rightElemenAddTaskPopUpWindow {
+    border-left: solid 1px #D1D1D1;
+    height: 100%;
+    width: 50%;
+    max-width: 600px;
+    padding-left: 59px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.leftElementAddTaskPopUpWindow {
+    height: 100%;
+    width: 50%;
+    max-width: 600px;
+    padding-right: 59px;
+    gap: 34px;
+    box-sizing: border-box;
+}
+
+.clearAndCreateButtonPopUp {
+    display: flex;
+    gap: 25px;
+    width: 440px;
+    justify-content: end;
+}
+
+#addTaskPopUpWindowContent {
+    display: none;
+}
+
+.createdTaskContent {
+    background-color: white;
+    border-radius: 30px;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 18px 19px 18px 19px;
+    box-sizing: border-box;
+    margin-top: 35px;
+    box-shadow: 0px 5px 9px -3px #979797;
+}
+
+.createdTaskContent:hover {
+    cursor: pointer;
+    transform: scale(1.008);
+}
+
+.createdTaskCategory {
+    display: flex;
+    justify-content: space-between;
+    height: fit-content;
+    width: fit-content;
+    padding: 4px 25px 4px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 120%;
+    color: white;
+    background-color: #1FD7C1;
+}
+
+.categoryAndRespArrows {
+    display: flex;
+    justify-content: space-between;
+}
+
+.respArrows {
+    display: none;
+    width: 17px;
+    padding-right: 10px;
+}
+
+.respArrows:hover {
+    cursor: pointer;
+}
+
+.createdTaskTitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2A3647;
+    margin-bottom: 10px;
+}
+
+.createdTaskDescription {
+    color: #A8A8A8;
+    font-size: 16px;
+
+}
+
+.createdTaskProgress {
+    display: flex;
+    align-items: center;
+}
+
+.createdTaskProgressBar {
+    background-color: #29ABE2;
+    border-radius: 2px;
+    height: 8px;
+    width: 70%;
+}
+
+.createdTaskProgressText {
+    padding-left: 30px;
+    font-size: 12px;
+}
+
+.createdTaskAssignedAndPriority {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.createdTaskAssignedMember {
+    width: 34px;
+    height: 34px;
+    border: solid 1px white;
+    border-radius: 17px;
+    color: white;
+    font-size: 12px;
+    line-height: 120%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #29ABE2;
+    left: 0px;
+}
+
+#editSelectedTask {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+#editSelectedTask form {
+    width: 623px;
+    max-height: 90vh;
+    background-color: white;
+    border-radius: 30px;
+    position: absolute;
+    top: 50px;
+    left: 35%;
+    box-sizing: border-box;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    z-index: 3;
+    padding-bottom: 140px;
+    position: fixed;
+    overflow-y: auto;
+}
+
+.closeSelectedTaskEdit {
+    width: 20px;
+    position: absolute;
+    right: 50px;
+    top: 40px;
+    
+}
+
+.editPopUpCatAndCanc span img:hover,
+.closeSelectedTaskEdit:hover{
+    cursor: pointer;
+    transform: scale(1.2);
+} 
+
+.editTaskTitles {
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+#editTaskTitle {
+    margin: 5px 0 5px 0;
+    border-radius: 10px;
+    font-size: 21px;
+    padding: 13px 21px 13px 21px;
+    height: 51px;
+    box-sizing: border-box;
+    border: solid 1px #D1D1D1;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+}
+
+#editTaskDescription {
+    width: 100%;
+    border-radius: 10px;
+    border: solid 1px #D1D1D1;
+    box-sizing: border-box;
+    padding: 10px 2px 40px 23px;
+    margin-top: 5px;
+    height: 119px;
+    font-size: 21px;
+}
+
+#editTaskDate {
+    margin: 5px 0 5px 0;
+    border-radius: 10px;
+    padding: 13px 21px 13px 21px;
+    height: 51px;
+    box-sizing: border-box;
+    border: solid 1px #D1D1D1;
+    font-family: 'Inter', sans-serif;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 21px;
+}
+
+.editPrioContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.editPrio {
+    background-color: white;
+    box-sizing: border-box;
+    height: 51px;
+    padding: 18px 10px 18px 10px;
+    border-radius: 10px;
+    width: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    border: solid 1px #D1D1D1;
+    cursor: pointer;
+}
+
+.editTaskAssingedTo,
+.editTaskSubtasks {
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+    padding: 0px 13px 0px 13px;
+    background-color: white;
+    box-sizing: border-box;
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 400;
+    border-radius: 10px;
+    margin-top: 5px;
+    border: solid 1px #D1D1D1;
+    appearance: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.editTaskAssingedTo img,
+.editTaskSubtasks img {
+    object-fit: contain;
+}
+
+.editTaskContact {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    font-size: 21px;
+}
+
+.editTaskContactShort {
+    width: 46px;
+    height: 46px;
+    border: solid 1px white;
+    border-radius: 23px;
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #29ABE2;
+}
+
+.editTaskOkButton {
+    border: none;
+    color: white;
+    background-color: #2A3647;
+    font-size: 21px;
+    font-weight: 700;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 10px;
+    padding: 10px 5px 10px 5px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.editTaskButtonCont {
+    display: flex;
+    justify-content: end;
+}
+
+@media(max-width: 1340) {
+    .clearAndCreateButtonPopUp {
+        padding-right: 16px;
+        justify-content: right;
+    }
+
+}
+
+@media(max-width: 1200px) {
+
+    .popUpWindow {
+        padding: 100px 0px 0px 420px;
+    }
+
+    .leftElementAddTaskPopUpWindow,
+    .rightElemenAddTaskPopUpWindow {
+        gap: 16px;
+    }
+
+    .addTaskElementsPopUpWindow {
+        flex-direction: column;
+        width: unset;
+    }
+
+    .rightElemenAddTaskPopUpWindow {
+        padding-top: 25px;
+        padding-left: unset;
+        border-left: unset;
+    }
+
+    #editTaskPopUpWindowContent,
+    #addTaskPopUpWindowContent {
+        align-items: unset;
+    }
+
+    .popUpWindow {
+        width: 50%;
+        position: relative;
+        padding: 0px 70px 70px 70px;
+        max-height: unset;
+        margin-bottom: 55px;
+    }
+}
+
+@media (max-width: 1010px) {
+    .headline {
+        flex-direction: column;
+        gap: 30px;
+        width: 80%;
+    }
+
+    .buttonAdd {
+        display: none;
+    }
+
+
+    .plusForResponsive {
+        display: flex;
+    }
+
+    .responsiveHeadline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .inputDiv {
+        width: 350px;
+    }
+
+    .headline {
+        width: 350px;
+    }
+
+}
+
+@media(max-width: 960px) {
+
+    #editSelectedTask form,
+    .editPopUpWindow {
+        left: 13%;
+    }
+}
+
+@media (max-height: 820px) {
+    .popUpWindow {
+        bottom: 30px;
+    }
+
+    .popUpWindow h1 {
+        margin-block-start: 0;
+        margin-block-end: 0;
+    }
+}
+
+@media (max-width: 800px) {
+
+    .content {
+        width: 100%;
+        padding: 80px 33px 80px 33px;
+        left: unset;
+    }
+
+    .respArrows {
+        display: unset;
+    }
+
+    .popUpWindow {
+        padding: 90px 0px 90px 0px;
+        width: 100%;
+        height: 100%;
+        top: 0;
+
+    }
+
+    .popUpWindow h1 {
+        font-size: 47px !important;
+        margin-block-end: 0;
+        padding-left: 2%;
+    }
+
+    .headline {
+        padding-top: 19px;
+        padding-bottom: 30px;
+
+    }
+
+    .clearAndCreateButtonPopUp {
+        width: 396px;
+    }
+
+    #editTaskPopUpWindowContent,
+    #addTaskPopUpWindowContent {
+        position: relative;
+        z-index: 0;
+    }
+
+    .addTaskElementsPopUpWindow {
+        padding-left: 2%;
+    }
+    
+    
+    .editPopUpWindow {
+        position: relative;
+        padding-top: 70px;
+        width: 100%;
+        height: 90vh;
+        gap: 16px;
+        left: 0;
+        padding-left: 20px;
+    }
+    
+    #editSelectedTask{
+        z-index: 0;
+    }
+    #editSelectedTask form{
+        height: 90vh;
+        width: 100%;
+        left: 0;
+        top: 70px;
+        gap:15px;
+    }
+
+    .editPopUpTitle {
+        font-size: 36px;
+    }
+
+    .editPopUpTitle {
+        margin-block-start: 0px;
+    }
+    
+
+    .editPopUpCategory,
+    #editTaskPopUpWindowContent {
+        font-size: 16px;
+    }
+
+    .editTaskButtonCont{
+        margin-bottom: 40px;
+    }
+
+}
+
+@media(max-width: 520px){
+    #editSelectedTask form{
+        padding: 50px 50px 50px 10px;
+    }
+
+    .editPrio{
+        margin-right: 2px;
+        width: 110px;
+    }
+}
+@media (max-width: 440px) {
+    .headline {
+        width: 100%;
+    }
+}
+
+@media(max-width: 420px) {
+    .clearAndCreateButtonPopUp {
+        width: 350px;
+    }
+
+}
+
+
+@media(max-width: 373px) {
+    .clearAndCreateButtonPopUp {
+        width: 305px;
+    }
+
+}

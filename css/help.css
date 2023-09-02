@@ -1,0 +1,63 @@
+body {
+    background-color: #F6F7F8;
+    margin: 0;
+    font-family: 'Open-sans', sans-serif;
+    font-weight: 400;
+}
+
+#menu_help{
+    background-color: #0a1931;
+}
+
+.impressum {
+    padding-top: 100px;
+    padding-left: 350px;
+    padding-bottom: 90px;
+    padding-right: 40px;
+    font-size: 16px;
+}
+
+.impressum h1 {
+    font-size: 61px;
+}
+
+.impressum h3 {
+    font-size: 27px;
+}
+.steps-cont {
+    display: flex;
+}
+
+.pdg-btm {
+    padding-bottom: 24px;
+}
+
+b,
+strong {
+    font-weight: bolder;
+}
+
+.number {
+    margin-right: 50px;
+}
+
+.explanation {
+    display: flex;
+    flex-direction: column;
+}
+
+@media(max-width: 800px) {
+    .impressum {
+        padding-left: 15px;
+        padding-right: 55px;  
+    }
+
+    .impressum h1 {
+        font-size: 47px;
+    }
+    
+    .impressum h3 {
+        font-size: 27px;
+    }
+
+}

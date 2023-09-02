@@ -1,0 +1,423 @@
+@media (max-width: 570px) {
+
+  .login-form h1 {
+    font-size: 43px;
+    text-align: center;
+    font-size: 36px;
+  }
+
+  .login-form hr {
+    height: 2px;
+    background-color: #29ABE2;
+    margin: -6px;
+    width: 109px;
+  }
+
+  .login-form {
+    max-width: 100%;
+  }
+
+  .input-field {
+    width: 300px;
+    height: 38px;
+  }
+
+  #userName {
+    background: url(../assets/img/user-icon.png) no-repeat scroll 256px 8px;
+  }
+
+  #emailLogin,
+  #emailSignUp {
+    background: url() no-repeat scroll 256px 8px;
+  }
+
+  #password,
+  #passwordLogin {
+    background: url() no-repeat scroll 256px 8px;
+  }
+
+  .login-form {
+    width: 350px;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .login-settings {
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: flex-start;
+    margin-left: -150px;
+    width: unset;
+  }
+
+  .login-btns {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 350px;
+  }
+
+  #loginBtn {
+    margin: 0;
+    width: 170px;
+  }
+
+  #loginGuest {
+    position: unset;
+    margin: 25px 0 0 0;
+  }
+
+  #join-logo,
+  #join-logo-reset-password {
+    height: 165px;
+  }
+
+  @keyframes Logo-Animation {
+    from {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 100ms ease-in-out 300ms;
+    }
+
+    to {
+      top: -25px;
+      left: -20px;
+      transform: translate(4%, 5%);
+      transform: scale(0.3);
+    }
+  }
+
+  #signup-container {
+    bottom: 15px;
+    align-items: center;
+    top: unset;
+    left: 50%;
+    right: unset;
+    transform: translate(-50%);
+  }
+
+  #signup-container p {
+    white-space: nowrap;
+  }
+
+  #feedbackContainer,
+  #feedbackForgotPsw {
+    bottom: 105px;
+  }
+
+  .sent-mail-message {
+    width: 350px;
+    height: 60px;
+    font-size: 18px;
+  }
+
+  .forgotten-password-from,
+  .reset-password-form {
+    padding: 45px 0 45px 0;
+  }
+
+  .arrow-left {
+    top: 30px;
+    left: 25px;
+  }
+
+  .reset-password-form p {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 390px) {
+  .login-form h1 {
+    font-size: 30px;
+    text-align: center;
+    margin-top: -45px;
+    margin-bottom: -46px;
+
+  }
+
+
+
+  .login-form hr {
+    height: 2px;
+    margin-bottom: -9px;
+    width: 60px;
+  }
+
+  .login-form {
+    max-width: 100%;
+    width: 300px;
+    margin: 0 auto;
+    height: 395px;
+  }
+
+  .input-field {
+    width: 265px;
+    height: 38px;
+    margin-bottom: -10px;
+  }
+
+  #userName,
+  #emailLogin,
+  #emailSignUp,
+  #password,
+  #passwordLogin {
+    background-position: center right 8px;
+  }
+
+  .login-settings {
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    margin-right: -39px;
+    width: 100%;
+    margin-bottom: -30px;
+  }
+
+  .login-btns {
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: -10px;
+  }
+
+  #loginGuest {
+    margin: 25px 0 0 0;
+    font-size: 20px;
+  }
+
+  #join-logo,
+  #join-logo-reset-password {
+    height: auto;
+    max-width: 100%;
+  }
+
+  @keyframes Logo-Animation {
+    from {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 100ms ease-in-out 300ms;
+    }
+
+    to {
+      top: -25px;
+      left: -20px;
+      transform: translate(4%, 5%);
+      transform: scale(0.3);
+    }
+  }
+
+  #signup-container {
+    bottom: 15px;
+    align-items: center;
+    top: unset;
+    left: 0px;
+    right: 50px;
+    transform: unset;
+    height: 41px;
+  }
+
+  #feedbackContainer,
+  #feedbackForgotPsw {
+    bottom: 105px;
+  }
+
+  .sent-mail-message {
+    width: 100%;
+    height: 60px;
+    font-size: 14px;
+  }
+
+  .forgotten-password-from,
+  .reset-password-form {
+    padding: 30px 0;
+  }
+
+  .arrow-left {
+    top: 20px;
+    left: 15px;
+  }
+
+  .reset-password-form p {
+    font-size: 14px;
+  }
+}
+
+
+
+@media (max-width: 744px) and (max-height: 571px) and (orientation: landscape) {
+  #signup-container p {
+    font-size: 21px;
+    line-height: 25.2px;
+    width: 161px;
+    height: 25px;
+    display: none;
+  }
+
+
+  @media (max-width: 667px) and (max-height: 375px) and (orientation: landscape) {
+    body {
+      font-size: 14px;
+    }
+
+    #signup-container {
+      margin-top: -18px;
+      padding-right: 7px;
+    }
+
+    #join-logo,
+    #join-logo-reset-password {
+      width: 100px;
+      height: 100px;
+    }
+
+    .input-field {
+      height: auto;
+      width: 100%;
+      font-size: 16px;
+      padding: 10px;
+    }
+
+    .login-form {
+
+      width: 364px;
+      height: 192px;
+    }
+
+    .login-form-forget {
+      width: 410px;
+      height: 217px;
+      padding: 30px;
+      margin-top: 25px;
+    }
+
+    .login-form-forget h1 {
+      font-size: 30px;
+      margin: 0;
+      margin-top: -57px;
+    }
+
+    .join-logo {
+      width: 50px;
+      padding: 30px 33px 40px 30px;
+    }
+
+    #login-container,
+    .wider-container-style {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: -1;
+      margin-bottom: 60px;
+    }
+
+    .login-form-reset {
+      width: 370px;
+      height: 157px;
+    }
+
+    .login-form-reset h1 {
+      margin-bottom: -27px;
+    }
+
+    .arrow-left {
+      margin-top: -33px;
+    }
+
+    .font-span {
+      font-size: 18px;
+      width: 100%;
+      height: auto;
+      line-height: 18px;
+    }
+
+
+    /* ... Iphone 11  ... */
+  }
+
+  @media (max-width: 750px) and (max-height: 565px) and (orientation: landscape) {
+    body {
+      font-size: 14px;
+    }
+
+    .login-form {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 652px;
+      height: 513px;
+      background-color: #fff;
+      border-radius: 30px;
+      gap: 35px;
+      padding: 35px 0 35px 0;
+      box-shadow: 0px 0px 14px 3px rgb(0 0 0 / 15%);
+    }
+
+    #signup-container p {
+      font-size: 21px;
+      line-height: 25.2px;
+      width: 161px;
+      height: 25px;
+      display: none;
+    }
+
+    .input-field {
+      height: 100px;
+      width: 300px;
+
+    }
+
+    .login-form-forget {
+      width: 410px;
+      height: 217px;
+      padding: 30px;
+      margin-top: 25px;
+    }
+
+    .login-form-forget h1 {
+      font-size: 30px;
+      margin: 0;
+      margin-top: -57px;
+    }
+
+    .join-logo {
+      width: 50px;
+      padding: 30px 33px 40px 30px;
+    }
+
+    #login-container,
+    .wider-container-style {
+      margin-bottom: -210px;
+    }
+
+    .login-form-reset {
+      width: 370px;
+      height: 157px;
+    }
+
+    .login-form-reset h1 {
+      margin-bottom: -27px;
+    }
+
+    .arrow-left {
+      margin-top: -65px;
+    }
+
+    .font-span {
+      font-size: 18px;
+      width: 100%;
+      height: auto;
+      line-height: 18px;
+    }
+
+
+    /* ... Iphone 11  ... */
+  }
+}

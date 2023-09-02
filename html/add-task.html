@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../img/JoinLogoDark.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/interFont.css">
+    <link rel="stylesheet" href="../css/add-task.css">
+    <title>Add-Task</title>
+    <script src="../scripts/generalFunctions.js"></script>
+    <script src="../scripts/contacts.js"></script>
+    <script src="../scripts/add-task.js"></script>
+</head>
+
+<body onload="includeHTML(); loadContacts(); setMinDate()">
+    <div id="sidebar">
+        <div w3-include-html="./sidebar.html"></div>
+    </div>
+    <div id="line" w3-include-html="./header.html"></div>
+
+    <div id="content" class="content">
+        <h1>Add Task</h1>
+        <div class="addTaskElements">
+            <span class="leftElementAddTask">
+                <div class="title">
+                    <h3 class="titles">Title</h3>
+                    <input id="title" type="text" class="input" required placeholder="Enter a title">
+                </div>
+                <div>
+                    <h3 class="titles">Description</h3>
+                    <textarea placeholder="Description of the task" required id="description"
+                        class="description"></textarea>
+                </div>
+                <div>
+                    <h3 class="titles">Assigned to</h3>
+                    <div class="selectionAssignedTo" id="assignedToSelection" onclick="openAssignedToSelection()">
+                        <div>
+                            <p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png">
+                        </div>
+                    </div>
+                </div>
+            </span>
+            <seperator class="seperator"></seperator>
+            <span class="rightElementAddTask">
+                <div>
+                    <h3>Due Date</h3>
+                    <div class="calender">
+                        <input type="date" required id="date" placeholder="tt.mm.yyyy" >
+                    </div>
+                </div>
+                <div>
+                    <h3>Prio</h3>
+                    <div class="priorities">
+                        <span>
+                            <p>Urgent</p><img src="../img/addtask-img/higPrio.png">
+                        </span>
+                        <span>
+                            <p>Medium</p><img src="../img/addtask-img/mediumPrio.png">
+                        </span>
+                        <span>
+                            <p>Low</p><img src="../img/addtask-img/lowPrio.png">
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="titles">Category</h3>
+                    <div class="category" id="categorySelection" onclick="openCategorySelection()">
+                        <div>
+                            <p>Select task category</p><img src="../img/addtask-img/arrow_drop_down.png">
+                        </div>
+                    </div>
+                    <div id="colorSelection">
+                        <div id="color1" style="background-color: #FF7A00; cursor: pointer;"></div>
+                        <div id="color2" style="background-color: #FC71FF; cursor: pointer;"></div>
+                        <div id="color3" style="background-color: #1FD7C1; cursor: pointer;"></div>
+                        <div id="color4" style="background-color: #FFC701; cursor: pointer;"></div>
+                        <div id="color5" style="background-color: #0038FF; cursor: pointer;"></div>
+                        <div id="color6" style="background-color: #068f43; cursor: pointer;"></div>
+                    </div>
+                </div>
+                <div>
+                    <h3>Subtask</h3>
+                    <div class="addNewSubtask">
+                        <input id="subtask" placeholder="Add new subtask"><img src="../img/addtask-img/plus.png">
+                    </div>
+                </div>
+                <div class="clearAndCreateButtons">
+                    <div>
+                        <button class="clearButton"> Clear</p><img src="../img/cancelIcon.png"></button>
+                    </div>
+                    <div>
+                        <button class="createButton">Create Task</p><img src="../img/createAccIcon.png"></button>
+                    </div>
+                </div>
+            </span>
+
+        </div>
+
+</body>
+
+</html>

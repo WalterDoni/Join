@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts</title>
+    <link rel="icon" href="../img/JoinLogoDark.png">
+    <link rel="apple-touch-icon" sizes="20x20" href="../img/mobilLogo.ico">
+    <link rel="stylesheet" href="../css/contacts.css">
+    <link rel="stylesheet" href="../css/interFont.css">
+    <script src="../scripts/generalFunctions.js"></script>
+    <script src="../scripts/contacts.js"></script>
+</head>
+
+<body onload="includeHTML();renderContacts();buttonVisibility();">
+    <div id="sidebar">
+        <div w3-include-html="./sidebar.html"></div>
+    </div>
+    <div class="content">
+        <div id="line" w3-include-html="./header.html"></div>
+        <div class="responsiveButton" id="responsiveButton" onclick="showPopUpWindowNewContact()">
+            New contact
+            <img src="../img/contacts/newContact.png">
+        </div>
+        <div class="contactList" id="contactList"></div>
+        <div class="contacts" id="contactsContainer">
+            <div class="headline">
+                <p id="responsiveHeadlinePhrase" class="responsiveHeadlinePhrase d-none">Kanban Project Managment Tool
+                </p>
+                <h1>Contacts</h1>
+                <img src="../img/summary/BlueLine.png">
+                <span>Better with a team</span>
+            </div>
+            <div class="contactDetails" id="contactDetails"></div>
+            <div class="buttonNewContact1" onclick="showPopUpWindowNewContact()">
+                New contact
+                <img src="../img/contacts/newContact.png">
+            </div>
+        </div>
+    </div>
+    <div class="newContact" id="newContact"></div>
+    
+</body>
+
+</html>

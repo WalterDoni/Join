@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="icon" href="./img/JoinLogoDark.png">
+    <link rel="apple-touch-icon" sizes="20x20" href="./img/mobilLogo.ico">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/index-responsive.css">
+    <script src="./scripts/register.js"></script>
+</head>
+
+<body onload="init()">
+    <div id="logo-container">
+        <img src="./img/logo_Join_white.png" id="join-logo">
+    </div>
+
+    <div id="login-main">
+        <div id="signup-container">
+            <p>Not a Join user?</p>
+            <button onclick="window.location.href= './html/signUp.html';" class="signup-btn">Sign up</button>
+        </div>
+
+        <div id="login-container">
+            <form id="login-form" class="login-form" onsubmit="loginUser(event)">
+                <div id="login-error" style="display: none;">
+                    Incorrect email or password, please check.
+                </div>
+                <h1>Log in</h1>
+                <hr>
+                <input class="input-field" placeholder="Email" type="email" id="emailLogin" required>
+                <input class="input-field" placeholder="Password" type="password" id="passwordLogin" required>
+                <div class="login-settings">
+                    <label class="remember-me">
+                        <input id="checkbox" type="checkbox" onclick="rememberLogin()">
+                        <p>Remember me</p>
+                        <span id="checkmark" class="checkmark"></span>
+                    </label>
+                    <a href="./html/forgot-password.html" id="forget-password">Forgot my password</a>
+                </div>
+                <div class="login-btns">
+                    <button type="submit" id="loginBtn">Log in</button>
+                    <button type="button" id="loginGuest" onclick="openGuestLogin()">Guest Log in</button>
+                </div>
+            </form>
+        </div>
+    </div>
+ 
+    <script>
+    window.onload = function () {
+        setTimeout(function () {
+            let logo = document.getElementById("join-logo");
+            logo.src = "./img/JoinLogoDark.png";
+        }, 800);
+    }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link rel="icon" href="../img/JoinLogoDark.png">
+    <link rel="stylesheet" href="../css/signUp.css">
+    <script src="../scripts/generalFunctions.js"></script>
+    <script src="../scripts/register.js"></script>
+
+
+</head>
+
+<body onload="init()">
+    <div id="logo-container">
+        <img src="../img/JoinLogoDark.png" class="join-logo">
+    </div>
+
+
+    <div id="signup-container">
+
+        <form class="signup-form" onsubmit="event.preventDefault(); register();  return false;">
+            <h1>Sign up</h1>
+
+            <img class="arrow-left" onclick="window.location.href= '../index.html';" src="../img/arrow-left-line.png">
+            <hr>
+            <input class="input-field" placeholder="Name" type="text" id="userName" required>
+
+            <input class="input-field" placeholder="Email" type="email" id="emailLogin" required>
+            <input class="input-field" placeholder="Password" type="password" id="password" required>
+            <div class="login-settings">
+                <button type="submit" id="registerBtn">Sign up</button>
+            </div>
+        </form>
+
+        <div id="infoBox">
+            <p id="infoText">
+                <img src="../img/signUp.png">
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

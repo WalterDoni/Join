@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../img/JoinLogoDark.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/interFont.css">
+    <link rel="stylesheet" href="../css/add-task.css">
+    <link rel="stylesheet" href="../css/board.css">
+    <title>Board</title>
+    <script src="../scripts/generalFunctions.js"></script>
+    <script src="../scripts/contacts.js"></script>
+    <script src="../scripts/add-task.js"></script>
+    <script src="../scripts/board.js"></script>
+</head>
+
+<body onload="includeHTML(); renderTasks(); loadContacts(); setMinDate()">
+    <div id="sidebar">
+        <div w3-include-html="./sidebar.html"></div>
+    </div>
+    <div id="line" w3-include-html="./header.html"></div>
+    <div class="content" id="content">
+        <div class="headline">
+            <span class="responsiveHeadline">
+                <h1>Board</h1>
+                <div class="plusForResponsive"><img onclick="showPopUpAddTask()" src="../img/board-img/addplus.png">
+                </div>
+            </span>
+            <span class="inputAndButtonHeadline">
+                <div class="inputDiv">
+                    <input id="input" placeholder="Find Task">
+                    <img src="../img/board-img/lupe.png">
+                </div>
+                <div class="buttonAdd" onclick="showPopUpAddTask()">Add task
+                    <img src="../img/board-img/addplus.png">
+                </div>
+
+            </span>
+        </div>
+
+        <div class="taskContent">
+            <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryToDo')" ondragover="allowDrop(event)">
+                <div class="taskCategoryName">
+                    <h3> To do</h3><span class="hoverPlusEffect"><img src="../img/board-img/plusButtonTasks.png"></span>
+                </div>
+                <div id="taskCategoryToDo"></div>
+            </div>
+
+            <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryInProgress')"
+                ondragover="allowDrop(event)">
+                <div class="taskCategoryName">
+                    <h3> In progress</h3><span class="hoverPlusEffect"><img
+                            src="../img/board-img/plusButtonTasks.png"></span>
+                </div>
+                <div id="taskCategoryInProgress"></div>
+            </div>
+
+            <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryAwaitFeedback')"
+                ondragover="allowDrop(event)">
+                <div class="taskCategoryName">
+                    <h3>Await feedback</h3><span class="hoverPlusEffect"><img
+                            src="../img/board-img/plusButtonTasks.png"></span>
+                </div>
+                <div id="taskCategoryAwaitFeedback"></div>
+            </div>
+
+            <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryDone')" ondragover="allowDrop(event)">
+                <div class="taskCategoryName">
+                    <h3>Done</h3><span class="hoverPlusEffect"><img src="../img/board-img/plusButtonTasks.png"></span>
+                </div>
+                <div id="taskCategoryDone"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="editTaskPopUpWindowContent">
+        <div class="editPopUpWindow">
+            <div class="editPopUpCatAndCanc"><span class="editPopUpCategory">Kategorie</span>
+                <span onclick="closeEditTaskPopUp()"><img src="../img/cancelIcon.png"></span>
+            </div>
+            <div>
+                <p class="editPopUpTitle">Programmieren</p>
+                <p class="editPopUpText">Anstrengend</p>
+            </div>
+            <div> <b> Due Date: </b> 23.08.2023 </div>
+            <div> <b> Priority: </b> <span class="editPopUpPriority"> Medium <img
+                        src="../img/addtask-img/mediumPrio.png"></span></div>
+            <div>
+                <div><b>Assigned To</b></div>
+                <div class="editPopUpIconAndName"><span class="editPopUpIconName">WD</span><span
+                        class="editPopUpName">Walter Doni</span></div>
+            </div>
+            <div>
+                <div><b>Subtasks</b></div>
+                <div>
+                    <div class="editPopUpList"><input type="checkbox"> Test0 </div>
+                    <div class="editPopUpList"><input type="checkbox"> Test1 </div>
+                </div>
+            </div>
+            <div class="editPopUpDelAndEditButton">
+                <span onclick="deleteSelectedTask()"><img src="../img/board-img/editPopUpdelete.png"> Delete </span>
+                <seperator></seperator>
+                <span onclick="SelectedTaskEditWindow(); closeEditTaskPopUp()" class="popUpEdit"><img
+                        src="../img/board-img/editPopUpEdit.png"> Edit
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="editSelectedTask">
+        <form>
+            <img onclick="closeSelectedTaskEditWindow()" class="closeSelectedTaskEdit" src="../img/cancelIcon.png">
+            <p class="editTaskTitles">Title</p>
+            <input required id="editTaskTitle" placeholder="Enter a title.....">
+            <p class="editTaskTitles">Description</p>
+            <textarea required id="editTaskDescription" placeholder="Describe your task....."></textarea>
+            <p class="editTaskTitles">Due Date</p>
+            <input id="editTaskDate" type="date" placeholder="dd.mm.yyyy">
+            <p class="editTaskTitles">Prio</p>
+            <div class="editPrioContainer">
+                <div class="editPrio">Urgent <img src="../img/addtask-img/lowPrio.png"></div>
+                <div class="editPrio">Medium <img src="../img/addtask-img/mediumPrio.png"></div>
+                <div class="editPrio">Low <img src="../img/addtask-img/higPrio.png"></div>
+            </div>
+            <p class="editTaskTitles">Subtask</p>
+            <div class="editTaskSubtasks">
+                <p>Select Subtasks</p><img src="../img/addtask-img/arrow_drop_down.png">
+            </div>
+            <p class="editTaskTitles">Assigned to</p>
+            <div class="editTaskAssingedTo">
+                <p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png">
+            </div>
+            <div class="editTaskContact"><span class="editTaskContactShort">WD</span><span>Walter Doni</span></div>
+            <div class="editTaskButtonCont"><button class="editTaskOkButton">OK <img
+                        src="../img/createAccIcon.png"></button></div>
+        </form>
+    </div>
+
+
+    <div id="addTaskPopUpWindowContent">
+        <div class="popUpWindow">
+            <h1>Add Task</h1>
+            <div class="addTaskElementsPopUpWindow">
+                <span class="leftElementAddTaskPopUpWindow">
+                    <div class="title">
+                        <h3 class="titles">Title</h3>
+                        <input id="title" type="text" class="input" required placeholder="Enter a title">
+                    </div>
+                    <div>
+                        <h3 class="titles">Description</h3>
+                        <textarea placeholder="Description of the task" required id="description"
+                            class="description"></textarea>
+                    </div>
+                    <div>
+                        <h3 class="titles">Assigned to</h3>
+                        <div class="selectionAssignedTo"  id="assignedToSelection" onclick="openAssignedToSelection()">
+                            <div><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>
+                        </div>
+                    </div>
+                </span>
+
+                <span class="rightElemenAddTaskPopUpWindow">
+                    <div>
+                        <h3>Due Date</h3>
+                        <div class="calender">
+                            <p>tt.mm.jjjj</p><img src="../img/addtask-img/calender.png">
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Prio</h3>
+                        <div class="priorities">
+                            <span>
+                                <p>Urgent</p><img src="../img/addtask-img/higPrio.png">
+                            </span>
+                            <span>
+                                <p>Medium</p><img src="../img/addtask-img/mediumPrio.png">
+                            </span>
+                            <span>
+                                <p>Low</p><img src="../img/addtask-img/lowPrio.png">
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="titles">Category</h3>
+                        <div class="category" id="categorySelection" onclick="openCategorySelection()">
+                            <div><p>Select task category</p><img src="../img/addtask-img/arrow_drop_down.png"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Subtask</h3>
+                        <div class="addNewSubtask">
+                            <p>Add new subtask</p><img src="../img/addtask-img/plus.png">
+                        </div>
+                    </div>
+                    <div class="clearAndCreateButtonPopUp">
+                        <div>
+                            <button class="clearButton" onclick="closePopUpAddTask()"> Clear</p><img
+                                    src="../img/cancelIcon.png"></button>
+                        </div>
+                        <div>
+                            <button class="createButton">Create Task</p><img src="../img/createAccIcon.png"></button>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

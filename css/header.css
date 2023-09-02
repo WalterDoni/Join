@@ -1,0 +1,143 @@
+#lineHead {
+    height: 90px;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #FFF;
+    padding: 20px 36px 20px 116px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.10);
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 232px;
+    z-index: 1;
+
+}
+
+#logo {
+
+    height: 39px;
+    width: auto;
+}
+
+.portrait {
+    height: 50px;
+    width: auto;
+    border-radius: 25px;
+    border: solid 2px black;
+    padding: 2px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    /* margin-right: 30px; */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #2A3647;
+    min-width: 130px;
+    color: white;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 10%);
+    z-index: 1;
+    border-radius: 20px 0px 20px 20px;
+    text-align: center;
+    margin-left: -80px;
+    margin-top: 24px;
+}
+
+.dropdown.open .dropdown-content {
+    display: block;
+}
+
+.portrait {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    line-height: 19, 2px;
+    font-family: sans-serif;
+}
+
+.dropdown-content a:hover {
+    cursor: pointer;
+    background-color: #29ABE2;
+
+    border-radius: 20px 0px 20px 20px;
+}
+
+.help {
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+
+.d-none {
+    display: none;
+}
+
+.dropdown-content {
+    display: none;
+}
+
+
+.dropdown.open .dropdown-content {
+    display: block;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+
+
+
+@media(min-width:800px) {
+    #logo {
+        display: none;
+    }
+
+
+
+
+}
+
+@media(max-width:800px) {
+
+    #lineHeadText {
+        display: none;
+    }
+
+    #lineHead {
+        padding-left: 25px;
+        left: 0 !important;
+    }
+
+    #portrait {
+        height: 38px;
+        border-radius: 19px;
+    }
+
+    .rightSection {
+        display: none;
+    }
+
+    .help{
+        display: none;
+    }
+
+}

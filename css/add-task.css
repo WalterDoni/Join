@@ -1,0 +1,454 @@
+body {
+    font-family: 'Inter', sans-serif !important;
+    background-color: #F6F7F8;
+}
+
+#menu_add-task {
+    background-color: #0a1931;
+}
+
+
+textarea {
+    font-family: 'Inter', sans-serif;
+    outline: none;
+}
+
+textarea::placeholder {
+    color: #D1D1D1;
+
+}
+
+.content {
+    padding: 206px 0px 0px 328px;
+    position: relative;
+
+}
+
+.seperator {
+    padding-left: 1px;
+    margin-top: 1em;
+    width: 1px;
+    height: 424px;
+    background: #D1D1D1;
+    border: 1px;
+
+}
+
+.content h1 {
+    font-size: 61px;
+}
+
+.content h3 {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.addTaskElements {
+    width: 976px;
+    height: 424px;
+    display: flex;
+    margin-top: 41px;
+    box-sizing: border-box;
+    gap: 10px;
+}
+
+.leftElementAddTask {
+    height: 100%;
+    width: 50%;
+    max-width: 600px;
+    padding-right: 59px;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    box-sizing: border-box;
+}
+
+.rightElementAddTask {
+    gap: 16px;
+    height: 100%;
+    width: 50%;
+    max-width: 600px;
+    padding-left: 59px;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    box-sizing: border-box;
+    ;
+}
+
+.category,
+.input,
+.description,
+.selectionAssignedTo,
+.calender,
+.priorities,
+.addNewSubtask {
+    width: 440px;
+
+}
+
+.category,
+.selectionAssignedTo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 21px 0px 21px;
+    min-height: 51px;
+    background-color: white;
+    box-sizing: border-box;
+    font-size: 21px;
+    border-radius: 10px;
+    margin-top: 5px;
+    border: solid 1px #D1D1D1;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    padding-bottom: 5px;
+}
+
+#assignedToSelection label,
+#assignedToSelection div,
+#categorySelection div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  
+}
+
+#assignedToSelection label:hover{
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+#assignedToSelection div p,
+#categorySelection div p {
+    margin-block-end: 0;
+    margin-block-start: 0;
+}
+
+.input::placeholder {
+    color: #D1D1D1;
+
+}
+
+.input {
+    margin: 5px 0 5px 0;
+    border-radius: 10px;
+    font-size: 21px;
+    padding: 13px 21px 13px 21px;
+    height: 51px;
+    box-sizing: border-box;
+    border: solid 1px #D1D1D1;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+}
+
+.inputCat{
+    font-size: 21px;
+    border: none;
+    outline: none;
+}
+
+.inputCat span img{
+    padding: 0px 2px 0px 2px
+}
+
+.smallSeperator{
+    display: inline-block;
+    border-left: 1px solid black;
+    height: 25px;
+}
+.description {
+
+    border-radius: 10px;
+    border: solid 1px #D1D1D1;
+    box-sizing: border-box;
+    padding: 10px 2px 40px 23px;
+    margin-top: 5px;
+    height: 119px;
+    font-size: 21px;
+}
+
+.addNewSubtask,
+.calender {
+    margin: 5px 0 5px 0;
+    border-radius: 10px;
+    padding: 13px 21px 13px 21px;
+    height: 51px;
+    box-sizing: border-box;
+    border: solid 1px #D1D1D1;
+    font-family: 'Inter', sans-serif;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 21px;
+}
+
+.addNewSubtask p {
+    color: #D1D1D1;
+}
+
+#date::placeholder{
+    color: #D1D1D1!important;
+  
+}
+
+.calender input{
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 21px;
+    font-family: 'Inter';
+}
+
+.priorities {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.priorities span {
+    display: flex;
+    background-color: white;
+    box-sizing: border-box;
+    height: 51px;
+    padding: 18px 10px 18px 10px;
+    border-radius: 10px;
+    width: 130px;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    border: solid 1px #D1D1D1;
+    cursor: pointer;
+}
+
+.addTaskElements {
+    display: flex;
+}
+
+.clearAndCreateButtons {
+    display: flex;
+    gap: 25px;
+    width: 440px;
+    justify-content: end;
+}
+
+.clearButton {
+    padding: 18px 15px 18px 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 55px;
+    gap: 5px;
+    background-color: white;
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.createButton {
+    padding: 18px 15px 18px 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 55px;
+    gap: 5px;
+    color: white;
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    background-color: #2A3647;
+    cursor: pointer;
+    border: none;
+}
+
+.createButton:hover {
+    background-color: #29ABE2;
+    box-shadow: 0px 4px 9px -1px rgba(0, 0, 0, 0.4);
+
+}
+
+.clearButton:hover {
+    border: 2px solid #29ABE2;
+    color: #29ABE2;
+    box-shadow: 0px 4px 9px -1px rgba(0, 0, 0, 0.4);
+}
+
+.clearButton:hover img {
+    filter: invert(54%) sepia(38%) saturate(920%) hue-rotate(153deg) brightness(101%) contrast(90%);
+}
+
+
+.selectionAssignedTo img,
+.priorities span img,
+.createButton img,
+.clearButton img {
+    object-fit: contain;
+}
+
+#subtask{
+    border: none;
+    width: 100%;
+    font-size: 21px;
+}
+
+#colorSelection{
+    display: none;
+    margin-top: 10px;
+    gap: 10px
+}
+
+#colorSelection div{
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+}
+@media(max-width: 1340px) {
+
+    .leftElementAddTask,
+    .rightElementAddTask {
+        gap: 16px;
+    }
+
+    .addTaskElements {
+        flex-direction: column;
+        width: unset;
+        margin-top:unset
+    }
+
+    .rightElementAddTask {
+        padding-top: 25px;
+        padding-left: unset;
+    }
+
+    .content {
+        padding: 100px 0px 0px 420px;
+    }
+
+    .clearAndCreateButtons{
+        padding-bottom: 100px;
+        padding-right: 16px;
+        justify-content: right;
+    }
+
+    .content h1{
+        margin-block-end: 0;
+    }
+}
+
+@media(max-width: 910px) {
+    .content {
+        padding: 100px 0px 0px 328px;
+    }
+}
+
+@media(max-width: 800px) {
+
+    .content {
+        padding: 100px 0px 0px 180px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content h1 {
+        font-size: 47px!important;
+        margin-block-end: 0
+        ;
+    }
+
+    .content h3 {
+        font-size: 16px;
+    }
+    
+    .priorities span,
+    .description,
+    .input,
+    .category,
+    .selectionAssignedTo {
+        font-size: 16px;
+    }
+    
+    .category,
+    .input,
+    .description,
+    .selectionAssignedTo,
+    .calender,
+    .priorities,
+    .addNewSubtask {
+        width: 396px;
+    }
+
+    
+.clearAndCreateButtons {
+    width: 396px;
+}
+
+.addTaskElements{
+    margin-top: 20px;
+}
+
+.rightElementAddTask{
+    padding-top: unset;
+}
+}
+
+@media(max-width: 650px){
+    .content {
+        padding: 100px 0px 0px 16px;
+      
+    }
+}
+
+@media(max-width: 420px){
+    .clearAndCreateButtons,
+    .category,
+    .input,
+    .description,
+    .selectionAssignedTo,
+    .calender,
+    .priorities,
+    .addNewSubtask {
+        width: 350px;
+    }
+
+    .priorities{
+        gap: 5px
+    }
+}
+
+@media(max-width: 370px){
+    .clearAndCreateButtons,
+    .category,
+    .input,
+    .description,
+    .selectionAssignedTo,
+    .calender,
+    .priorities,
+    .addNewSubtask {
+        width: 325px;
+    }
+}
+
+
+@media(max-width: 373px){
+    .clearAndCreateButtons,
+    .category,
+    .input,
+    .description,
+    .selectionAssignedTo,
+    .calender,
+    .priorities,
+    .addNewSubtask {
+        width: 305px;
+    }
+}
