@@ -53,29 +53,30 @@ textarea::placeholder {
 }
 
 .leftElementAddTask {
-    height: 100%;
+    
     width: 50%;
     max-width: 600px;
     padding-right: 59px;
     display: flex;
     flex-direction: column;
-    gap: 34px;
+    gap: 32px;
     box-sizing: border-box;
 }
 
 .rightElementAddTask {
-    gap: 16px;
+
     height: 100%;
     width: 50%;
     max-width: 600px;
     padding-left: 59px;
     display: flex;
     flex-direction: column;
-    gap: 34px;
+    gap: 24px;
     box-sizing: border-box;
     ;
 }
 
+.createdSubtask,
 .category,
 .input,
 .description,
@@ -85,6 +86,10 @@ textarea::placeholder {
 .addNewSubtask {
     width: 440px;
 
+}
+
+.createdSubtask{
+    width: 400px;
 }
 
 .category,
@@ -128,10 +133,11 @@ textarea::placeholder {
     margin-block-start: 0;
 }
 
-.input::placeholder {
-    color: #D1D1D1;
+input[type="date"]:invalid::-webkit-datetime-edit {
+    color: #D1D1D1!important;
+    font-size: 21px;
+  }
 
-}
 
 .input {
     margin: 5px 0 5px 0;
@@ -302,10 +308,12 @@ textarea::placeholder {
     border: none;
     width: 100%;
     font-size: 21px;
+    outline: none;
 }
 
 #colorSelection {
     display: none;
+    align-items: center;
     margin-top: 10px;
     gap: 10px
 }
@@ -313,9 +321,15 @@ textarea::placeholder {
 #colorSelection div {
     width: 12px;
     height: 12px;
-    border-radius: 6px;
+    border-radius: 8px;
 }
 
+.selectedColorNewCategory{
+    width: 18px!important;
+    height: 18px!important;
+    box-shadow: 0px 4px 9px -1px rgba(0, 0, 0, 0.4);
+
+}
 .deleteCategory{
     background-color: white;
     border: none;
@@ -325,9 +339,63 @@ textarea::placeholder {
 
 .deleteCategory:hover{
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.2);
     box-shadow: 0px 4px 9px -1px rgba(0, 0, 0, 0.4);
 }
+
+.hoverCategory:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.selecturgent{
+    background-color: red!important;
+    color: white;
+}
+
+.selecturgent img{
+    filter: brightness(0) invert(1);
+}
+
+.selectmedium{
+    background-color: rgb(255, 168, 0)!important;
+    color: white;
+}
+
+.selectmedium img{
+    filter: brightness(0) invert(1);
+}
+
+.selectlow{
+    background-color: rgb(122, 226, 41)!important;
+    color: white;
+}
+
+.selectlow img{
+    filter: brightness(0) invert(1);
+}
+
+.createdSubtask{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 21px 0px 21px;
+    font-size: 18px;
+}
+
+input[type=text]:focus {
+    background-color: white;
+  }
+
+.createdSubtask:hover{
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+  }
+
 
 @media(max-width: 1340px) {
 
@@ -343,7 +411,6 @@ textarea::placeholder {
     }
 
     .rightElementAddTask {
-        padding-top: 25px;
         padding-left: unset;
     }
 
@@ -414,6 +481,12 @@ textarea::placeholder {
     .rightElementAddTask {
         padding-top: unset;
     }
+
+    
+.createdSubtask{
+    width: 350px;
+}
+
 }
 
 @media(max-width: 650px) {
@@ -423,6 +496,11 @@ textarea::placeholder {
     }
 }
 
+@media(max-width: 430px){
+    .clearAndCreateButtons{
+        padding-right: unset;
+    }
+}
 @media(max-width: 420px) {
 
     .clearAndCreateButtons,

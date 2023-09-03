@@ -8,8 +8,42 @@ let categorys = [
 
 let selectableColorsForNewCategorys = ['FF7A00', 'FC71FF', '1FD7C1', 'FFC701', '0038FF', '068f43'];
 let selectedColor;
+let selectedPriority;
 
-//----OpenCategorySection--// 
+
+function init() {
+    setMinDate();
+}
+
+
+function createSubtask(){
+    let inputfield = document.getElementById('subtask');
+    let newSubtask = inputfield.value;
+    if( newSubtask.length <= 2){
+        alert ('Please insert a name for the new subtask')
+    } else {
+        document.getElementById('newCreatedSubtasks').innerHTML += `
+        <label class="createdSubtask"><span>${newSubtask}</span><span><input type="checkbox"></span></label>  `
+    }
+
+    inputfield.value = ""; 
+}
+
+//---Select priority for task (currently : urgent,medium and low)----//
+
+function highlightPriority(prio) {
+    if (selectedPriority) {
+        let priority = 'select' + selectedPriority;
+        document.getElementById(priority).classList.remove(priority)
+    }
+    selectedPriority = prio;
+    let priority = 'select' + prio;
+    document.getElementById(priority).classList.add(priority);
+}
+
+
+//----OpenCategory----// 
+
 function openCategorySelection() {
     let categorySelectionBox = document.getElementById('categorySelection');
     if (categorySelectionBox.childElementCount >= 2) {
@@ -19,11 +53,16 @@ function openCategorySelection() {
         categorySelectionBox.innerHTML += selectableCategorysHTML();
 
         categorys.forEach((category, index) => {
-           let  id = index;
+            let id = index;
             categorySelectionBox.innerHTML += getCreatedCategorysHTML(id, category);
         })
     }
 }
+
+function choosenCategory(id){
+    document.getElementById('categorySelection').innerHTML = `<div><div>${categorys[id].name}</div><span style="background-color: #${categorys[id].color}; width: 20px; height: 20px; border-radius: 50%;"></span></div>`
+}
+//----Create new category(and delete)----//
 
 function newCategoryAdd() {
     let name = document.getElementById('newCategoryName').value;
@@ -39,9 +78,6 @@ function newCategoryAdd() {
     openCategorySelection();
 }
 
-function selectColor(color) {
-    selectedColor = color;
-}
 
 function categoryBoxHTML() {
     return `<div><p>Select task category</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
@@ -52,7 +88,7 @@ function selectableCategorysHTML() {
 }
 
 function getCreatedCategorysHTML(id, category) {
-    return `<div onclick="doNotCloseTheBoxOrReloadThePage(event)"><button onclick="deleteCategory(${id})" class="deleteCategory">X</button><div>${category.name}</div><span style="background-color: #${category.color}; width: 20px; height: 20px; border-radius: 50%;"></span></div>`
+    return `<div onclick="doNotCloseTheBoxOrReloadThePage(event)"><button onclick="deleteCategory(${id})" class="deleteCategory">X</button><div class="hoverCategory" onclick="choosenCategory(${id})"><div>${category.name}</div><span style="background-color: #${category.color}; width: 20px; height: 20px; border-radius: 50%;"></span></div></div>`
 }
 
 function createNewCategory() {
@@ -70,23 +106,33 @@ function closeNewCategory() {
 }
 
 
-function deleteCategory(id){
+function deleteCategory(id) {
     categorys.splice(id, 1);
     openCategorySelection();
 }
 
 
-
-
-
-
-
-
-
-
+/**
+ * this function removes the active color class from all colors and assignes it to the clicked color
+ *
+ * @param {string} color name of the selected color
+ * @param {string} id of the selected color
+ */
+function selectColor(color, id) {
+    let colorSelectionContainer = document.getElementById("colorSelection");
+   let colorBoxes = colorSelectionContainer.querySelectorAll("div");
+    selectedColor = color;
+  
+    colorBoxes.forEach((colorBox) => {
+      colorBox.classList.remove("selectedColorNewCategory");
+    });
+  
+    let selectedColorBox = document.getElementById('color'+id);
+    selectedColorBox.classList.add("selectedColorNewCategory");
+  }
+  
 
 //----OpenAssignedToSection--// 
-
 
 function openAssignedToSelection() {
     let assignedToSelectionBox = document.getElementById('assignedToSelection');
@@ -109,16 +155,18 @@ function getContactsFromContactListHTML(contact) {
     return `<label onclick="doNotCloseTheBoxOrReloadThePage(event)" ><div>${contact.name}</div><span><input type="checkbox"></span></label>`
 }
 
+
+//----Helpfunction---//
+
 function doNotCloseTheBoxOrReloadThePage(event) {
     event.stopPropagation();
 }
 
 
-//----Date---//*css*/
+//----Date---//
 
 /**
  * this function makes it not posible to pick a date in the past
- *
  */
 function setMinDate() {
     const today = new Date().toISOString().split("T")[0];
