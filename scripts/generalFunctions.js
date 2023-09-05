@@ -1,5 +1,3 @@
-
-const STORAGE_TOKEN1 = 'EU3DCTQFLIIRYKT20VZ7FI6JEYQ6G4WUYDV99ESF';  
 const STORAGE_TOKEN = '58RE1XWB5QA2T4MW9JTFPUQWSJ1VFNSUZSHHEJPA';    
 const STORAGE_URL = 'https://remote-storage.developerakademie.org/item'; 
 let tasks = []; 
@@ -96,16 +94,7 @@ async function setTask(key, value) {
     return fetch(STORAGE_URL, { method: 'POST', body: JSON.stringify(payload) }).then(resp => resp.json());
 }
 
-function toggleDropdown() {
-    const dropdown = document.getElementById("dropdown");
-    dropdown.classList.toggle("open");
-}
-/*-----------------Summary---------------*/
-/**
- * This function used in loadRemote(). Fetches the object with the key from remote storage.
- * @param {string} key - key where the objects is stored remote.
- * @returns - returns the data.value
- */
+
 async function getTasks(key) {
     const url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
     p = await fetch(url).then(resp => resp.json()).then(resp => resp.data.value);
@@ -162,3 +151,21 @@ async function getItemRegister(key) {
         throw error;
     }
 }
+
+/**
+ * Give contacts a value and load every created contact from the Server
+ */
+
+async function loadContacts() {
+    try {
+      const response = await getItem('contacts');
+      if (response && response.data && response.data.value) {
+        contacts = JSON.parse(response.data.value).sort((a, b) => a.name.localeCompare(b.name));
+      } else {
+        contacts = []; // Fallback, wenn die Server-Antwort kein gültiges JSON enthält
+      }
+    } catch (error) {
+      console.error('Error loading contacts:', error);
+      contacts = []; // Fallback, wenn ein Fehler beim Laden der Kontakte auftritt
+    }
+  }

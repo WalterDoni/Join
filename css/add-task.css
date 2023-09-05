@@ -8,6 +8,10 @@ body {
 }
 
 
+.d-none{
+    display: none!important;
+}
+
 textarea {
     font-family: 'Inter', sans-serif;
     outline: none;
@@ -396,6 +400,13 @@ input::-webkit-calendar-picker-indicator {
     cursor: pointer;
   }
 
+
+.formError{
+    padding-top: 10px;
+    color: red;
+    font-size: 16px;
+    display: flex;
+}
 
 @media(max-width: 1340px) {
 

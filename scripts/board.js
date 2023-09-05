@@ -1,5 +1,4 @@
 let currentDraggedElement;
-
 let allTasks = [{
     'id': 0,
     'category': 'IT',
@@ -7,7 +6,7 @@ let allTasks = [{
     'description': 'Neu aufsetzen',
     'progressText': '0/2 Done',
     'member': 'WD',
-    'section': 'taskCategoryToDo',
+    'section': 'taskCategoryDone',
 },
 {
     'id': 1,
@@ -16,9 +15,18 @@ let allTasks = [{
     'description': 'Anstrengend',
     'progressText': '0/2 Done',
     'member': 'WD',
-    'section': 'taskCategoryInProgress',
+    'section': 'taskCategoryDone',
 }];
 
+
+async function init() {
+    await loadContacts();
+    await loadRemote();
+    setMinDate();
+    includeHTML(); 
+    renderTasks();
+
+}
 
 //----Render functions---//
 
