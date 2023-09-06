@@ -1,6 +1,7 @@
 const STORAGE_TOKEN = '58RE1XWB5QA2T4MW9JTFPUQWSJ1VFNSUZSHHEJPA';    
 const STORAGE_URL = 'https://remote-storage.developerakademie.org/item'; 
 let tasks = []; 
+let categorys = [];
 let p;  
 let contacts ;
 let generatedLetters = [];
@@ -101,6 +102,21 @@ async function getTasks(key) {
     return p;
 }
 
+async function getCategorys(key) {
+    const url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
+    p = await fetch(url).then(resp => resp.json()).then(resp => resp.data.value);
+    return p;
+}
+
+async function loadCategorys() {
+    try {
+        await getCategorys('categorys');
+        categorys = JSON.parse(p.replaceAll('\'', '"'));
+        return categorys;
+    } catch (e) {
+        console.info('Could not found categorys');
+    }
+}
 /**
  * This function loads the tasks from the remote storage and saves it in tasks.
  * @returns returns the tasks as an JSON Array

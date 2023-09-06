@@ -21,7 +21,7 @@
 
     <div id="content" class="content">
         <h1>Add Task</h1>
-        <form class="addTaskElements" onsubmit="createNEWTASK(); return false">
+        <form class="addTaskElements" onsubmit="createNEWTASK()">
             <span class="leftElementAddTask">
                 <div class="title">
                     <h3 class="titles">Title</h3>
@@ -35,7 +35,7 @@
                 <div>
                     <h3 class="titles">Assigned to</h3>
                     <div class="selectionAssignedTo" id="assignedToSelection">
-                        <div  onclick="openAssignedToSelection()">
+                        <div onclick="openAssignedToSelection()">
                             <p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png">
                         </div>
                     </div>
@@ -81,12 +81,13 @@
                             style="background-color: #1FD7C1; cursor: pointer;"></div>
                         <div id="color4" onclick="selectColor('FFC701', 4)"
                             style="background-color: #FFC701; cursor: pointer;"></div>
-                        <div id="color5" onclick="selectColor('FFC701', 5)"
+                        <div id="color5" onclick="selectColor('0038FF', 5)"
                             style="background-color: #0038FF; cursor: pointer;"></div>
                         <div id="color6" onclick="selectColor('068f43', 6)"
                             style="background-color: #068f43; cursor: pointer;"></div>
                     </div>
-                    <div class="formError d-none" id="errorCategory">You have to select a category. You can also create a new one with "New category".</div>
+                    <div class="formError d-none" id="errorCategory">You have to select a category. You can also create
+                        a new one with "New category".</div>
                 </div>
                 <div>
                     <h3>Subtask</h3>
@@ -98,10 +99,12 @@
                 </div>
                 <div class="clearAndCreateButtons">
                     <div>
-                        <button class="clearButton" onclick="checkTheSelectedSubtasks()"> Clear</p><img src="../img/cancelIcon.png"></button>
+                        <button class="clearButton" onclick="checkTheSelectedSubtasks()"> Clear</p><img
+                                src="../img/cancelIcon.png"></button>
                     </div>
                     <div>
-                        <button class="createButton" type="submit">Create Task</p><img src="../img/createAccIcon.png"></button>
+                        <button class="createButton" type="submit">Create Task</p><img
+                                src="../img/createAccIcon.png"></button>
                     </div>
                 </div>
             </span>

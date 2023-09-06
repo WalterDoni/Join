@@ -1,14 +1,7 @@
-let categorys = [
-    { name: "Design", color: "FF7A00;" },
-    { name: "Sales", color: "FC71FF" },
-    { name: "Backoffice", color: "1FD7C1" },
-    { name: "Media", color: "FFC701" },
-    { name: "Marketing", color: "0038FF" },
-];
-
 let selectableColorsForNewCategorys = ['FF7A00', 'FC71FF', '1FD7C1', 'FFC701', '0038FF', '068f43'];
 let selectedColor;
 let selectedPriority;
+let colorCode;
 let generatedSubtasks = [];
 let checkedSubtaskNames = [];
 let assignedToNames = [];
@@ -17,15 +10,16 @@ let generatedTask = []
 
 async function init() {
     setMinDate();
-    includeHTML(); 
+    includeHTML();
     await loadContacts();
     await loadRemote();
+    await loadCategorys();
 }
 
 
 //-- ALLES BESCHREIBEN NOCH UND UMSCHREIBEN--//
 async function createNEWTASK() {
-    
+
     title = document.getElementById('title').value;
     description = document.getElementById('description').value;
     if (assignedToIsSelected()) {
@@ -42,6 +36,7 @@ async function createNEWTASK() {
     if (checkTheSelectedSubtasks()) {
         subtask = checkedSubtaskNames;
     }
+    getCategoryColor();
     const task = {
         title: title,
         description: description,
@@ -50,11 +45,14 @@ async function createNEWTASK() {
         priority: priority,
         category: category,
         subtask: checkedSubtaskNames,
+        categoryColor: colorCode,
     }
-     tasks.push(task);
-     await setTask('tasks', tasks);
+    tasks.push(task);
+    await setTask('tasks', tasks);
     generatedSubtasks = [];
     assignedToNames = [];
+    colorCode = null;
+    init();
 }
 
 
@@ -180,7 +178,8 @@ function highlightPriority(prio) {
 
 //----OpenCategory----// 
 
-function openCategorySelection() {
+async function openCategorySelection() {
+    await getItem('categorys')
     let categorySelectionBox = document.getElementById('categorySelection');
     if (categorySelectionBox.childElementCount >= 2) {
         categorySelectionBox.innerHTML = categoryBoxHTML();
@@ -198,21 +197,26 @@ function openCategorySelection() {
 function choosenCategory(id) {
     document.getElementById('categorySelection').innerHTML = `<div><div id="selectedCategory">${categorys[id].name}</div><span style="background-color: #${categorys[id].color}; width: 20px; height: 20px; border-radius: 50%;"></span></div>`
 }
-//----Create new category(and delete)----//
 
-function newCategoryAdd() {
-    let name = document.getElementById('newCategoryName').value;
-
-    if (selectedColor) {
-        categorys.push({ name: name, color: selectedColor });
-        selectedColor = null;
-    } else {
-        categorys.push({ name: name });
+/**
+ * this function returns the color code of the selected category color
+ *
+ * @returns category color
+ */
+function getCategoryColor() {
+    const categoryName = document.getElementById('selectedCategory');
+    if (categoryName) {
+        const selectCategoryContent = categoryName.innerHTML;
+        categorys.forEach((category) => {
+            if (category.name == selectCategoryContent) {
+                colorCode = category.color;
+            }
+        });
     }
 
-    document.getElementById('colorSelection').style.display = "none";
-    openCategorySelection();
 }
+
+//----Create new category(and delete)----//
 
 function createNewCategory() {
     let newCategory = document.getElementById('categorySelection');
@@ -221,6 +225,20 @@ function createNewCategory() {
         `<div onclick="doNotCloseTheBoxOrReloadThePage(event)"><input class="inputCat" id="newCategoryName" placeholder="Name for the new category">
     <span> <img onclick="closeNewCategory()" src="../img/cancelIcon.png"><span class="smallSeperator"></span><img onclick="newCategoryAdd()" src="../img/addtask-img/check-icon-black.svg"></span>
     </div>`;
+}
+
+async function newCategoryAdd() {
+    let name = document.getElementById('newCategoryName').value;
+
+    if (selectedColor) {
+        categorys.push({ name: name, color: selectedColor });
+        selectedColor = null;
+    } else {
+        categorys.push({ name: name });
+    }
+    await setItem('categorys', categorys);
+    document.getElementById('colorSelection').style.display = "none";
+    openCategorySelection();
 }
 
 function closeNewCategory() {
@@ -279,6 +297,13 @@ function doNotCloseTheBoxOrReloadThePage(event) {
     event.stopPropagation();
 }
 
+function resetEverything(){
+    document.getElementById('title').value = "";
+    document.getElementById('description').value = "";
+    document.getElementById('date').value = "";
+    
+
+}
 /**
  * this function removes the active color class from all colors and assignes it to the clicked color
  *
