@@ -5,7 +5,8 @@ let colorCode;
 let generatedSubtasks = [];
 let checkedSubtaskNames = [];
 let assignedToNames = [];
-let generatedTask = []
+let generatedTask = [];
+
 
 
 async function init() {
@@ -51,6 +52,7 @@ async function createNEWTASK() {
     await setTask('tasks', tasks);
     generatedSubtasks = [];
     assignedToNames = [];
+    checkedSubtaskNames = [];
     colorCode = null;
     init();
 }
@@ -112,14 +114,18 @@ function getTheAssignedNames() {
 * @returns Just returns true on passed test.
 */
 function checkForAssignment(assignedTo) {
-
-    for (let i = 0; i < assignedTo.length; i++) {
-        if (assignedTo[2].form[i].checked) {
-            return true;
+    if (assignedTo.length > 0) {
+        const lastAssignment = assignedTo[assignedTo.length - 1];
+        if (lastAssignment.form && lastAssignment.form.length > 0) {
+            for (let i = 0; i < lastAssignment.form.length; i++) {
+                if (lastAssignment.form[i].checked) {
+                    return true;
+                }
+            }
         }
     }
+    return false;
 }
-
 //---Create a new Subtask--//
 function createSubtask() {
     let inputfield = document.getElementById('subtask');
@@ -157,12 +163,14 @@ function updateSubtask() {
 
 
 function checkTheSelectedSubtasks() {
-
-    const checkedSubtasks = generatedSubtasks.filter(subtask => subtask.status === 'checked');
-    const checkedSubNames = checkedSubtasks.map(subtask => subtask.name);
-    checkedSubtaskNames.push(checkedSubNames);
-
+    const checkedSubtasks = generatedSubtasks.filter(subtask => subtask.status === "checked");
+    const updatedSubtasks = checkedSubtasks.map(subtask => ({
+        name: subtask.name,
+        status: "unchecked"
+    }));
+    checkedSubtaskNames.push(...updatedSubtasks);
 }
+
 //---Select priority for task (currently : urgent,medium and low)----//
 
 function highlightPriority(prio) {
@@ -297,11 +305,11 @@ function doNotCloseTheBoxOrReloadThePage(event) {
     event.stopPropagation();
 }
 
-function resetEverything(){
+function resetEverything() {
     document.getElementById('title').value = "";
     document.getElementById('description').value = "";
     document.getElementById('date').value = "";
-    
+
 
 }
 /**

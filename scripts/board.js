@@ -1,12 +1,13 @@
 let currentDraggedElement;
 let allTasks = [];
-
+let short = [];
+let iconNameColor = [];
 
 async function init() {
     await loadContacts();
     await loadRemote();
     await setMinDate();
-    await includeHTML(); 
+    await includeHTML();
     await loadCategorys();
     await loadTasksForBoard();
     await renderTasks();
@@ -15,23 +16,68 @@ async function init() {
 
 //----Render functions---//
 
-function loadTasksForBoard(){
+function loadTasksForBoard() {
 
     for (let i = 0; i < tasks.length; i++) {
-        let task = tasks[i]; 
-        remoteTask = {
-            'id': i, 
+        let task = tasks[i];
+        getAssignedShortAndColor(task, short, iconNameColor);
+
+        let remoteTask = {
+            'id': i,
             'category': task['category'],
             'title': task['title'],
             'description': task['description'],
-            'progessText': '0/2 Done', //To-Do
-            'member': 'WD',//To-Do
+            'members': short,
+            'iconColors': iconNameColor,
             'section': 'taskCategoryToDo',
             'color': task['categoryColor'],
-        }
+            'priority': task['priority'],
+            'subtask': task['subtask']
+        };
         allTasks.push(remoteTask);
-    }
+        short = [];
+        iconNameColor = [];
 
+    }
+}
+
+function getAssignedShortAndColor(task, short, iconNameColor) {
+    const assignedNames = task.assignedTo;
+    if (assignedNames.length <= 1) {
+        const selectedAssignedNames = assignedNames;
+        contacts.forEach((contact, index) => {
+            if (assignedNames == "Myself" && short.length < 1) {
+                short.push("M");
+                iconNameColor.push("#9327FF");
+                return false
+            }
+            if (contact.name == selectedAssignedNames && short.length < 1) {
+                short.push(contacts[index].short);
+                iconNameColor.push(contacts[index].iconColor);
+                return false
+            }
+        });
+    } else {
+        const selectedAssignedNames = assignedNames;
+        if (assignedNames[0] == "Myself") {
+            short.push("M");
+            iconNameColor.push("#9327FF");
+            contacts.forEach((contact, index) => {
+                if (assignedNames[0] == "Myself" && contact.name == selectedAssignedNames[index + 1]) {
+                    short.push(contacts[index].short);
+                    iconNameColor.push(contacts[index].iconColor);
+                }
+            });
+        } else {
+            const selectedAssignedNames = assignedNames;
+            contacts.forEach((contact, index) => {
+                if (contact.name == selectedAssignedNames[index]) {
+                    short.push(contacts[index].short);
+                    iconNameColor.push(contacts[index].iconColor);
+                }
+            });
+        }
+    }
 }
 
 function renderTasks() {
@@ -42,10 +88,20 @@ function renderTasks() {
     if (todoCat.length > 0) {
         for (let i = 0; i < todoCat.length; i++) {
             task = todoCat[i];
-            document.getElementById('taskCategoryToDo').innerHTML += createdTaskHTML(task);
+            counter = 0;
+            document.getElementById('taskCategoryToDo').innerHTML += createdTaskHTML(task, i);
+            for (let m = 0; m < task['members'].length; m++) {
+                document.getElementById('createdTaskAssignedMember' + i).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
+            }
+            document.getElementById('rightPrio' + i).innerHTML = checkPriority(task);
+            checkSubtaskProgress(task, counter);
+            document.getElementById('progressCounter' + i).innerHTML = counter + `/${task['subtask'].length}`;
+            barPercentLength = checkProgressBar(task, counter);
+            document.getElementById('progressBar' + i).style.width = barPercentLength;
         }
     } else {
         document.getElementById('taskCategoryToDo').innerHTML = '<div class="noTask"> No task in "To do"</div>';
+
     }
 
 
@@ -91,12 +147,35 @@ function renderTasks() {
     }
 }
 
+function checkPriority(task) {
+    if (task.priority == 'urgent') {
+        return `<img src="../img/addtask-img/higPrio.png"></img>`
+    } if (task.priority == 'medium') {
+        return `<img src="../img/addtask-img/mediumPrio.png"></img>`
+    } if (task.priority == 'low') {
+        return `<img src="../img/addtask-img/lowPrio.png"></img>`
+    }
+}
+
+function checkSubtaskProgress(task, counter) {
+    for (let i = 0; i < task['subtask'].length; i++) {
+        if (task['subtask'][i]['status'] == "checked") {
+            counter++;
+        }
+    }
+}
+
+function checkProgressBar(task, counter) {
+ let subTaskLength = task['subtask'].length;
+ let barPercentLength = ((counter / subTaskLength) * 100).toFixed(2); 
+ return barPercentLength + '%';
+}
 
 //----Functionality---//
 
 function klickOnArrowToMoveTask(id, section, move) {
     let taskCategorys = ['taskCategoryToDo', 'taskCategoryInProgress', 'taskCategoryAwaitFeedback', 'taskCategoryDone'];
-    
+
     if ((section == taskCategorys[0] || section == taskCategorys[1] || section == taskCategorys[2]) && move == 'up') {
         let currentSectionIndex = taskCategorys.indexOf(section);
         if (currentSectionIndex < taskCategorys.length - 1) {
@@ -104,19 +183,19 @@ function klickOnArrowToMoveTask(id, section, move) {
         }
     }
 
-    
+
     if ((section == taskCategorys[1] || section == taskCategorys[2] || section == taskCategorys[3]) && move == 'down') {
         let currentSectionIndex = cattaskCategorysgorys.indexOf(section);
         if (currentSectionIndex <= taskCategorys.length - 1) {
             allTasks[id]['section'] = taskCategorys[currentSectionIndex - 1];
         }
     }
-    
+
     renderTasks();
 }
 
 
-async function deleteSelectedTask(id){
+async function deleteSelectedTask(id) {
     tasks.splice(id, 1);
     await setTask('tasks', tasks);
     await init();
@@ -139,21 +218,22 @@ function allowDrop(ev) {
 }
 
 //---Show and close Edit-Task-Popup-Window---//
-    
-function showDetailsTaskPopUp(id){
-   
-    let showDetailsTaskPopUp =  document.getElementById('editTaskPopUpWindowContent');
+
+function showDetailsTaskPopUp(id) {
+
+    let showDetailsTaskPopUp = document.getElementById('editTaskPopUpWindowContent');
     showDetailsTaskPopUp.style.display = 'flex';
     showDetailsTaskPopUp.innerHTML = showDetailsTaskPopUpHTML(id);
 
-   
-    if(window.innerWidth <= 800){
-        document.getElementById('content').style.display ='none';
+
+    if (window.innerWidth <= 800) {
+        document.getElementById('content').style.display = 'none';
     }
 }
-function closeEditTaskPopUp(){
+
+function closeEditTaskPopUp() {
     document.getElementById('editTaskPopUpWindowContent').style.display = 'none';
-    document.getElementById('content').style.display ='unset';
+    document.getElementById('content').style.display = 'unset';
 }
 
 
@@ -167,15 +247,15 @@ function closePopUpAddTask() {
     document.getElementById('addTaskPopUpWindowContent').style.display = 'none';
 }
 
-function SelectedTaskEditWindow(){
+function SelectedTaskEditWindow() {
     document.getElementById('editSelectedTask').style.display = 'flex';
-    if(window.innerWidth <= 800){
-        document.getElementById('content').style.display ='none';
+    if (window.innerWidth <= 800) {
+        document.getElementById('content').style.display = 'none';
     }
 }
-function closeSelectedTaskEditWindow(){
+function closeSelectedTaskEditWindow() {
     document.getElementById('editSelectedTask').style.display = 'none';
-    document.getElementById('content').style.display ='unset';
+    document.getElementById('content').style.display = 'unset';
 }
 
 function highlight(id) {
@@ -186,10 +266,10 @@ function removeHighlight(id) {
     document.getElementById(id).classList.remove('drag-area-highlight');
 }
 
- //----------------------HTML-Templates------------//
+//----------------------HTML-Templates------------//
 
-function showDetailsTaskPopUpHTML(id){
-return `
+function showDetailsTaskPopUpHTML(id) {
+    return `
 <div class="editPopUpWindow">
     <div class="editPopUpCatAndCanc"><span style="background-color:#${tasks[id]['categoryColor']}" class="editPopUpCategory"">${tasks[id]['category']}</span>
         <span onclick="closeEditTaskPopUp()"><img src="../img/cancelIcon.png"></span>
@@ -203,7 +283,7 @@ return `
                 src="../img/addtask-img/mediumPrio.png"></span></div>
     <div>
         <div><b>Assigned To</b></div>
-        <div class="editPopUpIconAndName"><span class="editPopUpIconName">WD</span><span
+        <div class="editPopUpIconAndName" id="editPopUpIconAndName"><span
                 class="editPopUpName">${tasks[id]['assignedTo']}</span></div>
     </div>
     <div>
@@ -227,8 +307,8 @@ return `
 
 
 
-function createdTaskHTML(task) {
-return `
+function createdTaskHTML(task, i) {
+    return `
     <div draggable="true" ondragstart="startDragging(${task['id']})"  onclick="showDetailsTaskPopUp(${task['id']})" class="createdTaskContent">
     <div class="categoryAndRespArrows">
         <span class="createdTaskCategory" style="background-color:#${task['color']}">${task['category']}</span>
@@ -242,12 +322,12 @@ return `
         <p class="createdTaskDescription">${task['description']}</p>
     </div>
     <div class="createdTaskProgress">
-        <span class="createdTaskProgressBar"></span>
-        <span class="createdTaskProgressText">${task['progressText']}</span>
+        <span class="createdTaskProgressBar"><div id="progressBar${i}" style="background-color: #29ABE2"></div></span>
+        <span class="createdTaskProgressText" id="progressCounter${i}"></span>
     </div>
     <div class="createdTaskAssignedAndPriority">
-        <span class="createdTaskAssignedMember">${task['member']}</span>
-        <span class="createdTaskPriority"><img src="../img/addtask-img/higPrio.png"></span>
+        <span class="createdTaskAssignedMember" id="createdTaskAssignedMember${i}"></span>
+        <span class="createdTaskPriority" id="rightPrio${i}"><img src="../img/addtask-img/higPrio.png"></span>
     </div>
 </div>
 `

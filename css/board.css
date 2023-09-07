@@ -420,7 +420,7 @@ body {
 }
 
 .createdTaskProgressBar {
-    background-color: #29ABE2;
+
     border-radius: 2px;
     height: 8px;
     width: 70%;
@@ -438,18 +438,26 @@ body {
 }
 
 .createdTaskAssignedMember {
-    width: 34px;
-    height: 34px;
     border: solid 1px white;
     border-radius: 17px;
     color: white;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 120%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #29ABE2;
     left: 0px;
+}
+
+.memberIcon{
+    margin-left: -8px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+
 }
 
 #editSelectedTask {
