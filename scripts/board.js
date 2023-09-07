@@ -112,7 +112,17 @@ function renderTasks() {
     if (progressCat.length > 0) {
         for (let i = 0; i < progressCat.length; i++) {
             task = progressCat[i];
-            document.getElementById('taskCategoryInProgress').innerHTML += createdTaskHTML(task);
+            counter = 0;
+            document.getElementById('taskCategoryInProgress').innerHTML += createdTaskHTML(task, i);
+            for (let m = 0; m < task['members'].length; m++) {
+                document.getElementById('createdTaskAssignedMember' + i).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
+            }
+            document.getElementById('rightPrio' + i).innerHTML = checkPriority(task);
+            checkSubtaskProgress(task, counter);
+            document.getElementById('progressCounter' + i).innerHTML = counter + `/${task['subtask'].length}`;
+            barPercentLength = checkProgressBar(task, counter);
+            document.getElementById('progressBar' + i).style.width = barPercentLength;
+
         }
     } else {
         document.getElementById('taskCategoryInProgress').innerHTML = '<div class="noTask" > No task "in progress"</div>';
@@ -166,9 +176,9 @@ function checkSubtaskProgress(task, counter) {
 }
 
 function checkProgressBar(task, counter) {
- let subTaskLength = task['subtask'].length;
- let barPercentLength = ((counter / subTaskLength) * 100).toFixed(2); 
- return barPercentLength + '%';
+    let subTaskLength = task['subtask'].length;
+    let barPercentLength = ((counter / subTaskLength) * 100).toFixed(2);
+    return barPercentLength + '%';
 }
 
 //----Functionality---//
@@ -224,6 +234,10 @@ function showDetailsTaskPopUp(id) {
     let showDetailsTaskPopUp = document.getElementById('editTaskPopUpWindowContent');
     showDetailsTaskPopUp.style.display = 'flex';
     showDetailsTaskPopUp.innerHTML = showDetailsTaskPopUpHTML(id);
+    for (let i = 0; i < tasks[id]['assignedTo'].length; i++) {
+        document.getElementById('editPopUpName').innerHTML += `<div><span style="background-color:${allTasks[id]['iconColors'][i]}">${allTasks[id]['members'][i]}</span><span style="padding-left: 10px">${tasks[id]['assignedTo'][i]}</span</div>`;
+    }
+   
 
 
     if (window.innerWidth <= 800) {
@@ -283,8 +297,7 @@ function showDetailsTaskPopUpHTML(id) {
                 src="../img/addtask-img/mediumPrio.png"></span></div>
     <div>
         <div><b>Assigned To</b></div>
-        <div class="editPopUpIconAndName" id="editPopUpIconAndName"><span
-                class="editPopUpName">${tasks[id]['assignedTo']}</span></div>
+        <div class="editPopUpIconAndName" id="editPopUpName"></div>
     </div>
     <div>
         <div><b>Subtasks</b></div>
@@ -322,7 +335,7 @@ function createdTaskHTML(task, i) {
         <p class="createdTaskDescription">${task['description']}</p>
     </div>
     <div class="createdTaskProgress">
-        <span class="createdTaskProgressBar"><div id="progressBar${i}" style="background-color: #29ABE2"></div></span>
+        <span class="createdTaskProgressBar"><div id="progressBar${i}" class="barColor"></div></span>
         <span class="createdTaskProgressText" id="progressCounter${i}"></span>
     </div>
     <div class="createdTaskAssignedAndPriority">
