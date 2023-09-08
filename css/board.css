@@ -257,6 +257,10 @@ body {
     cursor: pointer;
 }
 
+.editPopUpList div{
+    padding-top: 5px;
+}
+
 .editPopUpDelAndEditButton {
     position: absolute;
     display: flex;

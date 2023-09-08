@@ -117,6 +117,7 @@ function renderTasks() {
             for (let m = 0; m < task['members'].length; m++) {
                 document.getElementById('createdTaskAssignedMember' + i).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
             }
+
             document.getElementById('rightPrio' + i).innerHTML = checkPriority(task);
             checkSubtaskProgress(task, counter);
             document.getElementById('progressCounter' + i).innerHTML = counter + `/${task['subtask'].length}`;
@@ -237,8 +238,10 @@ function showDetailsTaskPopUp(id) {
     for (let i = 0; i < tasks[id]['assignedTo'].length; i++) {
         document.getElementById('editPopUpName').innerHTML += `<div><span style="background-color:${allTasks[id]['iconColors'][i]}">${allTasks[id]['members'][i]}</span><span style="padding-left: 10px">${tasks[id]['assignedTo'][i]}</span</div>`;
     }
-   
+    for (let l = 0; l < tasks[id]['subtask'].length; l++) {
+        document.getElementById('editPopUpList').innerHTML += `<div><input type="checkbox">${tasks[id]['subtask'][l]['name']}</div>`
 
+    }
 
     if (window.innerWidth <= 800) {
         document.getElementById('content').style.display = 'none';
@@ -302,7 +305,7 @@ function showDetailsTaskPopUpHTML(id) {
     <div>
         <div><b>Subtasks</b></div>
         <div>
-            <div class="editPopUpList"><input type="checkbox">${tasks[id]['subtask']}</div>
+            <div class="editPopUpList" id="editPopUpList"></div>
             
         </div>
     </div>
