@@ -216,26 +216,41 @@ body {
     font-weight: 400;
 }
 
-.editPopUpPriority {
-    padding: 3px 33px 3px 18px;
+#editPopUpPriority {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    gap: 5px;
+    padding: 5px 10px 5px 10px;
     border-radius: 10px;
     color: white;
-    background-color: #ffea00;
+   
 }
 
-.editPopUpPriority img {
-    padding-bottom: 2px;
-}
 
 .editPopUpIconAndName {
     display: flex;
     flex-direction: column;
-    padding-top: 15px;
-   
-    
+    padding-top: 10px;  
+    gap: 10px;
 }
 
-
+.editPopUpIconAndName div{
+    display: flex;
+    align-items: center;
+}
+.iconStylePopUp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 58px;
+    border: 1px solid white;
+    color: white;
+    font-size: 16px;
+}
 
 .editPopUpIconName {
     width: 46px;
@@ -610,7 +625,7 @@ body {
     object-fit: contain;
 }
 
-.editTaskContact {
+#editTaskContacts {
     display: flex;
     gap: 25px;
     align-items: center;
@@ -629,7 +644,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #29ABE2;
 }
 
 .editTaskOkButton {

@@ -54,9 +54,19 @@ async function createNEWTASK() {
     assignedToNames = [];
     checkedSubtaskNames = [];
     colorCode = null;
+    await createdTaskSuccesfull();
     init();
-}
 
+}
+ 
+function createdTaskSuccesfull(){
+    let created = document.getElementById('taskCreated')
+    created.style.display = "flex";
+    setTimeout(() => {
+        created.style.display = "none";
+        window.location.replace("board.html");
+      }, 1000);
+}
 
 
 function categoryIsSelected() {
@@ -278,7 +288,7 @@ function openAssignedToSelection() {
 
     let assignedToSelectionBox = document.getElementById('assignedToSelection');
     assignedToSelectionBox.innerHTML = assignedToBoxHTML();
-    assignedToSelectionBox.innerHTML += `<label onclick="doNotCloseTheBoxOrReloadThePage(event)" id="assignedlabel" class="d-none" ><div>Myself</div><span><input id="checkboxAssignedTo" type="checkbox"></span></label>`
+    assignedToSelectionBox.innerHTML += `<label onclick="doNotCloseTheBoxOrReloadThePage(event)" id="assignedlabel" class="d-none" ><div id="assignedName0" >Myself</div><span><input id="checkboxAssignedTo0" type="checkbox"></span></label>`
     contacts.forEach((contact, index) => {
         assignedToSelectionBox.innerHTML += getContactsFromContactListHTML(contact, index);
     })
@@ -290,7 +300,7 @@ function assignedToBoxHTML() {
 }
 
 function getContactsFromContactListHTML(contact, index) {
-    return `<label onclick="doNotCloseTheBoxOrReloadThePage(event)" id="assignedlabel${index}" class="d-none"><div>${contact.name}</div><span><input id="checkboxAssignedTo${index}" type="checkbox"></span></label>`
+    return `<label onclick="doNotCloseTheBoxOrReloadThePage(event)" id="assignedlabel${index}" class="d-none"><div id="assignedName${index+1}" >${contact.name}</div><span><input id="checkboxAssignedTo${index+1}" type="checkbox"></span></label>`
 }
 
 function toggleVisability() {

@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="../css/board.css">
     <title>Board</title>
     <script src="../scripts/generalFunctions.js"></script>
-
     <script src="../scripts/add-task.js"></script>
     <script src="../scripts/board.js"></script>
 </head>
@@ -29,7 +28,7 @@
             </span>
             <span class="inputAndButtonHeadline">
                 <div class="inputDiv">
-                    <input id="input" placeholder="Find Task">
+                    <input id="input" oninput="searchTask()" placeholder="Find Task">
                     <img src="../img/board-img/lupe.png">
                 </div>
                 <div class="buttonAdd" onclick="showPopUpAddTask()">Add task
@@ -78,34 +77,7 @@
 
     <div id="editTaskPopUpWindowContent"></div>
 
-    <div id="editSelectedTask">
-        <form>
-            <img onclick="closeSelectedTaskEditWindow()" class="closeSelectedTaskEdit" src="../img/cancelIcon.png">
-            <p class="editTaskTitles">Title</p>
-            <input required id="editTaskTitle" placeholder="Enter a title.....">
-            <p class="editTaskTitles">Description</p>
-            <textarea required id="editTaskDescription" placeholder="Describe your task....."></textarea>
-            <p class="editTaskTitles">Due Date</p>
-            <input id="editTaskDate" type="date" placeholder="dd.mm.yyyy">
-            <p class="editTaskTitles">Prio</p>
-            <div class="editPrioContainer">
-                <div class="editPrio">Urgent <img src="../img/addtask-img/lowPrio.png"></div>
-                <div class="editPrio">Medium <img src="../img/addtask-img/mediumPrio.png"></div>
-                <div class="editPrio">Low <img src="../img/addtask-img/higPrio.png"></div>
-            </div>
-            <p class="editTaskTitles">Subtask</p>
-            <div class="editTaskSubtasks">
-                <p>Select Subtasks</p><img src="../img/addtask-img/arrow_drop_down.png">
-            </div>
-            <p class="editTaskTitles">Assigned to</p>
-            <div class="editTaskAssingedTo">
-                <p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png">
-            </div>
-            <div class="editTaskContact"><span class="editTaskContactShort">WD</span><span>Walter Doni</span></div>
-            <div class="editTaskButtonCont"><button class="editTaskOkButton">OK <img
-                        src="../img/createAccIcon.png"></button></div>
-        </form>
-    </div>
+    <div id="editSelectedTask"></div>
 
 
     <div id="addTaskPopUpWindowContent">
@@ -201,7 +173,8 @@
             </form>
         </div>
     </div>
-
+     <div id="taskCreated"><img src="../img/board-img/addedToBoard.png"></div>
+    
 </body>
 
 </html>

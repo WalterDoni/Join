@@ -2,6 +2,7 @@ let currentDraggedElement;
 let allTasks = [];
 let short = [];
 let iconNameColor = [];
+let searchTaskArray = [];
 
 async function init() {
     await loadContacts();
@@ -52,8 +53,8 @@ function getAssignedShortAndColor(task, short, iconNameColor) {
                 return false
             }
             if (contact.name == selectedAssignedNames && short.length < 1) {
-                short.push(contacts[index].short);
-                iconNameColor.push(contacts[index].iconColor);
+                short.push(contacts[index]['short']);
+                iconNameColor.push(contacts[index]['iconColor']);
                 return false
             }
         });
@@ -63,26 +64,32 @@ function getAssignedShortAndColor(task, short, iconNameColor) {
             short.push("M");
             iconNameColor.push("#9327FF");
             contacts.forEach((contact, index) => {
-                if (assignedNames[0] == "Myself" && contact.name == selectedAssignedNames[index + 1]) {
-                    short.push(contacts[index].short);
-                    iconNameColor.push(contacts[index].iconColor);
-                }
+                for (let i = 0; i < contacts.length+1; i++) {
+                    if (contact.name == selectedAssignedNames[i]) {
+                        short.push(contacts[index]['short']);
+                        iconNameColor.push(contacts[index]['iconColor']);
+                    }}
             });
         } else {
             const selectedAssignedNames = assignedNames;
             contacts.forEach((contact, index) => {
-                if (contact.name == selectedAssignedNames[index]) {
-                    short.push(contacts[index].short);
-                    iconNameColor.push(contacts[index].iconColor);
-                }
+                for (let i = 0; i < contacts.length+1; i++) {
+                if (contact.name == selectedAssignedNames[i]) {
+                    short.push(contacts[index]['short']);
+                    iconNameColor.push(contacts[index]['iconColor']);
+                }}
             });
         }
     }
 }
 
 function renderTasks() {
-
-    let todoCat = allTasks.filter(t => t['section'] == 'taskCategoryToDo');
+    if(searchTaskArray.length >= 1){
+        arrayToFilter = searchTaskArray;
+    } else{
+        arrayToFilter = allTasks;
+    }
+    let todoCat = arrayToFilter.filter(t => t['section'] == 'taskCategoryToDo');
 
     document.getElementById('taskCategoryToDo').innerHTML = '';
     if (todoCat.length > 0) {
@@ -106,7 +113,7 @@ function renderTasks() {
 
 
 
-    let progressCat = allTasks.filter(t => t['section'] == 'taskCategoryInProgress');
+    let progressCat = arrayToFilter.filter(t => t['section'] == 'taskCategoryInProgress');
 
     document.getElementById('taskCategoryInProgress').innerHTML = '';
     if (progressCat.length > 0) {
@@ -131,7 +138,7 @@ function renderTasks() {
 
 
 
-    let feedbackCat = allTasks.filter(t => t['section'] == 'taskCategoryAwaitFeedback');
+    let feedbackCat = arrayToFilter.filter(t => t['section'] == 'taskCategoryAwaitFeedback');
 
     document.getElementById('taskCategoryAwaitFeedback').innerHTML = '';
     if (feedbackCat.length > 0) {
@@ -145,7 +152,7 @@ function renderTasks() {
 
 
 
-    let doneCat = allTasks.filter(t => t['section'] == 'taskCategoryDone');
+    let doneCat = arrayToFilter.filter(t => t['section'] == 'taskCategoryDone');
 
     document.getElementById('taskCategoryDone').innerHTML = '';
     if (doneCat.length > 0) {
@@ -186,14 +193,12 @@ function checkProgressBar(task, counter) {
 
 function klickOnArrowToMoveTask(id, section, move) {
     let taskCategorys = ['taskCategoryToDo', 'taskCategoryInProgress', 'taskCategoryAwaitFeedback', 'taskCategoryDone'];
-
     if ((section == taskCategorys[0] || section == taskCategorys[1] || section == taskCategorys[2]) && move == 'up') {
         let currentSectionIndex = taskCategorys.indexOf(section);
         if (currentSectionIndex < taskCategorys.length - 1) {
             allTasks[id]['section'] = taskCategorys[currentSectionIndex + 1];
         }
     }
-
 
     if ((section == taskCategorys[1] || section == taskCategorys[2] || section == taskCategorys[3]) && move == 'down') {
         let currentSectionIndex = cattaskCategorysgorys.indexOf(section);
@@ -205,8 +210,16 @@ function klickOnArrowToMoveTask(id, section, move) {
     renderTasks();
 }
 
+function showTaskDelete(){
+document.getElementById('taskDelete').style.display="flex";
+}
+
+function closeTaskDelete(){
+document.getElementById('taskDelete').style.display="none";
+}
 
 async function deleteSelectedTask(id) {
+    document.getElementById('taskDelete').style.display="none";
     tasks.splice(id, 1);
     await setTask('tasks', tasks);
     await init();
@@ -236,11 +249,22 @@ function showDetailsTaskPopUp(id) {
     showDetailsTaskPopUp.style.display = 'flex';
     showDetailsTaskPopUp.innerHTML = showDetailsTaskPopUpHTML(id);
     for (let i = 0; i < tasks[id]['assignedTo'].length; i++) {
-        document.getElementById('editPopUpName').innerHTML += `<div><span style="background-color:${allTasks[id]['iconColors'][i]}">${allTasks[id]['members'][i]}</span><span style="padding-left: 10px">${tasks[id]['assignedTo'][i]}</span</div>`;
+        document.getElementById('editPopUpName').innerHTML += `<div><span class="iconStylePopUp"style="background-color:${allTasks[id]['iconColors'][i]}">${allTasks[id]['members'][i]}</span><span style="padding-left: 10px">${tasks[id]['assignedTo'][i]}</span</div>`;
     }
     for (let l = 0; l < tasks[id]['subtask'].length; l++) {
         document.getElementById('editPopUpList').innerHTML += `<div><input type="checkbox">${tasks[id]['subtask'][l]['name']}</div>`
-
+    }
+    if (tasks[id]['priority'] == 'urgent') {
+        document.getElementById('editPopUpPriority').innerHTML = '<p>urgent</p> <img src="../img/addtask-img/higPrio.png">';
+        document.getElementById('editPopUpPriority').classList.add('selecturgent')
+    }
+    if (tasks[id]['priority'] == 'medium') {
+        document.getElementById('editPopUpPriority').innerHTML = '<p>medium</p> <img src="../img/addtask-img/mediumPrio.png">';
+        document.getElementById('editPopUpPriority').classList.add('selectmedium')
+    }
+    if (tasks[id]['priority'] == 'low') {
+        document.getElementById('editPopUpPriority').innerHTML = '<p>low</p> <img src="../img/addtask-img/lowPrio.png">';
+        document.getElementById('editPopUpPriority').classList.add('selectlow')
     }
 
     if (window.innerWidth <= 800) {
@@ -254,6 +278,85 @@ function closeEditTaskPopUp() {
 }
 
 
+//---Edit Selected Tesk---//
+
+function SelectedTaskEditWindow(id) {
+    let content = document.getElementById('editSelectedTask');
+    content.innerHTML = "";
+    content.innerHTML = selectedTaskHTML(id);
+    selectedPriority = tasks[id]['priority'];
+    document.getElementById('select' + tasks[id]['priority']).classList.add('select' + tasks[id]['priority']);
+    /*for (let name = 0; name < allTasks[id]['members'].length; name++) {
+        document.getElementById('editTaskContacts').innerHTML += `<span class="editTaskContactShort" style="background-color: ${allTasks[id]['iconColors'][name]};">${allTasks[id]['members'][name]}</span>`;
+    }*/
+    document.getElementById('editSelectedTask').style.display = 'flex';
+    if (window.innerWidth <= 800) {
+        document.getElementById('content').style.display = 'none';
+    }
+}
+
+
+function checkSelectedContacts(id) {
+    if (tasks[id]['assignedTo'][0] == "Myself") {
+        document.getElementById('checkboxAssignedTo0').checked = true;
+    }
+    for (let checked = 0; checked < tasks[id]['assignedTo'].length; checked++) {
+        for (let checkTheNames = 0; checkTheNames < contacts.length+1; checkTheNames++) {
+            if (tasks[id]['assignedTo'][checked] == document.getElementById('assignedName' + checkTheNames).innerHTML) {
+                document.getElementById('checkboxAssignedTo' + checkTheNames).checked = true;
+            }
+        }
+    }
+}
+
+
+function closeSelectedTaskEditWindow() {
+    document.getElementById('editSelectedTask').style.display = 'none';
+    document.getElementById('content').style.display = 'unset';
+}
+
+async function saveChangesInTask(id){
+    let title = document.getElementById('editTaskTitle').value;
+    let description = document.getElementById('editTaskDescription').value;
+    let date = document.getElementById('editTaskDate').value;
+    if (prioIsSelected()) {
+        priority = selectedPriority;
+    } if (assignedToIsSelected()) {
+        getTheAssignedNames();
+        assignedTo = assignedToNames;
+    }
+    
+
+    tasks[id]['title'] = title;
+    tasks[id]['description'] = description;
+    tasks[id]['date'] = date;
+    tasks[id]['priority'] = priority;
+    tasks[id]['assignedTo'] = assignedTo;
+    
+    await setTask('tasks', tasks); 
+
+}
+//--Searchfunction--//
+
+
+/**
+ * this function searches tasks based on input value
+ */
+function searchTask() {
+    const input = document.getElementById("input").value;
+    searchTaskArray = [];
+    for (let i = 0; i < tasks.length; i++) {
+      const task = allTasks[i];
+      if (
+        task.title.toLowerCase().includes(input.toLowerCase()) ||
+        task.description.toLowerCase().includes(input.toLowerCase())
+      ) {
+        searchTaskArray.push(task);
+        renderTasks();
+      }
+    }
+  }
+
 
 //----Helpfunctions---//
 
@@ -262,17 +365,6 @@ function showPopUpAddTask() {
 }
 function closePopUpAddTask() {
     document.getElementById('addTaskPopUpWindowContent').style.display = 'none';
-}
-
-function SelectedTaskEditWindow() {
-    document.getElementById('editSelectedTask').style.display = 'flex';
-    if (window.innerWidth <= 800) {
-        document.getElementById('content').style.display = 'none';
-    }
-}
-function closeSelectedTaskEditWindow() {
-    document.getElementById('editSelectedTask').style.display = 'none';
-    document.getElementById('content').style.display = 'unset';
 }
 
 function highlight(id) {
@@ -284,44 +376,6 @@ function removeHighlight(id) {
 }
 
 //----------------------HTML-Templates------------//
-
-function showDetailsTaskPopUpHTML(id) {
-    return `
-<div class="editPopUpWindow">
-    <div class="editPopUpCatAndCanc"><span style="background-color:#${tasks[id]['categoryColor']}" class="editPopUpCategory"">${tasks[id]['category']}</span>
-        <span onclick="closeEditTaskPopUp()"><img src="../img/cancelIcon.png"></span>
-    </div>
-    <div>
-        <div class="editPopUpTitle">${tasks[id]['title']}</div>
-        <div class="editPopUpText">${tasks[id]['description']}</div>
-    </div>
-    <div> <b> Due Date: </b>${tasks[id]['date']}</div>
-    <div> <b> Priority: </b> <span class="editPopUpPriority">${tasks[id]['priority']} <img
-                src="../img/addtask-img/mediumPrio.png"></span></div>
-    <div>
-        <div><b>Assigned To</b></div>
-        <div class="editPopUpIconAndName" id="editPopUpName"></div>
-    </div>
-    <div>
-        <div><b>Subtasks</b></div>
-        <div>
-            <div class="editPopUpList" id="editPopUpList"></div>
-            
-        </div>
-    </div>
-    <div class="editPopUpDelAndEditButton">
-        <span onclick="deleteSelectedTask(${id})"><img src="../img/board-img/editPopUpdelete.png"> Delete </span>
-        <seperator></seperator>
-        <span onclick="SelectedTaskEditWindow(); closeEditTaskPopUp()" class="popUpEdit"><img
-                src="../img/board-img/editPopUpEdit.png"> Edit
-        </span>
-    </div>
-</div>
-`
-
-}
-
-
 
 function createdTaskHTML(task, i) {
     return `
@@ -349,7 +403,74 @@ function createdTaskHTML(task, i) {
 `
 }
 
+function showDetailsTaskPopUpHTML(id) {
+    return `
+<div class="editPopUpWindow">
+    <div class="editPopUpCatAndCanc"><span style="background-color:#${tasks[id]['categoryColor']}" class="editPopUpCategory"">${tasks[id]['category']}</span>
+        <span onclick="closeEditTaskPopUp()"><img src="../img/cancelIcon.png"></span>
+    </div>
+    <div>
+        <div class="editPopUpTitle">${tasks[id]['title']}</div>
+        <div class="editPopUpText">${tasks[id]['description']}</div>
+    </div>
+    <div> <b> Due Date: </b>${tasks[id]['date']}</div>
+    <div style="display: flex; align-items: center; gap: 10px"> <b> Priority: </b> <span id="editPopUpPriority">${tasks[id]['priority']} <img
+                src="../img/addtask-img/mediumPrio.png"></span></div>
+    <div>
+        <div><b>Assigned To</b></div>
+        <div class="editPopUpIconAndName" id="editPopUpName"></div>
+    </div>
+    <div>
+        <div><b>Subtasks</b></div>
+        <div>
+            <div class="editPopUpList" id="editPopUpList"></div>
+            
+        </div>
+    </div>
+    <div class="editPopUpDelAndEditButton">
+        <span onclick="showTaskDelete()"><img src="../img/board-img/editPopUpdelete.png"> Delete </span>
+        <seperator></seperator>
+        <span onclick="SelectedTaskEditWindow(${id}); closeEditTaskPopUp()" class="popUpEdit"><imgactShort
+                src="../img/board-img/editPopUpEdit.png"> Edit
+        </span>
+    </div>
+</div>
+<div id="taskDelete"><div><p>Are you sure?</p><div><button onclick="deleteSelectedTask(${id})">Yes!</button><button onclick="closeTaskDelete()">No!</button></div></div></div>
+`
 
+}
+
+function selectedTaskHTML(id) {
+    return `      
+    <form>
+    <img onclick="closeSelectedTaskEditWindow()" class="closeSelectedTaskEdit" src="../img/cancelIcon.png">
+    <p class="editTaskTitles">Title</p>
+    <input required id="editTaskTitle" placeholder="Enter a title....." value="${tasks[id]['title']}">
+    <p class="editTaskTitles">Description</p>
+    <textarea required id="editTaskDescription" placeholder="Describe your task.....">${tasks[id]['description']}</textarea>
+    <p class="editTaskTitles">Due Date</p>
+    <input id="editTaskDate" type="date" placeholder="dd.mm.yyyy" value="${tasks[id]['date']}">
+    <p class="editTaskTitles">Prio</p>
+    <div class="priorities" id="priorities">
+    <span id="selecturgent" onclick="highlightPriority('urgent')">
+        <p>Urgent</p><img src="../img/addtask-img/higPrio.png">
+    </span>
+    <span id="selectmedium" onclick="highlightPriority('medium')">
+        <p>Medium</p><img src="../img/addtask-img/mediumPrio.png">
+    </span>
+    <span id="selectlow" onclick="highlightPriority('low')">
+        <p>Low</p><img src="../img/addtask-img/lowPrio.png">
+    </span>
+</div>
+    <p class="editTaskTitles">Assigned to</p>
+    <div class="selectionAssignedTo" id="assignedToSelection">
+    <div onclick="openAssignedToSelection(); checkSelectedContacts(${id})"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>
+    </div>
+    <div id="editTaskContacts"></div>
+    <div class="editTaskButtonCont"><button class="editTaskOkButton" onclick="saveChangesInTask(${id})"> OK <img
+                src="../img/createAccIcon.png"></button></div>
+    </form>`;
+}
 
 
 
