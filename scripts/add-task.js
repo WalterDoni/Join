@@ -8,7 +8,6 @@ let assignedToNames = [];
 let generatedTask = [];
 
 
-
 async function init() {
     setMinDate();
     includeHTML();
@@ -17,8 +16,10 @@ async function init() {
     await loadCategorys();
 }
 
-
-//-- ALLES BESCHREIBEN NOCH UND UMSCHREIBEN--//
+/**
+ * This function take the value from several fields and push it in the array "tasks".
+ * After the task was created, some variable get resetted to value "null".
+ */
 async function createNEWTASK() {
 
     title = document.getElementById('title').value;
@@ -59,6 +60,9 @@ async function createNEWTASK() {
 
 }
 
+/**
+ * Show a PopUp-window if a task get created succesfully.
+ */
 function createdTaskSuccesfull() {
     let created = document.getElementById('taskCreated')
     created.style.display = "flex";
@@ -68,7 +72,10 @@ function createdTaskSuccesfull() {
     }, 1000);
 }
 
-
+/**
+ * @returns false when there isn't selected a category. After that a small text will show up below the category selection
+ * @returns true if a category is selected
+ */
 function categoryIsSelected() {
     let checkCategoryValue = document.getElementById('selectedCategory');
     if (checkCategoryValue == null) {
@@ -79,6 +86,10 @@ function categoryIsSelected() {
     }
 }
 
+/**
+ * 
+ * @returns same like function before, but for priorities.
+ */
 function prioIsSelected() {
     if (selectedPriority == undefined) {
         document.getElementById('errorPriority').classList.remove("d-none");
@@ -94,7 +105,7 @@ function prioIsSelected() {
  * @returns true on a passed test, else returns false.
  */
 function assignedToIsSelected() {
-   
+
     let assignedTo = document.getElementById('assignedToSelection').children;
     if (assignedTo.length < 2) {
         document.getElementById('errorAssigned').classList.remove("d-none");
@@ -107,6 +118,10 @@ function assignedToIsSelected() {
     }
 }
 
+/**
+ * Iterate through every label. If there is a checked checkbox, it will push the name into 
+ * * @param {object} assignedToNames. After that it will get pushed in the array tasks.
+ */
 function getTheAssignedNames() {
     let divId = document.getElementById('assignedToSelection');
     let labels = divId.querySelectorAll("label");
@@ -137,7 +152,12 @@ function checkForAssignment(assignedTo) {
     }
     return false;
 }
-//---Create a new Subtask--//
+
+/**
+ * The value from the inputfield create a new subtask. Automatically the status will be on checked from the checkbox, after it get created. If there isn't any value in the field,
+ * an alert will pop up. 
+ * * @param {object} newSubtask - IS the result and will be pushed into the array tasks after that. 
+ */
 function createSubtask() {
     let inputfield = document.getElementById('subtask');
     let newSubtask = inputfield.value;
@@ -155,6 +175,9 @@ function createSubtask() {
     inputfield.value = "";
 }
 
+/**
+ * Iterate through every label and update the status to checked or unchecked and push it back in the array tasks.
+ */
 function updateSubtask() {
     let subtaskBox = document.getElementById('newCreatedSubtasks');
     let subtasks = subtaskBox.querySelectorAll("label");
@@ -172,7 +195,9 @@ function updateSubtask() {
     generatedSubtasks = updatedSubtasks;
 }
 
-
+/**
+ * This functions change the status from checked to unchecked. It's necessary for the progressbar later at the board.
+ */
 function checkTheSelectedSubtasks() {
     const checkedSubtasks = generatedSubtasks.filter(subtask => subtask.status === "checked");
     const updatedSubtasks = checkedSubtasks.map(subtask => ({
@@ -184,6 +209,11 @@ function checkTheSelectedSubtasks() {
 
 //---Select priority for task (currently : urgent,medium and low)----//
 
+/**
+ * 
+ * @param {object} selectedPriority - get the value depends of the selected prio (urgent,medium or low)
+ * If the object has a value, it will remove the highlight from the selected priority and change it to the new one.
+ */
 function highlightPriority(prio) {
     if (selectedPriority) {
         let priority = 'select' + selectedPriority;
@@ -197,6 +227,11 @@ function highlightPriority(prio) {
 
 //----OpenCategory----// 
 
+/**
+ * Depends of the category-section is open or closed.
+ * Open -> it will close the section and hide every selectable category, also the possibility to create one
+ * Closed -> it will load every category and show up below the div
+ */
 async function openCategorySelection() {
     await getItem('categorys')
     let categorySelectionBox = document.getElementById('categorySelection');
@@ -219,7 +254,6 @@ function choosenCategory(id) {
 
 /**
  * this function returns the color code of the selected category color
- *
  * @returns category color
  */
 function getCategoryColor() {
@@ -232,11 +266,13 @@ function getCategoryColor() {
             }
         });
     }
-
 }
 
 //----Create new category(and delete)----//
 
+/**
+ * After a click on "new category" a new category can be created
+ */
 function createNewCategory() {
     let newCategory = document.getElementById('categorySelection');
     document.getElementById('colorSelection').style.display = "flex";
@@ -246,6 +282,9 @@ function createNewCategory() {
     </div>`;
 }
 
+/**
+ * The name from the new category will be pushed into the categorys array.
+ */
 async function newCategoryAdd() {
     let name = document.getElementById('newCategoryName').value;
 
@@ -284,7 +323,9 @@ function getCreatedCategorysHTML(id, category) {
 
 //----OpenAssignedToSection--// 
 
-
+/**
+ * Every possible contact will show up and can be selected.
+ */
 function openAssignedToSelection() {
 
     let assignedToSelectionBox = document.getElementById('assignedToSelection');
@@ -316,6 +357,9 @@ function doNotCloseTheBoxOrReloadThePage(event) {
     event.stopPropagation();
 }
 
+/**
+ * Reset every field from the form.
+ */
 function cancelCreateTask() {
     document.getElementById('title').value = "";
     document.getElementById('description').value = "";
@@ -355,7 +399,7 @@ function selectColor(color, id) {
 //----Date---//
 
 /**
- * this function makes it not posible to pick a date in the past
+ * With this function it isn't possible to pick a date in the past.
  */
 function setMinDate() {
     const today = new Date().toISOString().split("T")[0];
