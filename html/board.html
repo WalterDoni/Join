@@ -78,8 +78,6 @@
     <div id="editTaskPopUpWindowContent"></div>
 
     <div id="editSelectedTask"></div>
-
-
     <div id="addTaskPopUpWindowContent">
         <div class="popUpWindow">
             <h1>Add Task</h1>
@@ -161,8 +159,8 @@
                     </div>
                     <div class="clearAndCreateButtonPopUp">
                         <div>
-                            <button class="clearButton" onclick="closePopUpAddTask()">Clear<img
-                                    src="../img/cancelIcon.png"></button>
+                            <div class="clearButton" onclick="cancelCreateTask(); closePopUpAddTask()">Cancel<img
+                                    src="../img/cancelIcon.png"></div>
                         </div>
                         <div>
                             <button class="createButton" type="submit">Create Task</p><img

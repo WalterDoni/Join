@@ -49,7 +49,7 @@ function getAssignedShortAndColor(task, short, iconNameColor) {
         contacts.forEach((contact, index) => {
             if (assignedNames == "Myself" && short.length < 1) {
                 short.push("M");
-                iconNameColor.push("#9327FF");
+                iconNameColor.push("#04B404");
                 return false
             }
             if (contact.name == selectedAssignedNames && short.length < 1) {
@@ -62,7 +62,7 @@ function getAssignedShortAndColor(task, short, iconNameColor) {
         const selectedAssignedNames = assignedNames;
         if (assignedNames[0] == "Myself") {
             short.push("M");
-            iconNameColor.push("#9327FF");
+            iconNameColor.push("#04B404");
             contacts.forEach((contact, index) => {
                 for (let i = 0; i < contacts.length+1; i++) {
                     if (contact.name == selectedAssignedNames[i]) {
@@ -101,7 +101,7 @@ function renderTasks() {
                 document.getElementById('createdTaskAssignedMember' + i).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
             }
             document.getElementById('rightPrio' + i).innerHTML = checkPriority(task);
-            checkSubtaskProgress(task, counter);
+            counter = checkSubtaskProgress(task, counter);
             document.getElementById('progressCounter' + i).innerHTML = counter + `/${task['subtask'].length}`;
             barPercentLength = checkProgressBar(task, counter);
             document.getElementById('progressBar' + i).style.width = barPercentLength;
@@ -207,7 +207,6 @@ function klickOnArrowToMoveTask(id, section, move) {
             allTasks[id]['section'] = taskCategorys[currentSectionIndex - 1];
         }
     }
-
     renderTasks();
 }
 
@@ -279,7 +278,7 @@ function closeEditTaskPopUp() {
 }
 
 
- function changeProgressBarFromSelectedTask(id){
+ async function changeProgressBarFromSelectedTask(id){
     let task = tasks[id];
     let counter = 0;
     for (let subs = 0; subs < task.subtask.length; subs++) {
@@ -294,8 +293,9 @@ function closeEditTaskPopUp() {
     barPercentLength = checkProgressBar(task, counter);
     document.getElementById('progressBar' + id).style.width = barPercentLength;
     document.getElementById('progressCounter' + id).innerHTML = counter + `/${task['subtask'].length}`;
-    counter = "";
-    
+    counter = ""; 
+
+    await setTask('tasks', tasks);
 }
 
 //---Edit Selected Task---//
@@ -341,12 +341,11 @@ async function saveChangesInTask(id){
     let date = document.getElementById('editTaskDate').value;
     if (prioIsSelected()) {
         priority = selectedPriority;
-    } if (assignedToIsSelected()) {
-        getTheAssignedNames();
+    } if(assignedToIsSelected()) {
+        await getTheAssignedNames();
         assignedTo = assignedToNames;
     }
     
-
     tasks[id]['title'] = title;
     tasks[id]['description'] = description;
     tasks[id]['date'] = date;

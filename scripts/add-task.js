@@ -58,14 +58,14 @@ async function createNEWTASK() {
     await init();
 
 }
- 
-function createdTaskSuccesfull(){
+
+function createdTaskSuccesfull() {
     let created = document.getElementById('taskCreated')
     created.style.display = "flex";
     setTimeout(() => {
         created.style.display = "none";
         window.location.replace("board.html");
-      }, 1000);
+    }, 1000);
 }
 
 
@@ -94,6 +94,7 @@ function prioIsSelected() {
  * @returns true on a passed test, else returns false.
  */
 function assignedToIsSelected() {
+   
     let assignedTo = document.getElementById('assignedToSelection').children;
     if (assignedTo.length < 2) {
         document.getElementById('errorAssigned').classList.remove("d-none");
@@ -300,7 +301,7 @@ function assignedToBoxHTML() {
 }
 
 function getContactsFromContactListHTML(contact, index) {
-    return `<label onclick="doNotCloseTheBoxOrReloadThePage(event)" id="assignedlabel${index}" class="d-none"><div id="assignedName${index+1}" >${contact.name}</div><span><input id="checkboxAssignedTo${index+1}" type="checkbox"></span></label>`
+    return `<label onclick="doNotCloseTheBoxOrReloadThePage(event)" id="assignedlabel${index}" class="d-none"><div id="assignedName${index + 1}" >${contact.name}</div><span><input id="checkboxAssignedTo${index + 1}" type="checkbox"></span></label>`
 }
 
 function toggleVisability() {
@@ -315,12 +316,22 @@ function doNotCloseTheBoxOrReloadThePage(event) {
     event.stopPropagation();
 }
 
-function resetEverything() {
+function cancelCreateTask() {
     document.getElementById('title').value = "";
     document.getElementById('description').value = "";
     document.getElementById('date').value = "";
-
-
+    for (let i = 0; i < contacts.length + 1; i++) {
+        const checkbox = document.getElementById('checkboxAssignedTo' + i);
+        if (checkbox && checkbox.checked === true) {
+            checkbox.checked = false;
+        }
+    }
+    if (selectedPriority) {
+        let priority = 'select' + selectedPriority;
+        document.getElementById(priority).classList.remove(priority);
+    }
+    document.getElementById('categorySelection').innerHTML = assignedToBoxHTML();
+    document.getElementById('newCreatedSubtasks').innerHTML = "";
 }
 /**
  * this function removes the active color class from all colors and assignes it to the clicked color
