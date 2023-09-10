@@ -64,29 +64,31 @@ function getAssignedShortAndColor(task, short, iconNameColor) {
             short.push("M");
             iconNameColor.push("#04B404");
             contacts.forEach((contact, index) => {
-                for (let i = 0; i < contacts.length+1; i++) {
+                for (let i = 0; i < contacts.length + 1; i++) {
                     if (contact.name == selectedAssignedNames[i]) {
                         short.push(contacts[index]['short']);
                         iconNameColor.push(contacts[index]['iconColor']);
-                    }}
+                    }
+                }
             });
         } else {
             const selectedAssignedNames = assignedNames;
             contacts.forEach((contact, index) => {
-                for (let i = 0; i < contacts.length+1; i++) {
-                if (contact.name == selectedAssignedNames[i]) {
-                    short.push(contacts[index]['short']);
-                    iconNameColor.push(contacts[index]['iconColor']);
-                }}
+                for (let i = 0; i < contacts.length + 1; i++) {
+                    if (contact.name == selectedAssignedNames[i]) {
+                        short.push(contacts[index]['short']);
+                        iconNameColor.push(contacts[index]['iconColor']);
+                    }
+                }
             });
         }
     }
 }
 
 function renderTasks() {
-    if(searchTaskArray.length >= 1){
+    if (searchTaskArray.length >= 1) {
         arrayToFilter = searchTaskArray;
-    } else{
+    } else {
         arrayToFilter = allTasks;
     }
     let todoCat = arrayToFilter.filter(t => t['section'] == 'taskCategoryToDo');
@@ -190,8 +192,6 @@ function checkProgressBar(task, counter) {
     return barPercentLength + '%';
 }
 
-//----Functionality---//
-
 function klickOnArrowToMoveTask(id, section, move) {
     let taskCategorys = ['taskCategoryToDo', 'taskCategoryInProgress', 'taskCategoryAwaitFeedback', 'taskCategoryDone'];
     if ((section == taskCategorys[0] || section == taskCategorys[1] || section == taskCategorys[2]) && move == 'down') {
@@ -210,39 +210,10 @@ function klickOnArrowToMoveTask(id, section, move) {
     renderTasks();
 }
 
-function showTaskDelete(){
-document.getElementById('taskDelete').style.display="flex";
-}
-
-function closeTaskDelete(){
-document.getElementById('taskDelete').style.display="none";
-}
-
-async function deleteSelectedTask(id) {
-    document.getElementById('taskDelete').style.display="none";
-    tasks.splice(id, 1);
-    await setTask('tasks', tasks);
-    await init();
-
-}
-
-//----Drag- and dropfunctions---//
-
-function startDragging(id) {
-    currentDraggedElement = id;
-}
-
-function dragToOtherCategory(section) {
-    allTasks[currentDraggedElement]['section'] = section;
-    renderTasks();
-}
-
-function allowDrop(ev) {
-    ev.preventDefault();
-}
-
-//---Show and close Edit-Task-Popup-Window---//
-
+/**
+ * It's possible to click on every single task at the board. With this function a window will Pop-Up to show more details from the task. 
+ * After that, from there is possible to click on "edit" to change somethin in the selected task.
+ */
 function showDetailsTaskPopUp(id) {
 
     let showDetailsTaskPopUp = document.getElementById('editTaskPopUpWindowContent');
@@ -272,17 +243,15 @@ function showDetailsTaskPopUp(id) {
     }
 }
 
-function closeEditTaskPopUp() {
-    document.getElementById('editTaskPopUpWindowContent').style.display = 'none';
-    document.getElementById('content').style.display = 'unset';
-}
-
-
- async function changeProgressBarFromSelectedTask(id){
+/**
+ * @param {object} counter -> Will show a number for every "checked" subtask. Also will change the range of the progressbar. 
+ * Also after every change it get saved in the remote storage.
+ */
+async function changeProgressBarFromSelectedTask(id) {
     let task = tasks[id];
     let counter = 0;
     for (let subs = 0; subs < task.subtask.length; subs++) {
-    let isChecked = document.getElementById('editChecks'+subs).checked;
+        let isChecked = document.getElementById('editChecks' + subs).checked;
         if (isChecked) {
             tasks[id].subtask[subs].status = "checked";
         } else {
@@ -293,35 +262,35 @@ function closeEditTaskPopUp() {
     barPercentLength = checkProgressBar(task, counter);
     document.getElementById('progressBar' + id).style.width = barPercentLength;
     document.getElementById('progressCounter' + id).innerHTML = counter + `/${task['subtask'].length}`;
-    counter = ""; 
+    counter = "";
 
     await setTask('tasks', tasks);
 }
 
-//---Edit Selected Task---//
-
+/**
+ * To change something in the chosen task, this window will pop up and load every current data into it.
+ */
 function SelectedTaskEditWindow(id) {
     let content = document.getElementById('editSelectedTask');
     content.innerHTML = "";
     content.innerHTML = selectedTaskHTML(id);
     selectedPriority = tasks[id]['priority'];
     document.getElementById('select' + tasks[id]['priority']).classList.add('select' + tasks[id]['priority']);
-    /*for (let name = 0; name < allTasks[id]['members'].length; name++) {
-        document.getElementById('editTaskContacts').innerHTML += `<span class="editTaskContactShort" style="background-color: ${allTasks[id]['iconColors'][name]};">${allTasks[id]['members'][name]}</span>`;
-    }*/
     document.getElementById('editSelectedTask').style.display = 'flex';
     if (window.innerWidth <= 800) {
         document.getElementById('content').style.display = 'none';
     }
 }
 
-
+/**
+ * Iterate through the chosen tasks selected contacts. If the contact is in the array it will check the boxes, when the window get opened.
+ */
 function checkSelectedContacts(id) {
     if (tasks[id]['assignedTo'][0] == "Myself") {
         document.getElementById('checkboxAssignedTo0').checked = true;
     }
     for (let checked = 0; checked < tasks[id]['assignedTo'].length; checked++) {
-        for (let checkTheNames = 0; checkTheNames < contacts.length+1; checkTheNames++) {
+        for (let checkTheNames = 0; checkTheNames < contacts.length + 1; checkTheNames++) {
             if (tasks[id]['assignedTo'][checked] == document.getElementById('assignedName' + checkTheNames).innerHTML) {
                 document.getElementById('checkboxAssignedTo' + checkTheNames).checked = true;
             }
@@ -329,35 +298,31 @@ function checkSelectedContacts(id) {
     }
 }
 
-
-function closeSelectedTaskEditWindow() {
-    document.getElementById('editSelectedTask').style.display = 'none';
-    document.getElementById('content').style.display = 'unset';
-}
-
-async function saveChangesInTask(id){
+/**
+ * When opened the value from the selected task will show in the fields. After submit by pressing on ok, it will take the current value and push it in the current task.
+ * So its possible to change some values in the task, without to create a new one and delete the current one. 
+ */
+async function saveChangesInTask(id) {
     let title = document.getElementById('editTaskTitle').value;
     let description = document.getElementById('editTaskDescription').value;
     let date = document.getElementById('editTaskDate').value;
     if (prioIsSelected()) {
         priority = selectedPriority;
-    } if(assignedToIsSelected()) {
+    } if (assignedToIsSelected()) {
         await getTheAssignedNames();
         assignedTo = assignedToNames;
     }
-    
+
     tasks[id]['title'] = title;
     tasks[id]['description'] = description;
     tasks[id]['date'] = date;
     tasks[id]['priority'] = priority;
     tasks[id]['assignedTo'] = assignedTo;
-    
-    await setTask('tasks', tasks); 
+
+    await setTask('tasks', tasks);
     await init();
 
 }
-//--Searchfunction--//
-
 
 /**
  * this function searches tasks based on input value
@@ -366,19 +331,23 @@ function searchTask() {
     const input = document.getElementById("input").value;
     searchTaskArray = [];
     for (let i = 0; i < tasks.length; i++) {
-      const task = allTasks[i];
-      if (
-        task.title.toLowerCase().includes(input.toLowerCase()) ||
-        task.description.toLowerCase().includes(input.toLowerCase())
-      ) {
-        searchTaskArray.push(task);
-        renderTasks();
-      }
+        const task = allTasks[i];
+        if (
+            task.title.toLowerCase().includes(input.toLowerCase()) ||
+            task.description.toLowerCase().includes(input.toLowerCase())
+        ) {
+            searchTaskArray.push(task);
+            renderTasks();
+        }
     }
-  }
-
+}
 
 //----Helpfunctions---//
+
+function closeSelectedTaskEditWindow() {
+    document.getElementById('editSelectedTask').style.display = 'none';
+    document.getElementById('content').style.display = 'unset';
+}
 
 function showPopUpAddTask() {
     document.getElementById('addTaskPopUpWindowContent').style.display = 'flex';
@@ -395,6 +364,40 @@ function removeHighlight(id) {
     document.getElementById(id).classList.remove('drag-area-highlight');
 }
 
+function closeEditTaskPopUp() {
+    document.getElementById('editTaskPopUpWindowContent').style.display = 'none';
+    document.getElementById('content').style.display = 'unset';
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function showTaskDelete() {
+    document.getElementById('taskDelete').style.display = "flex";
+}
+
+function closeTaskDelete() {
+    document.getElementById('taskDelete').style.display = "none";
+}
+
+async function deleteSelectedTask(id) {
+    document.getElementById('taskDelete').style.display = "none";
+    tasks.splice(id, 1);
+    await setTask('tasks', tasks);
+    await init();
+}
+
+//----Drag- and dropfunctions---//
+
+function startDragging(id) {
+    currentDraggedElement = id;
+}
+
+function dragToOtherCategory(section) {
+    allTasks[currentDraggedElement]['section'] = section;
+    renderTasks();
+}
 //----------------------HTML-Templates------------//
 
 function createdTaskHTML(task, i) {
