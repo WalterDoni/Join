@@ -55,7 +55,7 @@ async function createNEWTASK() {
     checkedSubtaskNames = [];
     colorCode = null;
     await createdTaskSuccesfull();
-    init();
+    await init();
 
 }
  

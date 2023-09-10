@@ -120,7 +120,7 @@ function renderTasks() {
         for (let i = 0; i < progressCat.length; i++) {
             task = progressCat[i];
             counter = 0;
-            document.getElementById('taskCategoryInProgress').innerHTML += createdTaskHTML(task, i);
+            document.getElementById('taskCategoryInProgress').innerHTML = createdTaskHTML(task, i);
             for (let m = 0; m < task['members'].length; m++) {
                 document.getElementById('createdTaskAssignedMember' + i).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
             }
@@ -181,6 +181,7 @@ function checkSubtaskProgress(task, counter) {
             counter++;
         }
     }
+    return counter
 }
 
 function checkProgressBar(task, counter) {
@@ -193,15 +194,15 @@ function checkProgressBar(task, counter) {
 
 function klickOnArrowToMoveTask(id, section, move) {
     let taskCategorys = ['taskCategoryToDo', 'taskCategoryInProgress', 'taskCategoryAwaitFeedback', 'taskCategoryDone'];
-    if ((section == taskCategorys[0] || section == taskCategorys[1] || section == taskCategorys[2]) && move == 'up') {
+    if ((section == taskCategorys[0] || section == taskCategorys[1] || section == taskCategorys[2]) && move == 'down') {
         let currentSectionIndex = taskCategorys.indexOf(section);
         if (currentSectionIndex < taskCategorys.length - 1) {
             allTasks[id]['section'] = taskCategorys[currentSectionIndex + 1];
         }
     }
 
-    if ((section == taskCategorys[1] || section == taskCategorys[2] || section == taskCategorys[3]) && move == 'down') {
-        let currentSectionIndex = cattaskCategorysgorys.indexOf(section);
+    if ((section == taskCategorys[1] || section == taskCategorys[2] || section == taskCategorys[3]) && move == 'up') {
+        let currentSectionIndex = taskCategorys.indexOf(section);
         if (currentSectionIndex <= taskCategorys.length - 1) {
             allTasks[id]['section'] = taskCategorys[currentSectionIndex - 1];
         }
@@ -252,7 +253,7 @@ function showDetailsTaskPopUp(id) {
         document.getElementById('editPopUpName').innerHTML += `<div><span class="iconStylePopUp"style="background-color:${allTasks[id]['iconColors'][i]}">${allTasks[id]['members'][i]}</span><span style="padding-left: 10px">${tasks[id]['assignedTo'][i]}</span</div>`;
     }
     for (let l = 0; l < tasks[id]['subtask'].length; l++) {
-        document.getElementById('editPopUpList').innerHTML += `<div><input type="checkbox">${tasks[id]['subtask'][l]['name']}</div>`
+        document.getElementById('editPopUpList').innerHTML += `<div id="editTaskCheckboxes" onclick="changeProgressBarFromSelectedTask(${id})"><input ${tasks[id]['subtask'][l]['status']} id="editChecks${l}"type="checkbox">${tasks[id]['subtask'][l]['name']}</div>`
     }
     if (tasks[id]['priority'] == 'urgent') {
         document.getElementById('editPopUpPriority').innerHTML = '<p>urgent</p> <img src="../img/addtask-img/higPrio.png">';
@@ -278,7 +279,26 @@ function closeEditTaskPopUp() {
 }
 
 
-//---Edit Selected Tesk---//
+ function changeProgressBarFromSelectedTask(id){
+    let task = tasks[id];
+    let counter = 0;
+    for (let subs = 0; subs < task.subtask.length; subs++) {
+    let isChecked = document.getElementById('editChecks'+subs).checked;
+        if (isChecked) {
+            tasks[id].subtask[subs].status = "checked";
+        } else {
+            tasks[id].subtask[subs].status = "unchecked";
+        }
+    }
+    counter = checkSubtaskProgress(task, counter);
+    barPercentLength = checkProgressBar(task, counter);
+    document.getElementById('progressBar' + id).style.width = barPercentLength;
+    document.getElementById('progressCounter' + id).innerHTML = counter + `/${task['subtask'].length}`;
+    counter = "";
+    
+}
+
+//---Edit Selected Task---//
 
 function SelectedTaskEditWindow(id) {
     let content = document.getElementById('editSelectedTask');
@@ -334,6 +354,7 @@ async function saveChangesInTask(id){
     tasks[id]['assignedTo'] = assignedTo;
     
     await setTask('tasks', tasks); 
+    await init();
 
 }
 //--Searchfunction--//
@@ -383,8 +404,8 @@ function createdTaskHTML(task, i) {
     <div class="categoryAndRespArrows">
         <span class="createdTaskCategory" style="background-color:#${task['color']}">${task['category']}</span>
         <span>
-            <img id="arrowUpId${task['id']}" onclick="klickOnArrowToMoveTask(${task['id']},'${task['section']}', 'up'); event.stopPropagation();" class="respArrows" src="../img/board-img/ArrowUp.png"></img>
-            <img id="arrowDownId${task['id']}" onclick="klickOnArrowToMoveTask(${task['id']},'${task['section']}', 'down'); event.stopPropagation();" class="respArrows" src="../img/board-img/ArrowDown.png"></img>
+            <img id="arrowUpId${task['id']}" onclick="event.stopPropagation(); klickOnArrowToMoveTask(${task['id']},'${task['section']}', 'up')" class="respArrows" src="../img/board-img/ArrowUp.png"></img>
+            <img id="arrowDownId${task['id']}" onclick=" event.stopPropagation();klickOnArrowToMoveTask(${task['id']},'${task['section']}', 'down')" class="respArrows" src="../img/board-img/ArrowDown.png"></img>
         </span>
     </div>
     <div class="createdTaskTitleAndDescription">
@@ -467,7 +488,7 @@ function selectedTaskHTML(id) {
     <div onclick="openAssignedToSelection(); checkSelectedContacts(${id})"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>
     </div>
     <div id="editTaskContacts"></div>
-    <div class="editTaskButtonCont"><button class="editTaskOkButton" onclick="saveChangesInTask(${id})"> OK <img
+    <div class="editTaskButtonCont"><button class="editTaskOkButton" onclick="saveChangesInTask(${id}); return false"> OK <img
                 src="../img/createAccIcon.png"></button></div>
     </form>`;
 }

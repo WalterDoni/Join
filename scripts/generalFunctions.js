@@ -6,6 +6,11 @@ let p;
 let contacts ;
 let generatedLetters = [];
 
+function toggleDropdown() {
+    const dropdown = document.getElementById("dropdown");
+    dropdown.classList.toggle("open");
+  }
+
 /**
  * load all external html files with the attribut w3-include-html
  */

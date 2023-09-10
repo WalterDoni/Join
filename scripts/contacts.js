@@ -266,10 +266,7 @@ window.addEventListener('resize', function (event) {
   buttonVisibility();
 });
 
-function toggleDropdown() {
-  const dropdown = document.getElementById("dropdown");
-  dropdown.classList.toggle("open");
-}
+
 
 /*-------------------------------HTML-Templates-------------------------*/
 
