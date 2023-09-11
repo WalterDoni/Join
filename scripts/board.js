@@ -30,7 +30,7 @@ function loadTasksForBoard() {
             'description': task['description'],
             'members': short,
             'iconColors': iconNameColor,
-            'section': 'taskCategoryToDo',
+            'section': task['section'],
             'color': task['categoryColor'],
             'priority': task['priority'],
             'subtask': task['subtask']
@@ -100,13 +100,13 @@ function renderTasks() {
             counter = 0;
             document.getElementById('taskCategoryToDo').innerHTML += createdTaskHTML(task, i);
             for (let m = 0; m < task['members'].length; m++) {
-                document.getElementById('createdTaskAssignedMember' + i).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
+                document.getElementById('createdTaskAssignedMember' + task.id).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
             }
-            document.getElementById('rightPrio' + i).innerHTML = checkPriority(task);
+            document.getElementById('rightPrio' + task.id).innerHTML = checkPriority(task);
             counter = checkSubtaskProgress(task, counter);
-            document.getElementById('progressCounter' + i).innerHTML = counter + `/${task['subtask'].length}`;
+            document.getElementById('progressCounter' + task.id).innerHTML = counter + `/${task['subtask'].length}`;
             barPercentLength = checkProgressBar(task, counter);
-            document.getElementById('progressBar' + i).style.width = barPercentLength;
+            document.getElementById('progressBar' + task.id).style.width = barPercentLength;
         }
     } else {
         document.getElementById('taskCategoryToDo').innerHTML = '<div class="noTask"> No task in "To do"</div>';
@@ -122,16 +122,15 @@ function renderTasks() {
         for (let i = 0; i < progressCat.length; i++) {
             task = progressCat[i];
             counter = 0;
-            document.getElementById('taskCategoryInProgress').innerHTML = createdTaskHTML(task, i);
+            document.getElementById('taskCategoryInProgress').innerHTML += createdTaskHTML(task, i);
             for (let m = 0; m < task['members'].length; m++) {
-                document.getElementById('createdTaskAssignedMember' + i).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
+                document.getElementById('createdTaskAssignedMember' + task.id).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
             }
-
-            document.getElementById('rightPrio' + i).innerHTML = checkPriority(task);
-            checkSubtaskProgress(task, counter);
-            document.getElementById('progressCounter' + i).innerHTML = counter + `/${task['subtask'].length}`;
+            document.getElementById('rightPrio' + task.id).innerHTML = checkPriority(task);
+            counter = checkSubtaskProgress(task, counter);
+            document.getElementById('progressCounter' + task.id).innerHTML = counter + `/${task['subtask'].length}`;
             barPercentLength = checkProgressBar(task, counter);
-            document.getElementById('progressBar' + i).style.width = barPercentLength;
+            document.getElementById('progressBar' + task.id).style.width = barPercentLength;
 
         }
     } else {
@@ -146,7 +145,16 @@ function renderTasks() {
     if (feedbackCat.length > 0) {
         for (let i = 0; i < feedbackCat.length; i++) {
             task = feedbackCat[i];
-            document.getElementById('taskCategoryAwaitFeedback').innerHTML += createdTaskHTML(task);
+            counter = 0;
+            document.getElementById('taskCategoryAwaitFeedback').innerHTML += createdTaskHTML(task, i);
+            for (let m = 0; m < task['members'].length; m++) {
+                document.getElementById('createdTaskAssignedMember' + task.id).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
+            }
+            document.getElementById('rightPrio' + task.id).innerHTML = checkPriority(task);
+            counter = checkSubtaskProgress(task, counter);
+            document.getElementById('progressCounter' + task.id).innerHTML = counter + `/${task['subtask'].length}`;
+            barPercentLength = checkProgressBar(task, counter);
+            document.getElementById('progressBar' + task.id).style.width = barPercentLength;
         }
     } else {
         document.getElementById('taskCategoryAwaitFeedback').innerHTML = '<div class="noTask" > No task in "Await feedback"</div>';
@@ -160,7 +168,16 @@ function renderTasks() {
     if (doneCat.length > 0) {
         for (let i = 0; i < doneCat.length; i++) {
             task = doneCat[i];
-            document.getElementById('taskCategoryDone').innerHTML += createdTaskHTML(task);
+            counter = 0;
+            document.getElementById('taskCategoryDone').innerHTML += createdTaskHTML(task, i);
+            for (let m = 0; m < task['members'].length; m++) {
+                document.getElementById('createdTaskAssignedMember' + task.id).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
+            }
+            document.getElementById('rightPrio' + task.id).innerHTML = checkPriority(task);
+            counter = checkSubtaskProgress(task, counter);
+            document.getElementById('progressCounter' + task.id).innerHTML = counter + `/${task['subtask'].length}`;
+            barPercentLength = checkProgressBar(task, counter);
+            document.getElementById('progressBar' + task.id).style.width = barPercentLength;
         }
     } else {
         document.getElementById('taskCategoryDone').innerHTML = '<div class="noTask"> No task in "Done"</div>';
@@ -308,10 +325,10 @@ async function saveChangesInTask(id) {
     let date = document.getElementById('editTaskDate').value;
     if (prioIsSelected()) {
         priority = selectedPriority;
-    } if (assignedToIsSelected()) {
-        await getTheAssignedNames();
-        assignedTo = assignedToNames;
     }
+    await getTheAssignedNames();
+    assignedTo = assignedToNames;
+
 
     tasks[id]['title'] = title;
     tasks[id]['description'] = description;
@@ -384,8 +401,10 @@ function closeTaskDelete() {
 async function deleteSelectedTask(id) {
     document.getElementById('taskDelete').style.display = "none";
     tasks.splice(id, 1);
+    allTasks.splice(id, 1);
     await setTask('tasks', tasks);
-    await init();
+    renderTasks();
+    closeEditTaskPopUp();
 }
 
 //----Drag- and dropfunctions---//
@@ -394,8 +413,10 @@ function startDragging(id) {
     currentDraggedElement = id;
 }
 
-function dragToOtherCategory(section) {
+async function dragToOtherCategory(section) {
     allTasks[currentDraggedElement]['section'] = section;
+    tasks[currentDraggedElement]['section'] = section;
+    await setTask('tasks', tasks);
     renderTasks();
 }
 //----------------------HTML-Templates------------//
@@ -415,12 +436,12 @@ function createdTaskHTML(task, i) {
         <p class="createdTaskDescription">${task['description']}</p>
     </div>
     <div class="createdTaskProgress">
-        <span class="createdTaskProgressBar"><div id="progressBar${i}" class="barColor"></div></span>
-        <span class="createdTaskProgressText" id="progressCounter${i}"></span>
+        <span class="createdTaskProgressBar"><div id="progressBar${task['id']}" class="barColor"></div></span>
+        <span class="createdTaskProgressText" id="progressCounter${task['id']}"></span>
     </div>
     <div class="createdTaskAssignedAndPriority">
-        <span class="createdTaskAssignedMember" id="createdTaskAssignedMember${i}"></span>
-        <span class="createdTaskPriority" id="rightPrio${i}"><img src="../img/addtask-img/higPrio.png"></span>
+        <span class="createdTaskAssignedMember" id="createdTaskAssignedMember${task['id']}"></span>
+        <span class="createdTaskPriority" id="rightPrio${task['id']}"><img src="../img/addtask-img/higPrio.png"></span>
     </div>
 </div>
 `

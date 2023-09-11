@@ -48,7 +48,9 @@ async function createNEWTASK() {
         category: category,
         subtask: checkedSubtaskNames,
         categoryColor: colorCode,
+        section: 'taskCategoryToDo',
     }
+    await createdTaskSuccesfull();
     tasks.push(task);
     await setTask('tasks', tasks);
     generatedSubtasks = [];
@@ -125,7 +127,7 @@ function assignedToIsSelected() {
 function getTheAssignedNames() {
     let divId = document.getElementById('assignedToSelection');
     let labels = divId.querySelectorAll("label");
-
+   
     for (let i = 0; i < labels.length; i++) {
         let selected = labels[i];
         if (selected.querySelector("input").checked) {
