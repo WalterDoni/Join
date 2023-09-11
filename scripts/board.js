@@ -18,7 +18,7 @@ async function init() {
 //----Render functions---//
 
 function loadTasksForBoard() {
-
+    allTasks = [];
     for (let i = 0; i < tasks.length; i++) {
         let task = tasks[i];
         getAssignedShortAndColor(task, short, iconNameColor);
@@ -293,6 +293,8 @@ function SelectedTaskEditWindow(id) {
     content.innerHTML = selectedTaskHTML(id);
     selectedPriority = tasks[id]['priority'];
     document.getElementById('select' + tasks[id]['priority']).classList.add('select' + tasks[id]['priority']);
+    openAssignedToSelection();
+    checkSelectedContacts(id);
     document.getElementById('editSelectedTask').style.display = 'flex';
     if (window.innerWidth <= 800) {
         document.getElementById('content').style.display = 'none';
@@ -329,7 +331,6 @@ async function saveChangesInTask(id) {
     await getTheAssignedNames();
     assignedTo = assignedToNames;
 
-
     tasks[id]['title'] = title;
     tasks[id]['description'] = description;
     tasks[id]['date'] = date;
@@ -337,7 +338,9 @@ async function saveChangesInTask(id) {
     tasks[id]['assignedTo'] = assignedTo;
 
     await setTask('tasks', tasks);
-    await init();
+    closeSelectedTaskEditWindow();
+    await loadTasksForBoard();
+    await renderTasks();
 
 }
 

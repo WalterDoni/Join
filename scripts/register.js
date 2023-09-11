@@ -1,4 +1,10 @@
-let users = [];
+let users = [
+    {
+    'name': 'Walter Test',
+    'email': 'walter@test.at',
+    'password': 'test1234',
+    },
+];
 let email;
 let user;
 
@@ -8,6 +14,12 @@ let user;
  */
 async function init() {
     await loadUsersRegister();
+    window.onload = function () {
+        setTimeout(function () {
+            let logo = document.getElementById("join-logo");
+            logo.src = "./img/JoinLogoDark.png";
+        }, 800);
+    }
 }
 
 /**
@@ -15,7 +27,7 @@ async function init() {
  */
 async function loadUsersRegister() {
     try {
-        users = JSON.parse(await getItem('users')) || [];
+        users = JSON.parse(await getItem("users"));
         console.log(users)
     } catch (e) {
         console.error('Loading error:', e);
@@ -26,53 +38,40 @@ async function loadUsersRegister() {
  * This function handles the registration process by checking if the email already exists, adding the new user, resetting the form, and displaying a success message.
  */
 async function register() {
-    const newUser = getNewUserFromInputs();
-    const emailExists = await checkEmailExists(newUser.email);
-    if (emailExists) {
-        displayEmailExistsMessage();
-        return;
-    }
-    addUser(newUser);
+    await setNewUser();
+    //const emailExists = await checkEmailExists(newUser.email);
+    //if (emailExists) {
+        //displayEmailExistsMessage();
+        //return;
+    //}
     resetForm();
     displayRegistrationSuccess();
+    await setItem('users', users);
+    setTimeout(() => {
+        window.location.href = '../index.html';
+    }, 1500);
 }
 /**
- * This function reads the values from the input fields for name, email, and password, and returns an object with the user data. 
+ * This function pushes the new user dataobject into the users Array.
  */
-function getNewUserFromInputs() {
-    const nameInput = document.getElementById('userName');
-    const emailInput = document.getElementById('emailLogin');
-    const passwordInput = document.getElementById('password');
-    return {
-        name: nameInput.value,
-        email: emailInput.value,
-        password: passwordInput.value,
-    };
-}
+function setNewUser() {
+    users.push({
+      name: username.value.trim(),
+      email: emailLogin.value.trim(),
+      password: password.value,
+    });
+  }
 
 function displayEmailExistsMessage() {
     alert('The email is already registered.');
 }
 
-/**
- * Adds a new user to the user list, disables the registration button, and saves the updated user list.
- * @param {Object} user - The user object to be added to the user list.
- */
-function addUser(user) {
-    const registerBtn = document.getElementById('registerBtn');
-    registerBtn.disabled = true;
-    users.push(user);
-    setItem('users', users);
-    setTimeout(() => {
-        window.location.href= '../index.html';
-    }, 1500);
-}
 
 /**
  * This function resets the registration form by clearing the values of the input fields and enabling the registration button.
  */
 function resetForm() {
-    const nameInput = document.getElementById('userName');
+    const nameInput = document.getElementById('username');
     const emailInput = document.getElementById('emailLogin');
     const passwordInput = document.getElementById('password');
     const registerBtn = document.getElementById('registerBtn');

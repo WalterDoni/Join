@@ -127,7 +127,7 @@ function assignedToIsSelected() {
 function getTheAssignedNames() {
     let divId = document.getElementById('assignedToSelection');
     let labels = divId.querySelectorAll("label");
-   
+    assignedToNames = [];
     for (let i = 0; i < labels.length; i++) {
         let selected = labels[i];
         if (selected.querySelector("input").checked) {
