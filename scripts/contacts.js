@@ -71,20 +71,8 @@ async function renderContacts() {
     }
     containerContactlist.innerHTML += contactListHtml(contact, i);
   }
-  /*setTimeout(addNameToHref, 100);*/
+  addNameToHref();
 }
-
-/**
- * Make the name of the current user available in all tabs
- */
-/*async function addNameToHref() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const msg = urlParams.get('name');
-  if (msg) {
-    nameUser = msg;
-  }
-  setNameToHrefs(nameUser);
-}*/
 
 /**
  * First it will get the value from the inputfields. After that it will split the first letter from the first- and 

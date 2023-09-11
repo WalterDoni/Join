@@ -96,8 +96,7 @@ textarea::placeholder {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 21px 0px 21px;
-    min-height: 51px;
+    padding: 10px 21px 10px 21px;
     background-color: white;
     box-sizing: border-box;
     font-size: 21px;
@@ -107,7 +106,7 @@ textarea::placeholder {
     cursor: pointer;
     flex-direction: column;
     gap: 5px;
-    padding-bottom: 5px;
+   
 }
 
 #assignedToSelection label,

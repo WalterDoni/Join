@@ -11,6 +11,18 @@ function toggleDropdown() {
     dropdown.classList.toggle("open");
   }
 
+
+  /**
+ * Make the name of the current user available in all tabs
+ */
+async function addNameToHref() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const msg = urlParams.get('name');
+    if (msg) {
+      nameUser = msg;
+    }
+    setNameToHrefs(nameUser);
+  }
 /**
  * load all external html files with the attribut w3-include-html
  */
@@ -73,7 +85,7 @@ function setNameToHrefs(userNameAddTask){
  * @returns {Promise<any>} - A Promise that contains the value associated with the specified key.
  * @throws {Error} - If there is an error while making the request or processing the response, or if the key is not found.
  */
- async function getItem(key) {
+async function getItem(key) {
     const url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
     try {
         const response = await fetch(url);
@@ -83,6 +95,15 @@ function setNameToHrefs(userNameAddTask){
         console.error('Request error:', error);
         throw error;
     }
+}
+
+async function getItemUsers(key) {
+    const url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
+    return fetch(url).then(res => res.json()).then(res => {
+        if (res.data) { 
+            return res.data.value;
+        } throw `Could not find data with key "${key}".`;
+    });
 }
 
 /**
@@ -97,7 +118,8 @@ async function setTask(key, value) {
         v = '[]';
     }
     const payload = { key: key, value: v, token: STORAGE_TOKEN };
-    return fetch(STORAGE_URL, { method: 'POST', body: JSON.stringify(payload) }).then(resp => resp.json());
+    return fetch(STORAGE_URL, { method: 'POST', body: JSON.stringify(payload) }).then(resp => resp.json()); 
+    
 }
 
 

@@ -5,6 +5,7 @@ let iconNameColor = [];
 let searchTaskArray = [];
 
 async function init() {
+
     await loadContacts();
     await loadRemote();
     await setMinDate();
@@ -12,6 +13,7 @@ async function init() {
     await loadCategorys();
     await loadTasksForBoard();
     await renderTasks();
+    addNameToHref();
 
 }
 

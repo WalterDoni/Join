@@ -10,14 +10,17 @@ async function initSummary() {
     getTimeandGreets();
 }
 
+function clearUsers(){
+    users.splice('1', 8)
+}
 /**
  * This function counts the tasks.
  */
 async function tasksForSummary() {
-    let countTodo = tasks.filter(task => task.state === '0').length;
-    let countProgress = tasks.filter(task => task.state === '1').length;
-    let countFeedback = tasks.filter(task => task.state === '2').length;
-    let countDone = tasks.filter(task => task.state === '3').length;
+    let countTodo = tasks.filter(task => task.section === 'taskCategoryToDo').length;
+    let countProgress = tasks.filter(task => task.section === 'taskCategoryInProgress').length;
+    let countFeedback = tasks.filter(task => task.section === 'taskCategoryAwaitFeedback').length;
+    let countDone = tasks.filter(task => task.section === 'taskCategoryDone').length;
     document.getElementById('amountBoard').innerHTML = tasks.length;
     document.getElementById('amountTodo').innerHTML = countTodo;
     document.getElementById('amountProgress').innerHTML = countProgress;
@@ -29,9 +32,9 @@ async function tasksForSummary() {
  * This function filters the urgent tasks and displays the next deadline due.
  */
 async function urgentTask() {
-    let countUrgentTasks = tasks.filter(task => task.prio === '0').length;
+    let countUrgentTasks = tasks.filter(task => task.priority === 'urgent').length;
     document.getElementById('amountUrgent').innerHTML = countUrgentTasks;
-    let urgentTasks = tasks.filter(task => task.prio === '0' && task.date);
+    let urgentTasks = tasks.filter(task => task.priority === 'urgent' && task.date);
     urgentTasks.sort((a, b) => new Date(a.date) - new Date(b.date));
     if (urgentTasks.length > 0) {
         let nextDueDate = new Date(urgentTasks[0].date);
@@ -45,6 +48,15 @@ async function urgentTask() {
         document.getElementById('date').innerHTML = '';
     }
 }
+
+
+/**
+ * This function redirects to the board.
+ */
+function openBoard() {
+    window.location.href = `board.html?name=${userName}`;
+}
+
 
 /**
  * This function generates a personalized greeting message based on the current time of day.
@@ -67,13 +79,3 @@ function getTimeandGreets() {
     }
     setNameToHrefs(userName);
 };
-
-/**
- * This function redirects to the board.
- */
-function openBoard() {
-    window.location.href = `board.html?name=${userName}`;
-}
-
-
-

@@ -14,6 +14,7 @@ async function init() {
     await loadContacts();
     await loadRemote();
     await loadCategorys();
+    addNameToHref();
 }
 
 /**
@@ -57,8 +58,7 @@ async function createNEWTASK() {
     assignedToNames = [];
     checkedSubtaskNames = [];
     colorCode = null;
-    await createdTaskSuccesfull();
-    await init();
+  
 
 }
 
@@ -70,7 +70,6 @@ function createdTaskSuccesfull() {
     created.style.display = "flex";
     setTimeout(() => {
         created.style.display = "none";
-        window.location.replace("board.html");
     }, 1000);
 }
 

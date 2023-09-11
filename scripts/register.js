@@ -1,8 +1,8 @@
 let users = [
     {
-    'name': 'Walter Test',
-    'email': 'walter@test.at',
-    'password': 'test1234',
+        'name': 'Walter Test',
+        'email': 'walter@test.at',
+        'password': 'test1234',
     },
 ];
 let email;
@@ -14,21 +14,21 @@ let user;
  */
 async function init() {
     await loadUsersRegister();
-    window.onload = function () {
-        setTimeout(function () {
-            let logo = document.getElementById("join-logo");
-            logo.src = "./img/JoinLogoDark.png";
-        }, 800);
-    }
 }
 
+function logo(){
+    setTimeout(function () {
+        let logo = document.getElementById("join-logo");
+        logo.src = "../img/JoinLogoDark.png";
+    }, 800);
+}
 /**
  * This function loads the user data from a remote storage and handles potential loading errors.
  */
 async function loadUsersRegister() {
     try {
-        users = JSON.parse(await getItem("users"));
-        console.log(users)
+        users = JSON.parse(await getItemUsers('users')) || [];
+      
     } catch (e) {
         console.error('Loading error:', e);
     }
@@ -38,15 +38,16 @@ async function loadUsersRegister() {
  * This function handles the registration process by checking if the email already exists, adding the new user, resetting the form, and displaying a success message.
  */
 async function register() {
+ 
+    const emailExists = await checkEmailExists();
+    if (emailExists) {
+    displayEmailExistsMessage();
+    return;
+    }
     await setNewUser();
-    //const emailExists = await checkEmailExists(newUser.email);
-    //if (emailExists) {
-        //displayEmailExistsMessage();
-        //return;
-    //}
     resetForm();
     displayRegistrationSuccess();
-    await setItem('users', users);
+
     setTimeout(() => {
         window.location.href = '../index.html';
     }, 1500);
@@ -54,13 +55,13 @@ async function register() {
 /**
  * This function pushes the new user dataobject into the users Array.
  */
-function setNewUser() {
-    users.push({
-      name: username.value.trim(),
-      email: emailLogin.value.trim(),
-      password: password.value,
-    });
-  }
+async function setNewUser() {
+    let name = document.getElementById('username');
+    let email = document.getElementById('emailLogin');
+    let password = document.getElementById('password');
+    users.push({ name: name.value, email: email.value, password: password.value });
+    await setItem('users', users);
+}
 
 function displayEmailExistsMessage() {
     alert('The email is already registered.');
@@ -156,7 +157,7 @@ async function loginUser(event) {
 
 async function loadUsers() {
     try {
-        const usersData = await getItem('users');
+        const usersData = await getItemUsers('users');
         return JSON.parse(usersData) || [];
     } catch (error) {
         console.error('Loading error:', error);
@@ -167,12 +168,11 @@ async function loadUsers() {
 /**
  * Checks if the specified email address exists in the list of registered users and returns a boolean value.
  * @param {string} email - The email address to be checked for existence in the list of registered users.
- * @returns {Promise<boolean>} - A Promise that resolves to a boolean value indicating whether the email exists.
  */
 
-async function checkEmailExists(email) {
-    const registeredUsers = await loadUsers();
-    const user = registeredUsers.find(user => user.email === email);
+async function checkEmailExists() {
+    let checkTheValue = document.getElementById('emailLogin').value;
+    const user = users.find(user => user.email === checkTheValue);
     return !!user;
 }
 
