@@ -109,6 +109,8 @@ textarea::placeholder {
    
 }
 
+#editAssignedToSelection div,
+#editAssignedToSelection label,
 #assignedToSelection label,
 #assignedToSelection div,
 #categorySelection div {
@@ -119,12 +121,14 @@ textarea::placeholder {
 
 }
 
+#editAssignedToSelection label:hover,
 #assignedToSelection label:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
 
+#editAssignedToSelection div p,
 #assignedToSelection div p,
 #categorySelection div p {
     margin-block-end: 0;

@@ -225,9 +225,9 @@ function SelectedTaskEditWindow(id) {
     content.innerHTML = "";
     content.innerHTML = selectedTaskHTML(id);
     selectedPriority = tasks[id]['priority'];
-    document.getElementById('select' + tasks[id]['priority']).classList.add('select' + tasks[id]['priority']);
-    openAssignedToSelection();
-    checkSelectedContacts(id);
+    document.getElementById('editSelect' + tasks[id]['priority']).classList.add('select' + tasks[id]['priority']);
+    editopenAssignedToSelection();
+    editCheckSelectedContacts(id);
     document.getElementById('editSelectedTask').style.display = 'flex';
     if (window.innerWidth <= 800) {
         document.getElementById('content').style.display = 'none';
@@ -235,16 +235,55 @@ function SelectedTaskEditWindow(id) {
 }
 
 /**
+ * Every possible contact will show up and can be selected.
+ */
+function editopenAssignedToSelection() {
+
+    let assignedToSelectionBox = document.getElementById('editAssignedToSelection');
+    assignedToSelectionBox.innerHTML = editassignedToBoxHTML();
+    assignedToSelectionBox.innerHTML += `<label onclick="doNotCloseTheBoxOrReloadThePage(event)" id="editAssignedlabel" class="d-none" ><div id="editAssignedName0" >Myself</div><span><input id="editCheckboxAssignedTo0" type="checkbox"></span></label>`
+    contacts.forEach((contact, index) => {
+        assignedToSelectionBox.innerHTML += editGetContactsFromContactListHTML(contact, index);
+    })
+    editToggleVisability();
+}
+
+function editassignedToBoxHTML(){
+        return `<div onclick="editToggleVisability()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
+    
+}
+function editToggleVisability() {
+    document.getElementById('editAssignedlabel').classList.toggle('d-none');
+    contacts.forEach((contact, index) => {
+        document.getElementById('editAssignedlabel' + index).classList.toggle('d-none');
+    });
+}
+/**
+ * 
+ * @param {object} selectedPriority - get the value depends of the selected prio (urgent,medium or low)
+ * If the object has a value, it will remove the highlight from the selected priority and change it to the new one.
+ */
+function editHighlightPriority(prio) {
+    if (selectedPriority) {
+        let priority = 'editSelect' + selectedPriority;
+        document.getElementById(priority).classList.remove('select'+selectedPriority)
+    }
+    selectedPriority = prio;
+    let priority = 'editSelect' + prio;
+    document.getElementById(priority).classList.add('select'+selectedPriority);
+}
+
+/**
  * Iterate through the chosen tasks selected contacts. If the contact is in the array it will check the boxes, when the window get opened.
  */
-function checkSelectedContacts(id) {
+function editCheckSelectedContacts(id) {
     if (tasks[id]['assignedTo'][0] == "Myself") {
-        document.getElementById('checkboxAssignedTo0').checked = true;
+        document.getElementById('editCheckboxAssignedTo0').checked = true;
     }
     for (let checked = 0; checked < tasks[id]['assignedTo'].length; checked++) {
         for (let checkTheNames = 0; checkTheNames < contacts.length + 1; checkTheNames++) {
-            if (tasks[id]['assignedTo'][checked] == document.getElementById('assignedName' + checkTheNames).innerHTML) {
-                document.getElementById('checkboxAssignedTo' + checkTheNames).checked = true;
+            if (tasks[id]['assignedTo'][checked] == document.getElementById('editAssignedName' + checkTheNames).innerHTML) {
+                document.getElementById('editCheckboxAssignedTo' + checkTheNames).checked = true;
             }
         }
     }
@@ -261,12 +300,29 @@ async function saveChangesInTask(id) {
     if (prioIsSelected()) {
         priority = selectedPriority;
     }
-    await getTheAssignedNames();
+    await editGetTheAssignedNames();
     assignedTo = assignedToNames;
     await updateTaskDetails(id, title, description, date, priority, assignedTo);
     closeSelectedTaskEditWindow();
     await loadTasksForBoard();
     await renderTasks();
+}
+
+/**
+ * Iterate through every label. If there is a checked checkbox, it will push the name into 
+ * * @param {object} assignedToNames. After that it will get pushed in the array tasks.
+ */
+function editGetTheAssignedNames() {
+    let divId = document.getElementById('editAssignedToSelection');
+    let labels = divId.querySelectorAll("label");
+    assignedToNames = [];
+    for (let i = 0; i < labels.length; i++) {
+        let selected = labels[i];
+        if (selected.querySelector("input").checked) {
+            assignedToNames.push(selected.textContent)
+        }
+
+    }
 }
 
 /**

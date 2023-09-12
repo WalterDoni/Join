@@ -352,6 +352,10 @@ function getContactsFromContactListHTML(contact, index) {
     return `<label onclick="doNotCloseTheBoxOrReloadThePage(event)" id="assignedlabel${index}" class="d-none"><div id="assignedName${index + 1}" >${contact.name}</div><span><input id="checkboxAssignedTo${index + 1}" type="checkbox"></span></label>`
 }
 
+function editGetContactsFromContactListHTML(contact, index) {
+    return `<label onclick="doNotCloseTheBoxOrReloadThePage(event)" id="editAssignedlabel${index}" class="d-none"><div id="editAssignedName${index + 1}" >${contact.name}</div><span><input id="editCheckboxAssignedTo${index + 1}" type="checkbox"></span></label>`
+}
+
 function toggleVisability() {
     document.getElementById('assignedlabel').classList.toggle('d-none');
     contacts.forEach((contact, index) => {

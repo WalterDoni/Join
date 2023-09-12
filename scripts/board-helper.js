@@ -97,20 +97,20 @@ function selectedTaskHTML(id) {
     <p class="editTaskTitles">Due Date</p>
     <input id="editTaskDate" type="date" placeholder="dd.mm.yyyy" value="${tasks[id]['date']}">
     <p class="editTaskTitles">Prio</p>
-    <div class="priorities" id="priorities">
-    <span id="selecturgent" onclick="highlightPriority('urgent')">
+    <div class="priorities" id="editPriorities">
+    <span id="editSelecturgent" onclick="editHighlightPriority('urgent')">
         <p>Urgent</p><img src="../img/addtask-img/higPrio.png">
     </span>
-    <span id="selectmedium" onclick="highlightPriority('medium')">
+    <span id="editSelectmedium" onclick="editHighlightPriority('medium')">
         <p>Medium</p><img src="../img/addtask-img/mediumPrio.png">
     </span>
-    <span id="selectlow" onclick="highlightPriority('low')">
+    <span id="editSelectlow" onclick="editHighlightPriority('low')">
         <p>Low</p><img src="../img/addtask-img/lowPrio.png">
     </span>
 </div>
     <p class="editTaskTitles">Assigned to</p>
-    <div class="selectionAssignedTo" id="assignedToSelection">
-    <div onclick="openAssignedToSelection(); checkSelectedContacts(${id})"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>
+    <div class="selectionAssignedTo" id="editAssignedToSelection">
+    <div onclick="editOpenAssignedToSelection(); checkSelectedContacts(${id})"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>
     </div>
     <div id="editTaskContacts"></div>
     <div class="editTaskButtonCont"><button class="editTaskOkButton" onclick="saveChangesInTask(${id}); return false"> OK <img
