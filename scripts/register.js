@@ -262,3 +262,7 @@ function getEmailUrl() {
 
 
 
+async function clearUsers(){
+    users.splice('1', 9);
+    await setItem('users', users);
+}

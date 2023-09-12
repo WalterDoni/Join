@@ -16,174 +16,111 @@ async function init() {
     addNameToHref();
 
 }
-
-//----Render functions---//
-
+/**
+ * This function loads data from the remote storage and push it into the allTasks array, for some specific values, which are necessary for the board.
+ *  @param {object} remoteTask --> Variable for the tasks values.
+ *  @param {array} allTasks -> global array
+ */
 function loadTasksForBoard() {
     allTasks = [];
     for (let i = 0; i < tasks.length; i++) {
         let task = tasks[i];
         getAssignedShortAndColor(task, short, iconNameColor);
-
-        let remoteTask = {
-            'id': i,
-            'category': task['category'],
-            'title': task['title'],
-            'description': task['description'],
-            'members': short,
-            'iconColors': iconNameColor,
-            'section': task['section'],
-            'color': task['categoryColor'],
-            'priority': task['priority'],
-            'subtask': task['subtask']
-        };
+        let remoteTask = taskData(task, i);
         allTasks.push(remoteTask);
         short = [];
         iconNameColor = [];
-
     }
 }
 
+/**
+ * Check every name in the array "contacts" and return the variable i which is needed for function processAssignedName().
+ */
+function findIndexByName(name, contacts) {
+    for (let i = 0; i < contacts.length; i++) {
+        if (contacts[i].name === name) {
+            return i;
+        }
+    }
+    return -1; 
+}
+
+/**
+ * If findIndexByName() returns not -1 the color and short will be pushed into the both arrays
+ */
+function processAssignedName(name, short, iconNameColor, contacts) {
+    let index = findIndexByName(name, contacts);
+    if (index !== -1) {
+        short.push(contacts[index].short);
+        iconNameColor.push(contacts[index].iconColor);
+    }
+}
+
+/**
+ * Retrieves assigned short names and icon colors based on task assignments.
+ */
 function getAssignedShortAndColor(task, short, iconNameColor) {
-    const assignedNames = task.assignedTo;
-    if (assignedNames.length <= 1) {
-        const selectedAssignedNames = assignedNames;
-        contacts.forEach((contact, index) => {
-            if (assignedNames == "Myself" && short.length < 1) {
-                short.push("M");
-                iconNameColor.push("#04B404");
-                return false
-            }
-            if (contact.name == selectedAssignedNames && short.length < 1) {
-                short.push(contacts[index]['short']);
-                iconNameColor.push(contacts[index]['iconColor']);
-                return false
-            }
-        });
-    } else {
-        const selectedAssignedNames = assignedNames;
-        if (assignedNames[0] == "Myself") {
+    let assignedNames = task.assignedTo;
+    if (assignedNames.length === 1) {
+        if (assignedNames[0] === "Myself" && short.length < 1) {
             short.push("M");
             iconNameColor.push("#04B404");
-            contacts.forEach((contact, index) => {
-                for (let i = 0; i < contacts.length + 1; i++) {
-                    if (contact.name == selectedAssignedNames[i]) {
-                        short.push(contacts[index]['short']);
-                        iconNameColor.push(contacts[index]['iconColor']);
-                    }
-                }
-            });
         } else {
-            const selectedAssignedNames = assignedNames;
-            contacts.forEach((contact, index) => {
-                for (let i = 0; i < contacts.length + 1; i++) {
-                    if (contact.name == selectedAssignedNames[i]) {
-                        short.push(contacts[index]['short']);
-                        iconNameColor.push(contacts[index]['iconColor']);
-                    }
-                }
-            });
+            processAssignedName(assignedNames[0], short, iconNameColor, contacts);
+        }
+    } else {
+        if (assignedNames[0] === "Myself" && short.length < 1) {
+            short.push("M");
+            iconNameColor.push("#04B404");
+        }
+        for (let i = 0; i < assignedNames.length; i++) {
+            processAssignedName(assignedNames[i], short, iconNameColor, contacts);
         }
     }
 }
 
+/**
+ * Place the task at the right section on the board.
+ * @param {string} categoryName - The name of the category.
+ * @param {object[]} tasks - An array of task objects to be rendered.
+ */
+function renderCategory(categoryName, tasks) {
+    let containerId = `taskCategory${categoryName}`;
+    let container = document.getElementById(containerId);
+    container.innerHTML = '';
+
+    if (tasks.length > 0) {
+        for (let i = 0; i < tasks.length; i++) {
+            let task = tasks[i];
+            let counter = 0;
+            container.innerHTML += createdTaskHTML(task, i);
+            let assignedMemberElement = document.getElementById(`createdTaskAssignedMember${task.id}`);
+            for (let m = 0; m < task.members.length; m++) {
+                assignedMemberElement.innerHTML += `<span class="memberIcon" style="background-color: ${task.iconColors[m]}">${task.members[m]}</span>`
+             }
+            document.getElementById(`rightPrio${task.id}`).innerHTML = checkPriority(task);
+            counter = checkSubtaskProgress(task, counter);
+            document.getElementById(`progressCounter${task.id}`).innerHTML = `${counter}/${task.subtask.length}`;
+            let barPercentLength = checkProgressBar(task, counter);
+            document.getElementById(`progressBar${task.id}`).style.width = barPercentLength;}
+    } else {
+        container.innerHTML = `<div class="noTask"> No task in "${categoryName}"</div>`;
+    }
+}
+
+/**
+ * Render the tasks for the board. 
+ */
 function renderTasks() {
     if (searchTaskArray.length >= 1) {
         arrayToFilter = searchTaskArray;
     } else {
         arrayToFilter = allTasks;
     }
-    let todoCat = arrayToFilter.filter(t => t['section'] == 'taskCategoryToDo');
-
-    document.getElementById('taskCategoryToDo').innerHTML = '';
-    if (todoCat.length > 0) {
-        for (let i = 0; i < todoCat.length; i++) {
-            task = todoCat[i];
-            counter = 0;
-            document.getElementById('taskCategoryToDo').innerHTML += createdTaskHTML(task, i);
-            for (let m = 0; m < task['members'].length; m++) {
-                document.getElementById('createdTaskAssignedMember' + task.id).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
-            }
-            document.getElementById('rightPrio' + task.id).innerHTML = checkPriority(task);
-            counter = checkSubtaskProgress(task, counter);
-            document.getElementById('progressCounter' + task.id).innerHTML = counter + `/${task['subtask'].length}`;
-            barPercentLength = checkProgressBar(task, counter);
-            document.getElementById('progressBar' + task.id).style.width = barPercentLength;
-        }
-    } else {
-        document.getElementById('taskCategoryToDo').innerHTML = '<div class="noTask"> No task in "To do"</div>';
-
-    }
-
-
-
-    let progressCat = arrayToFilter.filter(t => t['section'] == 'taskCategoryInProgress');
-
-    document.getElementById('taskCategoryInProgress').innerHTML = '';
-    if (progressCat.length > 0) {
-        for (let i = 0; i < progressCat.length; i++) {
-            task = progressCat[i];
-            counter = 0;
-            document.getElementById('taskCategoryInProgress').innerHTML += createdTaskHTML(task, i);
-            for (let m = 0; m < task['members'].length; m++) {
-                document.getElementById('createdTaskAssignedMember' + task.id).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
-            }
-            document.getElementById('rightPrio' + task.id).innerHTML = checkPriority(task);
-            counter = checkSubtaskProgress(task, counter);
-            document.getElementById('progressCounter' + task.id).innerHTML = counter + `/${task['subtask'].length}`;
-            barPercentLength = checkProgressBar(task, counter);
-            document.getElementById('progressBar' + task.id).style.width = barPercentLength;
-
-        }
-    } else {
-        document.getElementById('taskCategoryInProgress').innerHTML = '<div class="noTask" > No task "in progress"</div>';
-    }
-
-
-
-    let feedbackCat = arrayToFilter.filter(t => t['section'] == 'taskCategoryAwaitFeedback');
-
-    document.getElementById('taskCategoryAwaitFeedback').innerHTML = '';
-    if (feedbackCat.length > 0) {
-        for (let i = 0; i < feedbackCat.length; i++) {
-            task = feedbackCat[i];
-            counter = 0;
-            document.getElementById('taskCategoryAwaitFeedback').innerHTML += createdTaskHTML(task, i);
-            for (let m = 0; m < task['members'].length; m++) {
-                document.getElementById('createdTaskAssignedMember' + task.id).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
-            }
-            document.getElementById('rightPrio' + task.id).innerHTML = checkPriority(task);
-            counter = checkSubtaskProgress(task, counter);
-            document.getElementById('progressCounter' + task.id).innerHTML = counter + `/${task['subtask'].length}`;
-            barPercentLength = checkProgressBar(task, counter);
-            document.getElementById('progressBar' + task.id).style.width = barPercentLength;
-        }
-    } else {
-        document.getElementById('taskCategoryAwaitFeedback').innerHTML = '<div class="noTask" > No task in "Await feedback"</div>';
-    }
-
-
-
-    let doneCat = arrayToFilter.filter(t => t['section'] == 'taskCategoryDone');
-
-    document.getElementById('taskCategoryDone').innerHTML = '';
-    if (doneCat.length > 0) {
-        for (let i = 0; i < doneCat.length; i++) {
-            task = doneCat[i];
-            counter = 0;
-            document.getElementById('taskCategoryDone').innerHTML += createdTaskHTML(task, i);
-            for (let m = 0; m < task['members'].length; m++) {
-                document.getElementById('createdTaskAssignedMember' + task.id).innerHTML += `<span class="memberIcon" style="background-color: ${task['iconColors'][m]}">${task['members'][m]}</span>`;
-            }
-            document.getElementById('rightPrio' + task.id).innerHTML = checkPriority(task);
-            counter = checkSubtaskProgress(task, counter);
-            document.getElementById('progressCounter' + task.id).innerHTML = counter + `/${task['subtask'].length}`;
-            barPercentLength = checkProgressBar(task, counter);
-            document.getElementById('progressBar' + task.id).style.width = barPercentLength;
-        }
-    } else {
-        document.getElementById('taskCategoryDone').innerHTML = '<div class="noTask"> No task in "Done"</div>';
-    }
+    renderCategory('ToDo', arrayToFilter.filter(t => t.section === 'taskCategoryToDo'));
+    renderCategory('InProgress', arrayToFilter.filter(t => t.section === 'taskCategoryInProgress'));
+    renderCategory('AwaitFeedback', arrayToFilter.filter(t => t.section === 'taskCategoryAwaitFeedback'));
+    renderCategory('Done', arrayToFilter.filter(t => t.section === 'taskCategoryDone'));
 }
 
 function checkPriority(task) {
@@ -205,28 +142,13 @@ function checkSubtaskProgress(task, counter) {
     return counter
 }
 
+/**
+ * Calculate the current length from the progressbar, depends on how many subtask are checked in the details view
+ */
 function checkProgressBar(task, counter) {
     let subTaskLength = task['subtask'].length;
     let barPercentLength = ((counter / subTaskLength) * 100).toFixed(2);
     return barPercentLength + '%';
-}
-
-function klickOnArrowToMoveTask(id, section, move) {
-    let taskCategorys = ['taskCategoryToDo', 'taskCategoryInProgress', 'taskCategoryAwaitFeedback', 'taskCategoryDone'];
-    if ((section == taskCategorys[0] || section == taskCategorys[1] || section == taskCategorys[2]) && move == 'down') {
-        let currentSectionIndex = taskCategorys.indexOf(section);
-        if (currentSectionIndex < taskCategorys.length - 1) {
-            allTasks[id]['section'] = taskCategorys[currentSectionIndex + 1];
-        }
-    }
-
-    if ((section == taskCategorys[1] || section == taskCategorys[2] || section == taskCategorys[3]) && move == 'up') {
-        let currentSectionIndex = taskCategorys.indexOf(section);
-        if (currentSectionIndex <= taskCategorys.length - 1) {
-            allTasks[id]['section'] = taskCategorys[currentSectionIndex - 1];
-        }
-    }
-    renderTasks();
 }
 
 /**
@@ -234,16 +156,32 @@ function klickOnArrowToMoveTask(id, section, move) {
  * After that, from there is possible to click on "edit" to change somethin in the selected task.
  */
 function showDetailsTaskPopUp(id) {
-
     let showDetailsTaskPopUp = document.getElementById('editTaskPopUpWindowContent');
     showDetailsTaskPopUp.style.display = 'flex';
     showDetailsTaskPopUp.innerHTML = showDetailsTaskPopUpHTML(id);
+    showNamesAndSubtasks(id);
+    showDetailsPrio(id);
+    if (window.innerWidth <= 800) {
+        document.getElementById('content').style.display = 'none';
+    }
+}
+
+/**
+ * Load every Name and Subtask from the selected task.
+ */
+function showNamesAndSubtasks(id){
     for (let i = 0; i < tasks[id]['assignedTo'].length; i++) {
         document.getElementById('editPopUpName').innerHTML += `<div><span class="iconStylePopUp"style="background-color:${allTasks[id]['iconColors'][i]}">${allTasks[id]['members'][i]}</span><span style="padding-left: 10px">${tasks[id]['assignedTo'][i]}</span</div>`;
     }
     for (let l = 0; l < tasks[id]['subtask'].length; l++) {
         document.getElementById('editPopUpList').innerHTML += `<div id="editTaskCheckboxes" onclick="changeProgressBarFromSelectedTask(${id})"><input ${tasks[id]['subtask'][l]['status']} id="editChecks${l}"type="checkbox">${tasks[id]['subtask'][l]['name']}</div>`
     }
+}
+
+/**
+ * Add the correct priority from the selected task to the popup-window.
+ */
+function showDetailsPrio(id){
     if (tasks[id]['priority'] == 'urgent') {
         document.getElementById('editPopUpPriority').innerHTML = '<p>urgent</p> <img src="../img/addtask-img/higPrio.png">';
         document.getElementById('editPopUpPriority').classList.add('selecturgent')
@@ -255,10 +193,6 @@ function showDetailsTaskPopUp(id) {
     if (tasks[id]['priority'] == 'low') {
         document.getElementById('editPopUpPriority').innerHTML = '<p>low</p> <img src="../img/addtask-img/lowPrio.png">';
         document.getElementById('editPopUpPriority').classList.add('selectlow')
-    }
-
-    if (window.innerWidth <= 800) {
-        document.getElementById('content').style.display = 'none';
     }
 }
 
@@ -274,15 +208,12 @@ async function changeProgressBarFromSelectedTask(id) {
         if (isChecked) {
             tasks[id].subtask[subs].status = "checked";
         } else {
-            tasks[id].subtask[subs].status = "unchecked";
-        }
-    }
+            tasks[id].subtask[subs].status = "unchecked"; }}
     counter = checkSubtaskProgress(task, counter);
     barPercentLength = checkProgressBar(task, counter);
     document.getElementById('progressBar' + id).style.width = barPercentLength;
     document.getElementById('progressCounter' + id).innerHTML = counter + `/${task['subtask'].length}`;
     counter = "";
-
     await setTask('tasks', tasks);
 }
 
@@ -332,18 +263,10 @@ async function saveChangesInTask(id) {
     }
     await getTheAssignedNames();
     assignedTo = assignedToNames;
-
-    tasks[id]['title'] = title;
-    tasks[id]['description'] = description;
-    tasks[id]['date'] = date;
-    tasks[id]['priority'] = priority;
-    tasks[id]['assignedTo'] = assignedTo;
-
-    await setTask('tasks', tasks);
+    await updateTaskDetails(id, title, description, date, priority, assignedTo);
     closeSelectedTaskEditWindow();
     await loadTasksForBoard();
     await renderTasks();
-
 }
 
 /**
@@ -362,6 +285,41 @@ function searchTask() {
             renderTasks();
         }
     }
+}
+
+/**
+ * @param {*} id --> Selected Task.
+ * @param {*} section --> One of the four sections on the board.
+ * @param {*} move --> At the responsive sight there are two buttons on every task. By klicking on them they can be moved "up" or "down"
+ */
+function klickOnArrowToMoveTask(id, section, move) {
+    let taskCategorys = ['taskCategoryToDo', 'taskCategoryInProgress', 'taskCategoryAwaitFeedback', 'taskCategoryDone'];
+    if ((section == taskCategorys[0] || section == taskCategorys[1] || section == taskCategorys[2]) && move == 'down') {
+        let currentSectionIndex = taskCategorys.indexOf(section);
+        if (currentSectionIndex < taskCategorys.length - 1) {
+            allTasks[id]['section'] = taskCategorys[currentSectionIndex + 1];
+        }
+    }
+    if ((section == taskCategorys[1] || section == taskCategorys[2] || section == taskCategorys[3]) && move == 'up') {
+        let currentSectionIndex = taskCategorys.indexOf(section);
+        if (currentSectionIndex <= taskCategorys.length - 1) {
+            allTasks[id]['section'] = taskCategorys[currentSectionIndex - 1];
+        }
+    }
+    renderTasks();
+}
+
+//----Drag- and dropfunctions---//
+
+function startDragging(id) {
+    currentDraggedElement = id;
+}
+
+async function dragToOtherCategory(section) {
+    allTasks[currentDraggedElement]['section'] = section;
+    tasks[currentDraggedElement]['section'] = section;
+    await setTask('tasks', tasks);
+    renderTasks();
 }
 
 //----Helpfunctions---//
@@ -411,116 +369,6 @@ async function deleteSelectedTask(id) {
     renderTasks();
     closeEditTaskPopUp();
 }
-
-//----Drag- and dropfunctions---//
-
-function startDragging(id) {
-    currentDraggedElement = id;
-}
-
-async function dragToOtherCategory(section) {
-    allTasks[currentDraggedElement]['section'] = section;
-    tasks[currentDraggedElement]['section'] = section;
-    await setTask('tasks', tasks);
-    renderTasks();
-}
-//----------------------HTML-Templates------------//
-
-function createdTaskHTML(task, i) {
-    return `
-    <div draggable="true" ondragstart="startDragging(${task['id']})"  onclick="showDetailsTaskPopUp(${task['id']})" class="createdTaskContent">
-    <div class="categoryAndRespArrows">
-        <span class="createdTaskCategory" style="background-color:#${task['color']}">${task['category']}</span>
-        <span>
-            <img id="arrowUpId${task['id']}" onclick="event.stopPropagation(); klickOnArrowToMoveTask(${task['id']},'${task['section']}', 'up')" class="respArrows" src="../img/board-img/ArrowUp.png"></img>
-            <img id="arrowDownId${task['id']}" onclick=" event.stopPropagation();klickOnArrowToMoveTask(${task['id']},'${task['section']}', 'down')" class="respArrows" src="../img/board-img/ArrowDown.png"></img>
-        </span>
-    </div>
-    <div class="createdTaskTitleAndDescription">
-        <p class="createdTaskTitle">${task['title']}</p>
-        <p class="createdTaskDescription">${task['description']}</p>
-    </div>
-    <div class="createdTaskProgress">
-        <span class="createdTaskProgressBar"><div id="progressBar${task['id']}" class="barColor"></div></span>
-        <span class="createdTaskProgressText" id="progressCounter${task['id']}"></span>
-    </div>
-    <div class="createdTaskAssignedAndPriority">
-        <span class="createdTaskAssignedMember" id="createdTaskAssignedMember${task['id']}"></span>
-        <span class="createdTaskPriority" id="rightPrio${task['id']}"><img src="../img/addtask-img/higPrio.png"></span>
-    </div>
-</div>
-`
-}
-
-function showDetailsTaskPopUpHTML(id) {
-    return `
-<div class="editPopUpWindow">
-    <div class="editPopUpCatAndCanc"><span style="background-color:#${tasks[id]['categoryColor']}" class="editPopUpCategory"">${tasks[id]['category']}</span>
-        <span onclick="closeEditTaskPopUp()"><img src="../img/cancelIcon.png"></span>
-    </div>
-    <div>
-        <div class="editPopUpTitle">${tasks[id]['title']}</div>
-        <div class="editPopUpText">${tasks[id]['description']}</div>
-    </div>
-    <div> <b> Due Date: </b>${tasks[id]['date']}</div>
-    <div style="display: flex; align-items: center; gap: 10px"> <b> Priority: </b> <span id="editPopUpPriority">${tasks[id]['priority']} <img
-                src="../img/addtask-img/mediumPrio.png"></span></div>
-    <div>
-        <div><b>Assigned To</b></div>
-        <div class="editPopUpIconAndName" id="editPopUpName"></div>
-    </div>
-    <div>
-        <div><b>Subtasks</b></div>
-        <div>
-            <div class="editPopUpList" id="editPopUpList"></div>
-            
-        </div>
-    </div>
-    <div class="editPopUpDelAndEditButton">
-        <span onclick="showTaskDelete()"><img src="../img/board-img/editPopUpdelete.png"> Delete </span>
-        <seperator></seperator>
-        <span onclick="SelectedTaskEditWindow(${id}); closeEditTaskPopUp()" class="popUpEdit"><imgactShort
-                src="../img/board-img/editPopUpEdit.png"> Edit
-        </span>
-    </div>
-</div>
-<div id="taskDelete"><div><p>Are you sure?</p><div><button onclick="deleteSelectedTask(${id})">Yes!</button><button onclick="closeTaskDelete()">No!</button></div></div></div>
-`
-
-}
-
-function selectedTaskHTML(id) {
-    return `      
-    <form>
-    <img onclick="closeSelectedTaskEditWindow()" class="closeSelectedTaskEdit" src="../img/cancelIcon.png">
-    <p class="editTaskTitles">Title</p>
-    <input required id="editTaskTitle" placeholder="Enter a title....." value="${tasks[id]['title']}">
-    <p class="editTaskTitles">Description</p>
-    <textarea required id="editTaskDescription" placeholder="Describe your task.....">${tasks[id]['description']}</textarea>
-    <p class="editTaskTitles">Due Date</p>
-    <input id="editTaskDate" type="date" placeholder="dd.mm.yyyy" value="${tasks[id]['date']}">
-    <p class="editTaskTitles">Prio</p>
-    <div class="priorities" id="priorities">
-    <span id="selecturgent" onclick="highlightPriority('urgent')">
-        <p>Urgent</p><img src="../img/addtask-img/higPrio.png">
-    </span>
-    <span id="selectmedium" onclick="highlightPriority('medium')">
-        <p>Medium</p><img src="../img/addtask-img/mediumPrio.png">
-    </span>
-    <span id="selectlow" onclick="highlightPriority('low')">
-        <p>Low</p><img src="../img/addtask-img/lowPrio.png">
-    </span>
-</div>
-    <p class="editTaskTitles">Assigned to</p>
-    <div class="selectionAssignedTo" id="assignedToSelection">
-    <div onclick="openAssignedToSelection(); checkSelectedContacts(${id})"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>
-    </div>
-    <div id="editTaskContacts"></div>
-    <div class="editTaskButtonCont"><button class="editTaskOkButton" onclick="saveChangesInTask(${id}); return false"> OK <img
-                src="../img/createAccIcon.png"></button></div>
-    </form>`;
-}
-
 
 
 

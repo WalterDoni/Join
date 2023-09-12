@@ -58,8 +58,7 @@ async function createNEWTASK() {
     assignedToNames = [];
     checkedSubtaskNames = [];
     colorCode = null;
-  
-
+    await init();
 }
 
 /**
@@ -369,8 +368,7 @@ function cancelCreateTask() {
         const checkbox = document.getElementById('checkboxAssignedTo' + i);
         if (checkbox && checkbox.checked === true) {
             checkbox.checked = false;
-        }
-    }
+        }}
     if (selectedPriority) {
         let priority = 'select' + selectedPriority;
         document.getElementById(priority).classList.remove(priority);
