@@ -22,7 +22,6 @@ async function init() {
  * After the task was created, some variable get resetted to value "null".
  */
 async function createNEWTASK() {
-
     title = document.getElementById('title').value;
     description = document.getElementById('description').value;
     if (assignedToIsSelected()) {
@@ -40,10 +39,20 @@ async function createNEWTASK() {
         subtask = checkedSubtaskNames;
     }
     getCategoryColor();
-    const task = {
+    getCategoryColor();
+    const task = getNewTaskJson();
+    await createdTaskSuccesfull();
+    tasks.push(task);
+    await setTask('tasks', tasks);
+    clearValues();
+    await init();
+}
+
+function getNewTaskJson(){
+    return {
         title: title,
         description: description,
-        assignedTo: assignedToNames,
+        assignedTo: assignedTo,
         date: date,
         priority: priority,
         category: category,
@@ -51,14 +60,13 @@ async function createNEWTASK() {
         categoryColor: colorCode,
         section: 'taskCategoryToDo',
     }
-    await createdTaskSuccesfull();
-    tasks.push(task);
-    await setTask('tasks', tasks);
+}
+
+function clearValues(){
     generatedSubtasks = [];
     assignedToNames = [];
     checkedSubtaskNames = [];
     colorCode = null;
-    await init();
 }
 
 /**

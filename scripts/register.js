@@ -177,27 +177,6 @@ async function checkEmailExists() {
 }
 
 /**
- * This function greets the user based on the URL parameters and updates the greeting message according to the time of day.
- */
-window.onload = function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const userName = urlParams.get('name');
-    const greetingTextElement = document.getElementById('greetingText');
-    const userElement = document.getElementById('user');
-    let today = new Date();
-    let currentHour = today.getHours();
-    let greeting = currentHour < 12 ? "Good morning" : currentHour < 18 ? "Good day" : "Good evening";
-    if (userName === null || userName === "") {
-        userElement.textContent = "Guest";
-        greetingTextElement.textContent = greeting + ",";
-        greetingTextElement.style.color = "black";
-    } else {
-        userElement.textContent = userName;
-        greetingTextElement.textContent = greeting + ",";
-    }
-};
-
-/**
  * This function changes the source of the logo image after the page has loaded to display the "Join-Logo.svg" image.
  */
 window.onload = function () {
@@ -258,9 +237,6 @@ function getEmailUrl() {
     const email = urlParams.get('email');
     return email;
 }
-
-
-
 
 async function clearUsers(){
     users.splice('1', 9);
