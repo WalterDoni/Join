@@ -24,7 +24,7 @@
         <div class="headline">
             <span class="responsiveHeadline">
                 <h1>Board</h1>
-                <div class="plusForResponsive"><img onclick="showPopUpAddTask()" src="../img/board-img/addplus.png">
+                <div class="plusForResponsive"><img onclick="togglePopUpTask('flex')" src="../img/board-img/addplus.png">
                 </div>
             </span>
             <span class="inputAndButtonHeadline">
@@ -32,7 +32,7 @@
                     <input id="input" oninput="searchTask()" placeholder="Find Task">
                     <img src="../img/board-img/lupe.png">
                 </div>
-                <div class="buttonAdd" onclick="showPopUpAddTask()">Add task
+                <div class="buttonAdd" onclick="togglePopUpTask('flex')">Add task
                     <img src="../img/board-img/addplus.png">
                 </div>
 
@@ -42,7 +42,7 @@
         <div class="taskContent">
             <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryToDo')" ondragover="allowDrop(event)">
                 <div class="taskCategoryName">
-                    <h3> To do</h3><span class="hoverPlusEffect" onclick="showPopUpAddTask()" ><img src="../img/board-img/plusButtonTasks.png"></span>
+                    <h3> To do</h3><span class="hoverPlusEffect" onclick="togglePopUpTask('flex')" ><img src="../img/board-img/plusButtonTasks.png"></span>
                 </div>
                 <div id="taskCategoryToDo"></div>
             </div>
@@ -50,7 +50,7 @@
             <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryInProgress')"
                 ondragover="allowDrop(event)">
                 <div class="taskCategoryName">
-                    <h3> In progress</h3><span class="hoverPlusEffect" onclick="showPopUpAddTask()" ><img
+                    <h3> In progress</h3><span class="hoverPlusEffect" onclick="togglePopUpTask('flex')" ><img
                             src="../img/board-img/plusButtonTasks.png"></span>
                 </div>
                 <div id="taskCategoryInProgress"></div>
@@ -59,7 +59,7 @@
             <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryAwaitFeedback')"
                 ondragover="allowDrop(event)">
                 <div class="taskCategoryName">
-                    <h3>Await feedback</h3><span class="hoverPlusEffect" onclick="showPopUpAddTask()" ><img
+                    <h3>Await feedback</h3><span class="hoverPlusEffect" onclick="togglePopUpTask('flex')" ><img
                             src="../img/board-img/plusButtonTasks.png"></span>
                 </div>
                 <div id="taskCategoryAwaitFeedback"></div>
@@ -67,7 +67,7 @@
 
             <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryDone')" ondragover="allowDrop(event)">
                 <div class="taskCategoryName">
-                    <h3>Done</h3><span class="hoverPlusEffect" onclick="showPopUpAddTask()" ><img src="../img/board-img/plusButtonTasks.png"></span>
+                    <h3>Done</h3><span class="hoverPlusEffect" onclick="togglePopUpTask('flex')" ><img src="../img/board-img/plusButtonTasks.png"></span>
                 </div>
                 <div id="taskCategoryDone"></div>
             </div>
@@ -160,7 +160,7 @@
                     </div>
                     <div class="clearAndCreateButtonPopUp">
                         <div>
-                            <div class="clearButton" onclick="cancelCreateTask(); closePopUpAddTask()">Cancel<img
+                            <div class="clearButton" onclick="cancelCreateTask(); togglePopUpTask('none')">Cancel<img
                                     src="../img/cancelIcon.png"></div>
                         </div>
                         <div>

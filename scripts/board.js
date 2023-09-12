@@ -385,11 +385,8 @@ function closeSelectedTaskEditWindow() {
     document.getElementById('content').style.display = 'unset';
 }
 
-function showPopUpAddTask() {
-    document.getElementById('addTaskPopUpWindowContent').style.display = 'flex';
-}
-function closePopUpAddTask() {
-    document.getElementById('addTaskPopUpWindowContent').style.display = 'none';
+function togglePopUpTask(param) {
+    document.getElementById('addTaskPopUpWindowContent').style.display = param;
 }
 
 function highlight(id) {
