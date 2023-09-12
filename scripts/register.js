@@ -19,7 +19,7 @@ async function init() {
 function logo(){
     setTimeout(function () {
         let logo = document.getElementById("join-logo");
-        logo.src = "../img/JoinLogoDark.png";
+        logo.src = "./img/JoinLogoDark.png";
     }, 800);
 }
 /**

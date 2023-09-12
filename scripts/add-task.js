@@ -24,14 +24,13 @@ async function init() {
 async function createNEWTASK() {
     title = document.getElementById('title').value;
     description = document.getElementById('description').value;
+    date = document.getElementById('date').value;
     if (assignedToIsSelected()) {
         getTheAssignedNames();
         assignedTo = assignedToNames;
-    }
-    date = document.getElementById('date').value;
+     }
     if (prioIsSelected()) {
-        priority = selectedPriority;
-    }
+        priority = selectedPriority;}
     if (categoryIsSelected()) {
         category = document.getElementById('selectedCategory').innerHTML;
     }
@@ -39,13 +38,13 @@ async function createNEWTASK() {
         subtask = checkedSubtaskNames;
     }
     getCategoryColor();
-    getCategoryColor();
     const task = getNewTaskJson();
     await createdTaskSuccesfull();
     tasks.push(task);
     await setTask('tasks', tasks);
     clearValues();
     await init();
+    cancelCreateTask();
 }
 
 function getNewTaskJson(){
