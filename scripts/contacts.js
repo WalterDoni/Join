@@ -8,7 +8,7 @@ setMadeSmall();
 window.addEventListener("resize", resizeListenerContacts);
 
 /**
- * sets the initial values for madeSmall
+ * Set the initial values for madeSmall
  */
 function setMadeSmall() {
   if (window.innerWidth <= 800) {
@@ -17,7 +17,7 @@ function setMadeSmall() {
 }
 
 /**
- * Used, wenn wie resize from <=800 to <800 and back
+ * Used, wenn window resize from <=800 to >800 and back
  */
 function resizeListenerContacts() {
   if (window.innerWidth <= 800 && !madeSmall) {
@@ -53,7 +53,7 @@ async function loadContacts() {
 }
 
 /**
- * This function is an onload function. It will render every contact, from the server. And will only stop when 
+ * Is an onload function. It will render every contact, from the server. And will only stop when 
  * the length from contacts(array) is reached. It will also create the seperator and letters and sort it 
  * alphabetical. LettersHtml and contactListHtml is a created function only for returning the HTML part.
  */
@@ -238,7 +238,7 @@ function editContact(i) {
 }
 
 /**
- * only show the new contact button for responsive side, when the window is smaller than 800px
+ * Only show the new contact button for responsive side, when the window is smaller than 800px
  */
 async function buttonVisibility() {
   let button = document.getElementById('responsiveButton');

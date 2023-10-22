@@ -10,7 +10,7 @@ let user;
 
 
 /**
- * This function initializes the startup process by loading the user data.
+ * Initializes the startup process by loading the user data.
  */
 async function init() {
     await loadUsersRegister();
@@ -23,7 +23,7 @@ function logo(){
     }, 800);
 }
 /**
- * This function loads the user data from a remote storage and handles potential loading errors.
+ * Load the user data from a remote storage and handles potential loading errors.
  */
 async function loadUsersRegister() {
     try {
@@ -35,7 +35,7 @@ async function loadUsersRegister() {
 }
 
 /**
- * This function handles the registration process by checking if the email already exists, adding the new user, resetting the form, and displaying a success message.
+ * Handle the registration process by checking if the email already exists, adding the new user, resetting the form, and displaying a success message.
  */
 async function register() {
  
@@ -53,7 +53,7 @@ async function register() {
     }, 1500);
 }
 /**
- * This function pushes the new user dataobject into the users Array.
+ * Pushe the new user dataobject into the users Array.
  */
 async function setNewUser() {
     let name = document.getElementById('username');
@@ -69,7 +69,7 @@ function displayEmailExistsMessage() {
 
 
 /**
- * This function resets the registration form by clearing the values of the input fields and enabling the registration button.
+ * Reset the registration form by clearing the values of the input fields and enabling the registration button.
  */
 function resetForm() {
     const nameInput = document.getElementById('username');
@@ -83,7 +83,7 @@ function resetForm() {
 }
 
 /**
- * This function displays a success message for registration and redirects the user to the login page after a short delay.
+ * Display a success message for registration and redirects the user to the login page after a short delay.
  */
 function displayRegistrationSuccess() {
     let infoBox = document.getElementById("infoBox");
@@ -104,7 +104,7 @@ function showInfoBox() {
 // Login // 
 
 /**
- * This function enables guest access to the application by populating the login fields with pre-defined guest email and password and redirecting the user to the summary page.
+ * Enable guest access to the application by populating the login fields with pre-defined guest email and password and redirecting the user to the summary page.
  */
 function openGuestLogin() {
     const emailField = document.getElementById("emailLogin");
@@ -148,7 +148,7 @@ async function loginUser(event) {
 }
 
 /**
- * Loads the list of registered users from the data source.
+ * Load the list of registered users from the data source.
  * @function
  * @async
  * @returns {Promise<Array<Object>>} - A Promise that resolves to an array of user objects containing the registered users.
@@ -166,7 +166,7 @@ async function loadUsers() {
 }
 
 /**
- * Checks if the specified email address exists in the list of registered users and returns a boolean value.
+ * Check if the specified email address exists in the list of registered users and returns a boolean value.
  * @param {string} email - The email address to be checked for existence in the list of registered users.
  */
 
@@ -177,7 +177,7 @@ async function checkEmailExists() {
 }
 
 /**
- * This function changes the source of the logo image after the page has loaded to display the "Join-Logo.svg" image.
+ * Change the source of the logo image after the page has loaded to display the "Join-Logo.svg" image.
  */
 window.onload = function () {
     setTimeout(function () {

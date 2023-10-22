@@ -1,6 +1,6 @@
 let userName;
 /**
- * This function initializes the startup process by loading the summary.
+ * Initializes the startup process by loading the summary.
  */
 async function initSummary() {
     await includeHTML();
@@ -14,7 +14,7 @@ function clearUsers(){
     users.splice('1', 8)
 }
 /**
- * This function counts the tasks.
+ * Count the tasks.
  */
 async function tasksForSummary() {
     let countTodo = tasks.filter(task => task.section === 'taskCategoryToDo').length;
@@ -29,7 +29,7 @@ async function tasksForSummary() {
 }
 
 /**
- * This function filters the urgent tasks and displays the next deadline due.
+ * Filter the urgent tasks and displays the next deadline due.
  */
 async function urgentTask() {
     let countUrgentTasks = tasks.filter(task => task.priority === 'urgent').length;
@@ -51,7 +51,7 @@ async function urgentTask() {
 
 
 /**
- * This function redirects to the board.
+ * Redirects to the board.
  */
 function openBoard() {
     window.location.href = `board.html?name=${userName}`;
@@ -59,7 +59,7 @@ function openBoard() {
 
 
 /**
- * This function generates a personalized greeting message based on the current time of day.
+ * Generates a personalized greeting message based on the current time of day.
  */
 function getTimeandGreets() {
     const urlParams = new URLSearchParams(window.location.search);

@@ -24,7 +24,7 @@ async function addNameToHref() {
     setNameToHrefs(nameUser);
   }
 /**
- * load all external html files with the attribut w3-include-html
+ * Load all external html files with the attribut w3-include-html
  */
 async function includeHTML() {
     let includeElements = document.querySelectorAll('[w3-include-html]');
@@ -41,7 +41,7 @@ async function includeHTML() {
 }
 
 /**
- * Adds the username to the href of the links.
+ * Add the username to the href of the links.
  * 
  * @param {string} userNameAddTask  username
  */
@@ -56,7 +56,7 @@ function setNameToHrefs(userNameAddTask){
 }
 
 /**
- * Stores a key-value pair in the remote storage using the provided token.
+ * Store a key-value pair in the remote storage using the provided token.
  * @async
  * @param {string} key - The key to be stored in the remote storage.
  * @param {any} value - The value to be associated with the specified key.
@@ -79,7 +79,7 @@ function setNameToHrefs(userNameAddTask){
 }
 
 /**
- * Retrieves the value associated with the specified key from the remote storage using the provided token.
+ * Retrieve the value associated with the specified key from the remote storage using the provided token.
  * @async
  * @param {string} key - The key for which to retrieve the value from the remote storage.
  * @returns {Promise<any>} - A Promise that contains the value associated with the specified key.
@@ -107,7 +107,7 @@ async function getItemUsers(key) {
 }
 
 /**
- * This function saves the tasks on the remote storage.
+ * Save the tasks on the remote storage.
  * @param {string} key - key e.g. 'tasks'
  * @param {string} value - the JSON Array, that should be saved
  * @returns - the promise
@@ -145,7 +145,7 @@ async function loadCategorys() {
     }
 }
 /**
- * This function loads the tasks from the remote storage and saves it in tasks.
+ * Load the tasks from the remote storage and saves it in tasks.
  * @returns returns the tasks as an JSON Array
  */
 async function loadRemote() {
@@ -159,7 +159,7 @@ async function loadRemote() {
 }
 
 /**
- * This function stores a value under a specific key in the remote storage and handles error cases.
+ * Store a value under a specific key in the remote storage and handles error cases.
  */
 async function setItemRegister(key, value) {
     const payload = { key, value, token: STORAGE_TOKEN };
@@ -177,7 +177,7 @@ async function setItemRegister(key, value) {
 }
 
 /**
- * This function retrieves the value of a specific key from the remote storage and handles error cases.
+ * Retrieve the value of a specific key from the remote storage and handles error cases.
  */
 async function getItemRegister(key) {
     const url = `https://remote-storage.developerakademie.org/item?key=${key}&token=${STORAGE_TOKEN}`;

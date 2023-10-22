@@ -17,7 +17,7 @@ async function init() {
 
 }
 /**
- * This function loads data from the remote storage and push it into the allTasks array, for some specific values, which are necessary for the board.
+ * Load data from the remote storage and push it into the allTasks array, for some specific values, which are necessary for the board.
  *  @param {object} remoteTask --> Variable for the tasks values.
  *  @param {array} allTasks -> global array
  */

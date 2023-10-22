@@ -18,7 +18,7 @@ async function init() {
 }
 
 /**
- * This function take the value from several fields and push it in the array "tasks".
+ * Take the value from several fields and push it in the array "tasks".
  * After the task was created, some variable get resetted to value "null".
  */
 async function createNEWTASK() {
@@ -107,7 +107,7 @@ function prioIsSelected() {
 }
 
 /**
- * This function checks the HTML Collection of the given param and validates it.
+ * Check the HTML Collection of the given param and validates it.
  * @param {object} assignedTo - Should be the HTML Collection of the dropdown content.
  * @returns true on a passed test, else returns false.
  */
@@ -142,7 +142,7 @@ function getTheAssignedNames() {
     }
 }
 /**
-* This function checks if any of the input checkboxes within the object is checked or not.
+* Check if any of the input checkboxes within the object is checked or not.
 * @param {object} assignedTo - Should be the HTML Collection of the dropdown content.
 * @returns Just returns true on passed test.
 */
@@ -203,7 +203,7 @@ function updateSubtask() {
 }
 
 /**
- * This functions change the status from checked to unchecked. It's necessary for the progressbar later at the board.
+ * Change the status from checked to unchecked. It's necessary for the progressbar later at the board.
  */
 function checkTheSelectedSubtasks() {
     const checkedSubtasks = generatedSubtasks.filter(subtask => subtask.status === "checked");
@@ -260,7 +260,7 @@ function choosenCategory(id) {
 }
 
 /**
- * this function returns the color code of the selected category color
+ * Return the color code of the selected category color
  * @returns category color
  */
 function getCategoryColor() {
@@ -388,8 +388,7 @@ function cancelCreateTask() {
     document.getElementById('newCreatedSubtasks').innerHTML = "";
 }
 /**
- * this function removes the active color class from all colors and assignes it to the clicked color
- *
+ * Remove the active color class from all colors and assignes it to the clicked color
  * @param {string} color name of the selected color
  * @param {string} id of the selected color
  */
