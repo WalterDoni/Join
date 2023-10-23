@@ -13,6 +13,7 @@ async function initSummary() {
 function clearUsers(){
     users.splice('1', 8)
 }
+
 /**
  * Count the tasks.
  */
@@ -49,14 +50,12 @@ async function urgentTask() {
     }
 }
 
-
 /**
  * Redirects to the board.
  */
 function openBoard() {
     window.location.href = `board.html?name=${userName}`;
 }
-
 
 /**
  * Generates a personalized greeting message based on the current time of day.

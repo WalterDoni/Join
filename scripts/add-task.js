@@ -112,7 +112,6 @@ function prioIsSelected() {
  * @returns true on a passed test, else returns false.
  */
 function assignedToIsSelected() {
-
     let assignedTo = document.getElementById('assignedToSelection').children;
     if (assignedTo.length < 2) {
         document.getElementById('errorAssigned').classList.remove("d-none");
@@ -138,9 +137,9 @@ function getTheAssignedNames() {
         if (selected.querySelector("input").checked) {
             assignedToNames.push(selected.textContent)
         }
-
     }
 }
+
 /**
 * Check if any of the input checkboxes within the object is checked or not.
 * @param {object} assignedTo - Should be the HTML Collection of the dropdown content.
@@ -189,7 +188,6 @@ function updateSubtask() {
     let subtaskBox = document.getElementById('newCreatedSubtasks');
     let subtasks = subtaskBox.querySelectorAll("label");
     let updatedSubtasks = [];
-
     subtasks.forEach((subtask) => {
         if (subtask.querySelector("input").checked) {
             const updatedSubtask = { name: subtask.textContent, status: "checked" };
@@ -230,7 +228,6 @@ function highlightPriority(prio) {
     let priority = 'select' + prio;
     document.getElementById(priority).classList.add(priority);
 }
-
 
 //----OpenCategory----// 
 
@@ -362,6 +359,7 @@ function toggleVisability() {
         document.getElementById('assignedlabel' + index).classList.toggle('d-none');
     });
 }
+
 //----Helpfunction---//
 
 function doNotCloseTheBoxOrReloadThePage(event) {
@@ -387,6 +385,7 @@ function cancelCreateTask() {
     document.getElementById('categorySelection').innerHTML = assignedToBoxHTML();
     document.getElementById('newCreatedSubtasks').innerHTML = "";
 }
+
 /**
  * Remove the active color class from all colors and assignes it to the clicked color
  * @param {string} color name of the selected color

@@ -11,7 +11,6 @@ function toggleDropdown() {
     dropdown.classList.toggle("open");
   }
 
-
   /**
  * Make the name of the current user available in all tabs
  */
@@ -23,6 +22,7 @@ async function addNameToHref() {
     }
     setNameToHrefs(nameUser);
   }
+
 /**
  * Load all external html files with the attribut w3-include-html
  */
@@ -122,7 +122,6 @@ async function setTask(key, value) {
     
 }
 
-
 async function getTasks(key) {
     const url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
     p = await fetch(url).then(resp => resp.json()).then(resp => resp.data.value);
@@ -144,6 +143,7 @@ async function loadCategorys() {
         console.info('Could not found categorys');
     }
 }
+
 /**
  * Load the tasks from the remote storage and saves it in tasks.
  * @returns returns the tasks as an JSON Array
@@ -198,7 +198,6 @@ async function getItemRegister(key) {
 /**
  * Give contacts a value and load every created contact from the Server
  */
-
 async function loadContacts() {
     try {
       const response = await getItem('contacts');

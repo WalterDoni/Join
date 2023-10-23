@@ -8,7 +8,6 @@ let users = [
 let email;
 let user;
 
-
 /**
  * Initializes the startup process by loading the user data.
  */
@@ -22,6 +21,7 @@ function logo(){
         logo.src = "./img/JoinLogoDark.png";
     }, 800);
 }
+
 /**
  * Load the user data from a remote storage and handles potential loading errors.
  */
@@ -52,6 +52,7 @@ async function register() {
         window.location.href = '../index.html';
     }, 1500);
 }
+
 /**
  * Pushe the new user dataobject into the users Array.
  */
@@ -66,7 +67,6 @@ async function setNewUser() {
 function displayEmailExistsMessage() {
     alert('The email is already registered.');
 }
-
 
 /**
  * Reset the registration form by clearing the values of the input fields and enabling the registration button.
@@ -205,7 +205,6 @@ function action(formData) {
     };
     return fetch(input, requestInit);
 }
-
 
 function showInfoBox() {
     let infoBox = document.getElementById("infoBox");

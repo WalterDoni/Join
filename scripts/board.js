@@ -258,6 +258,7 @@ function editToggleVisability() {
         document.getElementById('editAssignedlabel' + index).classList.toggle('d-none');
     });
 }
+
 /**
  * 
  * @param {object} selectedPriority - get the value depends of the selected prio (urgent,medium or low)

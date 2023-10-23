@@ -254,8 +254,6 @@ window.addEventListener('resize', function (event) {
   buttonVisibility();
 });
 
-
-
 /*-------------------------------HTML-Templates-------------------------*/
 
 function lettersHtml(currentLetter) {
