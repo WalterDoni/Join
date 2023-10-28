@@ -40,7 +40,7 @@
         </div>
 
         <div class="taskContent">
-            <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryToDo')" ondragover="allowDrop(event)">
+            <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryToDo')" ondragover="allowDrop(event); highlight('taskCategoryToDo')" ondragleave="removeHighlight('taskCategoryToDo')" >
                 <div class="taskCategoryName">
                     <h3> To do</h3><span class="hoverPlusEffect" onclick="togglePopUpTask('flex')" ><img src="../img/board-img/plusButtonTasks.png"></span>
                 </div>
@@ -48,7 +48,7 @@
             </div>
 
             <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryInProgress')"
-                ondragover="allowDrop(event)">
+             ondragover="allowDrop(event); highlight('taskCategoryInProgress')" ondragleave="removeHighlight('taskCategoryInProgress')">
                 <div class="taskCategoryName">
                     <h3> In progress</h3><span class="hoverPlusEffect" onclick="togglePopUpTask('flex')" ><img
                             src="../img/board-img/plusButtonTasks.png"></span>
@@ -57,7 +57,7 @@
             </div>
 
             <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryAwaitFeedback')"
-                ondragover="allowDrop(event)">
+            ondragover="allowDrop(event); highlight('taskCategoryAwaitFeedback')" ondragleave="removeHighlight('taskCategoryAwaitFeedback')">
                 <div class="taskCategoryName">
                     <h3>Await feedback</h3><span class="hoverPlusEffect" onclick="togglePopUpTask('flex')" ><img
                             src="../img/board-img/plusButtonTasks.png"></span>
@@ -65,7 +65,7 @@
                 <div id="taskCategoryAwaitFeedback"></div>
             </div>
 
-            <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryDone')" ondragover="allowDrop(event)">
+            <div class="taskContainer" ondrop="dragToOtherCategory('taskCategoryDone')" ondragover="allowDrop(event); highlight('taskCategoryDone')" ondragleave="removeHighlight('taskCategoryDone')">
                 <div class="taskCategoryName">
                     <h3>Done</h3><span class="hoverPlusEffect" onclick="togglePopUpTask('flex')" ><img src="../img/board-img/plusButtonTasks.png"></span>
                 </div>

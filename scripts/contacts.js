@@ -333,7 +333,8 @@ function newContactPopUpHtml() {
       <span class="mb-120">
       <div class="closeAddContactButton" onclick="closePopUpWindow()"><img class="" src="../img/cancelIcon.png"></div>
           <form>
-              <input type="text"  id="newName" class="avatarIcon" placeholder="Name" required>
+              <input type="text"  id="newName" class="avatarIcon" placeholder="Name" required pattern="[A-Za-z]+" title="Please, enter your name without any numbers"
+              oninvalid=""> 
               <input type="email" id="newEmail" class="emailIcon" placeholder="Email" required>
               <input type="tel" id="newPhone" class="phoneIcon" placeholder="Phone" oninput="this.value = this.value.replace(/[^0-9/+]/g, '');">
 

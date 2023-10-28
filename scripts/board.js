@@ -42,7 +42,7 @@ function findIndexByName(name, contacts) {
             return i;
         }
     }
-    return -1; 
+    return -1;
 }
 
 /**
@@ -97,12 +97,13 @@ function renderCategory(categoryName, tasks) {
             let assignedMemberElement = document.getElementById(`createdTaskAssignedMember${task.id}`);
             for (let m = 0; m < task.members.length; m++) {
                 assignedMemberElement.innerHTML += `<span class="memberIcon" style="background-color: ${task.iconColors[m]}">${task.members[m]}</span>`
-             }
+            }
             document.getElementById(`rightPrio${task.id}`).innerHTML = checkPriority(task);
             counter = checkSubtaskProgress(task, counter);
             document.getElementById(`progressCounter${task.id}`).innerHTML = `${counter}/${task.subtask.length}`;
             let barPercentLength = checkProgressBar(task, counter);
-            document.getElementById(`progressBar${task.id}`).style.width = barPercentLength;}
+            document.getElementById(`progressBar${task.id}`).style.width = barPercentLength;
+        }
     } else {
         container.innerHTML = `<div class="noTask"> No task in "${categoryName}"</div>`;
     }
@@ -169,7 +170,7 @@ function showDetailsTaskPopUp(id) {
 /**
  * Load every Name and Subtask from the selected task.
  */
-function showNamesAndSubtasks(id){
+function showNamesAndSubtasks(id) {
     for (let i = 0; i < tasks[id]['assignedTo'].length; i++) {
         document.getElementById('editPopUpName').innerHTML += `<div><span class="iconStylePopUp"style="background-color:${allTasks[id]['iconColors'][i]}">${allTasks[id]['members'][i]}</span><span style="padding-left: 10px">${tasks[id]['assignedTo'][i]}</span</div>`;
     }
@@ -181,7 +182,7 @@ function showNamesAndSubtasks(id){
 /**
  * Add the correct priority from the selected task to the popup-window.
  */
-function showDetailsPrio(id){
+function showDetailsPrio(id) {
     if (tasks[id]['priority'] == 'urgent') {
         document.getElementById('editPopUpPriority').innerHTML = '<p>urgent</p> <img src="../img/addtask-img/higPrio.png">';
         document.getElementById('editPopUpPriority').classList.add('selecturgent')
@@ -208,7 +209,9 @@ async function changeProgressBarFromSelectedTask(id) {
         if (isChecked) {
             tasks[id].subtask[subs].status = "checked";
         } else {
-            tasks[id].subtask[subs].status = "unchecked"; }}
+            tasks[id].subtask[subs].status = "unchecked";
+        }
+    }
     counter = checkSubtaskProgress(task, counter);
     barPercentLength = checkProgressBar(task, counter);
     document.getElementById('progressBar' + id).style.width = barPercentLength;
@@ -248,9 +251,9 @@ function editopenAssignedToSelection() {
     editToggleVisability();
 }
 
-function editassignedToBoxHTML(){
-        return `<div onclick="editToggleVisability()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
-    
+function editassignedToBoxHTML() {
+    return `<div onclick="editToggleVisability()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
+
 }
 function editToggleVisability() {
     document.getElementById('editAssignedlabel').classList.toggle('d-none');
@@ -267,11 +270,11 @@ function editToggleVisability() {
 function editHighlightPriority(prio) {
     if (selectedPriority) {
         let priority = 'editSelect' + selectedPriority;
-        document.getElementById(priority).classList.remove('select'+selectedPriority)
+        document.getElementById(priority).classList.remove('select' + selectedPriority)
     }
     selectedPriority = prio;
     let priority = 'editSelect' + prio;
-    document.getElementById(priority).classList.add('select'+selectedPriority);
+    document.getElementById(priority).classList.add('select' + selectedPriority);
 }
 
 /**
@@ -375,6 +378,8 @@ function startDragging(id) {
 async function dragToOtherCategory(section) {
     allTasks[currentDraggedElement]['section'] = section;
     tasks[currentDraggedElement]['section'] = section;
+    let selectedTask = tasks[currentDraggedElement]['section']
+    document.getElementById(selectedTask).classList.remove('drag-area-highlight');
     await setTask('tasks', tasks);
     renderTasks();
 }

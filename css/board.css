@@ -132,6 +132,7 @@ body {
 }
 
 .noTask {
+    height: 20px;
     background-color: #D1D1D1;
     color: #A8A8A8;
     padding: 10px;
@@ -140,6 +141,20 @@ body {
     text-align: center;
     margin-top: 35px;
 }
+
+
+#taskCategoryToDo,
+#taskCategoryInProgress,
+#taskCategoryAwaitFeedback,
+#taskCategoryDone{
+    height: calc(100% - 35px);
+}
+
+.drag-area-highlight{
+    border-radius: 30px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
 
 .plusForResponsive {
     width: 40px;
