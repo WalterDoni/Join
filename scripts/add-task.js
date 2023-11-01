@@ -45,7 +45,9 @@ async function createNEWTASK() {
     clearValues();
     await init();
     cancelCreateTask();
+
 }
+
 
 function getNewTaskJson(){
     return {

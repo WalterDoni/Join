@@ -179,6 +179,56 @@ function showNamesAndSubtasks(id) {
     }
 }
 
+let editAssignedToNamesShorts = {
+    names: [],
+    colors: [],
+};
+
+
+function checkboxChanges() {
+    let divId = document.getElementById('editAssignedToSelection');
+    let labels = divId.querySelectorAll("label");
+    let editAssignedToNamesShorts = {
+        names: [],
+        colors: [],
+    };
+
+    for (let i = 0; i < labels.length; i++) {
+        let selected = labels[i];
+        if (selected.querySelector("input").checked) {
+            if (selected.textContent == 'Myself') {
+                editAssignedToNamesShorts.names.push('M');
+                editAssignedToNamesShorts.colors.push('#04B404');
+            }
+            for (let i = 0; i < contacts.length; i++) {
+                let contactName = contacts[i]['name'];
+                let contactColor = contacts[i]['iconColor'];
+                let contactShort = contacts[i]['short'];
+                if (selected.textContent == contactName) {
+                    editAssignedToNamesShorts.names.push(contactShort);
+                    editAssignedToNamesShorts.colors.push(contactColor);
+                }
+            }
+
+        }
+    }
+
+    document.getElementById('assginedMembersEditTask').innerHTML = "";
+    for (let a = 0; a < editAssignedToNamesShorts.names.length; a++) {
+        document.getElementById('assginedMembersEditTask').innerHTML += `<span class="memberIcon" style="background-color:${editAssignedToNamesShorts['colors'][a]}">${editAssignedToNamesShorts['names'][a]}</span> `;
+    }
+}
+
+function loadNamesFromSelectedTask(id) {
+    for (let i = 0; i < tasks[id]['assignedTo'].length; i++) {
+        let name = allTasks[id]['members'][i];
+        let color = allTasks[id]['iconColors'][i];
+        editAssignedToNamesShorts.names.push(name);
+        editAssignedToNamesShorts.colors.push(color);
+        document.getElementById('assginedMembersEditTask').innerHTML += `<span class="memberIcon" style="background-color:${editAssignedToNamesShorts['colors'][i]}">${editAssignedToNamesShorts['names'][i]}</span> `;
+    }
+}
+
 /**
  * Add the correct priority from the selected task to the popup-window.
  */
@@ -229,8 +279,10 @@ function SelectedTaskEditWindow(id) {
     content.innerHTML = selectedTaskHTML(id);
     selectedPriority = tasks[id]['priority'];
     document.getElementById('editSelect' + tasks[id]['priority']).classList.add('select' + tasks[id]['priority']);
+
     editopenAssignedToSelection();
     editCheckSelectedContacts(id);
+    loadNamesFromSelectedTask(id);
     document.getElementById('editSelectedTask').style.display = 'flex';
     if (window.innerWidth <= 800) {
         document.getElementById('content').style.display = 'none';
@@ -241,7 +293,6 @@ function SelectedTaskEditWindow(id) {
  * Every possible contact will show up and can be selected.
  */
 function editopenAssignedToSelection() {
-
     let assignedToSelectionBox = document.getElementById('editAssignedToSelection');
     assignedToSelectionBox.innerHTML = editassignedToBoxHTML();
     assignedToSelectionBox.innerHTML += `<label onclick="doNotCloseTheBoxOrReloadThePage(event)" id="editAssignedlabel" class="d-none" ><div id="editAssignedName0" >Myself</div><span><input id="editCheckboxAssignedTo0" type="checkbox"></span></label>`
@@ -252,15 +303,19 @@ function editopenAssignedToSelection() {
 }
 
 function editassignedToBoxHTML() {
-    return `<div onclick="editToggleVisability()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
+    return `<div onclick="editToggleVisability(); checkboxChanges()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
 
 }
+
 function editToggleVisability() {
     document.getElementById('editAssignedlabel').classList.toggle('d-none');
+    document.getElementById('assginedMembersEditTask').classList.toggle('d-none');
     contacts.forEach((contact, index) => {
         document.getElementById('editAssignedlabel' + index).classList.toggle('d-none');
     });
+
 }
+
 
 /**
  * 
@@ -325,7 +380,6 @@ function editGetTheAssignedNames() {
         if (selected.querySelector("input").checked) {
             assignedToNames.push(selected.textContent)
         }
-
     }
 }
 
@@ -429,6 +483,10 @@ async function deleteSelectedTask(id) {
     closeEditTaskPopUp();
 }
 
+
+function doNotCloseWhenClickedInsightContainer() {
+    event.stopPropagation();
+}
 
 
 

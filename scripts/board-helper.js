@@ -51,7 +51,7 @@ function createdTaskHTML(task, i) {
 
 function showDetailsTaskPopUpHTML(id) {
     return `
-<div class="editPopUpWindow">
+<div class="editPopUpWindow" onclick="doNotCloseWhenClickedInsightContainer()">
     <div class="editPopUpCatAndCanc"><span style="background-color:#${tasks[id]['categoryColor']}" class="editPopUpCategory"">${tasks[id]['category']}</span>
         <span onclick="closeEditTaskPopUp()"><img src="../img/cancelIcon.png"></span>
     </div>
@@ -112,6 +112,9 @@ function selectedTaskHTML(id) {
     <div class="selectionAssignedTo" id="editAssignedToSelection">
     <div onclick="editOpenAssignedToSelection(); checkSelectedContacts(${id})"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>
     </div>
+    
+    <div class="createdTaskAssignedMember" id="assginedMembersEditTask" ></div>
+
     <div id="editTaskContacts"></div>
     <div class="editTaskButtonCont"><button class="editTaskOkButton" onclick="saveChangesInTask(${id}); return false"> OK <img
                 src="../img/createAccIcon.png"></button></div>
