@@ -88,7 +88,7 @@ function showDetailsTaskPopUpHTML(id) {
 
 function selectedTaskHTML(id) {
     return `      
-    <form>
+    <form onclick="hideAssignedToDropDownMenu()">
     <img onclick="closeSelectedTaskEditWindow()" class="closeSelectedTaskEdit" src="../img/cancelIcon.png">
     <p class="editTaskTitles">Title</p>
     <input required id="editTaskTitle" placeholder="Enter a title....." value="${tasks[id]['title']}">

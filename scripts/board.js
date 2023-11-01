@@ -179,11 +179,19 @@ function showNamesAndSubtasks(id) {
     }
 }
 
+
+
+
+
+
+
+
 let editAssignedToNamesShorts = {
     names: [],
     colors: [],
 };
 
+let hideDropDownMenu = true;
 
 function checkboxChanges() {
     let divId = document.getElementById('editAssignedToSelection');
@@ -192,7 +200,6 @@ function checkboxChanges() {
         names: [],
         colors: [],
     };
-
     for (let i = 0; i < labels.length; i++) {
         let selected = labels[i];
         if (selected.querySelector("input").checked) {
@@ -209,10 +216,8 @@ function checkboxChanges() {
                     editAssignedToNamesShorts.colors.push(contactColor);
                 }
             }
-
         }
     }
-
     document.getElementById('assginedMembersEditTask').innerHTML = "";
     for (let a = 0; a < editAssignedToNamesShorts.names.length; a++) {
         document.getElementById('assginedMembersEditTask').innerHTML += `<span class="memberIcon" style="background-color:${editAssignedToNamesShorts['colors'][a]}">${editAssignedToNamesShorts['names'][a]}</span> `;
@@ -303,19 +308,36 @@ function editopenAssignedToSelection() {
 }
 
 function editassignedToBoxHTML() {
-    return `<div onclick="editToggleVisability(); checkboxChanges()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
+    return `<div onclick="editToggleVisability(); checkboxChanges(); hideDropDownMenuToggle()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
 
 }
 
 function editToggleVisability() {
+
     document.getElementById('editAssignedlabel').classList.toggle('d-none');
     document.getElementById('assginedMembersEditTask').classList.toggle('d-none');
     contacts.forEach((contact, index) => {
         document.getElementById('editAssignedlabel' + index).classList.toggle('d-none');
     });
-
+    event.stopPropagation();
 }
 
+function hideAssignedToDropDownMenu() {
+
+    if (hideDropDownMenu) {
+        document.getElementById('editAssignedlabel').classList.add('d-none');
+        document.getElementById('assginedMembersEditTask').classList.remove('d-none');
+        contacts.forEach((contact, index) => {
+            document.getElementById('editAssignedlabel' + index).classList.add('d-none');
+        });
+        checkboxChanges();
+        hideDropDownMenu = false;
+    }
+}
+
+function hideDropDownMenuToggle() {
+    hideDropDownMenu = !hideDropDownMenu;
+}
 
 /**
  * 
