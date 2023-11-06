@@ -1,11 +1,12 @@
 let selectableColorsForNewCategorys = ['FF7A00', 'FC71FF', '1FD7C1', 'FFC701', '0038FF', '068f43'];
 let selectedColor;
-let selectedPriority;
+let selectedPriority = null;
 let colorCode;
 let generatedSubtasks = [];
 let checkedSubtaskNames = [];
 let assignedToNames = [];
 let generatedTask = [];
+let formCorrect = false;
 
 
 async function init() {
@@ -28,15 +29,20 @@ async function createNEWTASK() {
     if (assignedToIsSelected()) {
         getTheAssignedNames();
         assignedTo = assignedToNames;
-     }
+        formAssigned = true;
+     } else { formAssigned = false}
     if (prioIsSelected()) {
-        priority = selectedPriority;}
+        priority = selectedPriority;
+        formPrio = true;
+    } else { formPrio = false}
     if (categoryIsSelected()) {
         category = document.getElementById('selectedCategory').innerHTML;
-    }
+        formCategory = true;
+    } else { formCategory = false}
     if (checkTheSelectedSubtasks()) {
         subtask = checkedSubtaskNames;
-    }
+    } 
+    if(formAssigned && formPrio && formCategory ){
     getCategoryColor();
     const task = getNewTaskJson();
     await createdTaskSuccesfull();
@@ -45,9 +51,13 @@ async function createNEWTASK() {
     clearValues();
     await init();
     cancelCreateTask();
-
+    document.getElementById('addTaskPopUpWindowContent').style.display = 'none';
+    formCorrect = false;
+    priority = '';
+    category = '';
+    subTask = '';
+    }
 }
-
 
 function getNewTaskJson(){
     return {
@@ -67,6 +77,8 @@ function clearValues(){
     generatedSubtasks = [];
     assignedToNames = [];
     checkedSubtaskNames = [];
+    highlightPriority(selectedPriority);
+    selectedPriority = null;
     colorCode = null;
 }
 
@@ -91,6 +103,7 @@ function categoryIsSelected() {
         document.getElementById('errorCategory').classList.remove("d-none");
         return false;
     } else {
+        document.getElementById('errorCategory').classList.add("d-none");
         return true;
     }
 }
@@ -100,10 +113,11 @@ function categoryIsSelected() {
  * @returns same like function before, but for priorities.
  */
 function prioIsSelected() {
-    if (selectedPriority == undefined) {
+    if (selectedPriority == null) {
         document.getElementById('errorPriority').classList.remove("d-none");
         return false
     } else {
+        document.getElementById('errorPriority').classList.add("d-none");
         return true;
     }
 }
@@ -122,6 +136,7 @@ function assignedToIsSelected() {
         document.getElementById('errorAssigned').classList.remove("d-none");
         return false;
     } else {
+        document.getElementById('errorAssigned').classList.add("d-none");
         return true;
     }
 }
@@ -224,7 +239,8 @@ function checkTheSelectedSubtasks() {
 function highlightPriority(prio) {
     if (selectedPriority) {
         let priority = 'select' + selectedPriority;
-        document.getElementById(priority).classList.remove(priority)
+        document.getElementById(priority).classList.remove(priority);
+        return
     }
     selectedPriority = prio;
     let priority = 'select' + prio;

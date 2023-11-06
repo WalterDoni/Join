@@ -3,6 +3,12 @@ let allTasks = [];
 let short = [];
 let iconNameColor = [];
 let searchTaskArray = [];
+let editAssignedToNamesShorts = {
+    names: [],
+    colors: [],
+};
+
+let hideDropDownMenu = true;
 
 async function init() {
 
@@ -179,20 +185,6 @@ function showNamesAndSubtasks(id) {
     }
 }
 
-
-
-
-
-
-
-
-let editAssignedToNamesShorts = {
-    names: [],
-    colors: [],
-};
-
-let hideDropDownMenu = true;
-
 function checkboxChanges() {
     let divId = document.getElementById('editAssignedToSelection');
     let labels = divId.querySelectorAll("label");
@@ -284,7 +276,6 @@ function SelectedTaskEditWindow(id) {
     content.innerHTML = selectedTaskHTML(id);
     selectedPriority = tasks[id]['priority'];
     document.getElementById('editSelect' + tasks[id]['priority']).classList.add('select' + tasks[id]['priority']);
-
     editopenAssignedToSelection();
     editCheckSelectedContacts(id);
     loadNamesFromSelectedTask(id);
@@ -313,7 +304,6 @@ function editassignedToBoxHTML() {
 }
 
 function editToggleVisability() {
-
     document.getElementById('editAssignedlabel').classList.toggle('d-none');
     document.getElementById('assginedMembersEditTask').classList.toggle('d-none');
     contacts.forEach((contact, index) => {
@@ -323,7 +313,6 @@ function editToggleVisability() {
 }
 
 function hideAssignedToDropDownMenu() {
-
     if (hideDropDownMenu) {
         document.getElementById('editAssignedlabel').classList.add('d-none');
         document.getElementById('assginedMembersEditTask').classList.remove('d-none');
