@@ -21,7 +21,7 @@
 
     <div id="content" class="content">
         <h1>Add Task</h1>
-        <form class="addTaskElements" onsubmit="createNEWTASK(); return false">
+        <form class="addTaskElements" id="addTaskForm" onclick="hideAssignedToDropMenu()" onsubmit="createNEWTASK(); return false">
             <span class="leftElementAddTask">
                 <div class="title">
                     <h3 class="titles">Title</h3>
@@ -39,6 +39,7 @@
                             <p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png">
                         </div>
                     </div>
+                    <div class="createdTaskAssignedMember" id="assginedMembersCreateTask"></div> 
                     <div class="formError d-none" id="errorAssigned">Please, select atleast "Myself"</div>
                 </div>
             </span>

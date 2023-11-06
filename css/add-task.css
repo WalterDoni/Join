@@ -447,6 +447,40 @@ input::-webkit-calendar-picker-indicator {
     z-index: 4;
 }
 
+.newTaskAssignedMember {
+    border: solid 1px white;
+    border-radius: 17px;
+    color: white;
+    font-size: 13px;
+    line-height: 120%;
+    display: flex;
+    align-items: center;
+    left: 0px;
+   
+}
+
+.createdTaskAssignedMember {
+    border: solid 1px white;
+    border-radius: 17px;
+    color: white;
+    font-size: 13px;
+    line-height: 120%;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+}
+
+.memberIcon {
+    margin-left: -8px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: black;
+}
+
 @media(max-width: 1340px) {
 
     .leftElementAddTask,

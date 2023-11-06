@@ -360,7 +360,7 @@ function openAssignedToSelection() {
 }
 
 function assignedToBoxHTML() {
-    return `<div onclick="toggleVisability()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
+    return `<div onclick="toggleVisability(); checkboxChangesNewTask()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
 }
 
 function getContactsFromContactListHTML(contact, index) {
@@ -373,9 +373,43 @@ function editGetContactsFromContactListHTML(contact, index) {
 
 function toggleVisability() {
     document.getElementById('assignedlabel').classList.toggle('d-none');
+    document.getElementById('assginedMembersCreateTask').classList.toggle('d-none');
     contacts.forEach((contact, index) => {
         document.getElementById('assignedlabel' + index).classList.toggle('d-none');
     });
+}
+
+
+
+function checkboxChangesNewTask() {
+    let divId = document.getElementById('assignedToSelection');
+    let labels = divId.querySelectorAll("label");
+    let editAssignedToNamesShorts = {
+        names: [],
+        colors: [],
+    };
+    for (let i = 0; i < labels.length; i++) {
+        let selected = labels[i];
+        if (selected.querySelector("input").checked) {
+            if (selected.textContent == 'Myself') {
+                editAssignedToNamesShorts.names.push('M');
+                editAssignedToNamesShorts.colors.push('#04B404');
+            }
+            for (let i = 0; i < contacts.length; i++) {
+                let contactName = contacts[i]['name'];
+                let contactColor = contacts[i]['iconColor'];
+                let contactShort = contacts[i]['short'];
+                if (selected.textContent == contactName) {
+                    editAssignedToNamesShorts.names.push(contactShort);
+                    editAssignedToNamesShorts.colors.push(contactColor);
+                }
+            }
+        }
+    }
+    document.getElementById('assginedMembersCreateTask').innerHTML = "";
+    for (let a = 0; a < editAssignedToNamesShorts.names.length; a++) {
+        document.getElementById('assginedMembersCreateTask').innerHTML += `<span class="memberIcon" style="background-color:${editAssignedToNamesShorts['colors'][a]}">${editAssignedToNamesShorts['names'][a]}</span> `;
+    }
 }
 
 //----Helpfunction---//

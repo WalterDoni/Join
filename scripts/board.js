@@ -66,6 +66,7 @@ function processAssignedName(name, short, iconNameColor, contacts) {
  * Retrieves assigned short names and icon colors based on task assignments.
  */
 function getAssignedShortAndColor(task, short, iconNameColor) {
+   
     let assignedNames = task.assignedTo;
     if (assignedNames.length === 1) {
         if (assignedNames[0] === "Myself" && short.length < 1) {
@@ -320,7 +321,7 @@ function hideAssignedToDropDownMenu() {
             document.getElementById('editAssignedlabel' + index).classList.add('d-none');
         });
         checkboxChanges();
-        hideDropDownMenu = false;
+        hideDropDownMenu = true;
     }
 }
 
