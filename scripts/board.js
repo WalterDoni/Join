@@ -66,7 +66,7 @@ function processAssignedName(name, short, iconNameColor, contacts) {
  * Retrieves assigned short names and icon colors based on task assignments.
  */
 function getAssignedShortAndColor(task, short, iconNameColor) {
-   
+
     let assignedNames = task.assignedTo;
     if (assignedNames.length === 1) {
         if (assignedNames[0] === "Myself" && short.length < 1) {
@@ -300,7 +300,7 @@ function editopenAssignedToSelection() {
 }
 
 function editassignedToBoxHTML() {
-    return `<div onclick="editToggleVisability(); checkboxChanges(); hideDropDownMenuToggle()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
+    return `<div onclick="editToggleVisability(); checkboxChanges()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
 
 }
 
@@ -314,6 +314,13 @@ function editToggleVisability() {
 }
 
 function hideAssignedToDropDownMenu() {
+    let dropdown = document.getElementById('editAssignedlabel');
+    let includesDnone = dropdown.classList.contains('d-none');
+    if (!includesDnone) {
+        hideDropDownMenu = true;
+    } else {
+        hideDropDownMenu = false;
+    }
     if (hideDropDownMenu) {
         document.getElementById('editAssignedlabel').classList.add('d-none');
         document.getElementById('assginedMembersEditTask').classList.remove('d-none');
@@ -321,12 +328,7 @@ function hideAssignedToDropDownMenu() {
             document.getElementById('editAssignedlabel' + index).classList.add('d-none');
         });
         checkboxChanges();
-        hideDropDownMenu = true;
     }
-}
-
-function hideDropDownMenuToggle() {
-    hideDropDownMenu = !hideDropDownMenu;
 }
 
 /**

@@ -110,7 +110,7 @@ function selectedTaskHTML(id) {
 </div>
     <p class="editTaskTitles">Assigned to</p>
     <div class="selectionAssignedTo" id="editAssignedToSelection">
-    <div onclick="editOpenAssignedToSelection(); checkSelectedContacts(${id})"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>
+    <div onclick="checkSelectedContacts(${id})"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>
     </div>
     
     <div class="createdTaskAssignedMember" id="assginedMembersEditTask" ></div>

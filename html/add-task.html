@@ -13,7 +13,7 @@
     <script src="../scripts/add-task.js"></script>
 </head>
 
-<body onload="init(); return false ">
+<body onload="init(); return false" onclick="hideAssignedToDropMenu()" > 
     <div id="sidebar">
         <div w3-include-html="./sidebar.html"></div>
     </div>
@@ -21,7 +21,7 @@
 
     <div id="content" class="content">
         <h1>Add Task</h1>
-        <form class="addTaskElements" id="addTaskForm" onclick="hideAssignedToDropMenu()" onsubmit="createNEWTASK(); return false">
+        <form class="addTaskElements" id="addTaskForm" onsubmit="createNEWTASK(); return false">
             <span class="leftElementAddTask">
                 <div class="title">
                     <h3 class="titles">Title</h3>

@@ -7,6 +7,7 @@ let checkedSubtaskNames = [];
 let assignedToNames = [];
 let generatedTask = [];
 let formCorrect = false;
+let hideDropMenu = true;
 
 
 async function init() {
@@ -16,6 +17,7 @@ async function init() {
     await loadRemote();
     await loadCategorys();
     addNameToHref();
+  
 }
 
 /**
@@ -377,6 +379,7 @@ function toggleVisability() {
     contacts.forEach((contact, index) => {
         document.getElementById('assignedlabel' + index).classList.toggle('d-none');
     });
+    event.stopPropagation();
 }
 
 
@@ -416,6 +419,24 @@ function checkboxChangesNewTask() {
 
 function doNotCloseTheBoxOrReloadThePage(event) {
     event.stopPropagation();
+}
+
+function hideAssignedToDropMenu() {
+    let dropdown = document.getElementById('assignedlabel');
+    let includesDnone = dropdown.classList.contains('d-none');
+    if (!includesDnone) {
+        hideDropMenu = true;
+    } else {
+        hideDropMenu = false;
+    }
+    if (hideDropMenu) {
+        document.getElementById('assignedlabel').classList.add('d-none');
+        document.getElementById('assginedMembersCreateTask').classList.remove('d-none');
+        contacts.forEach((contact, index) => {
+            document.getElementById('assignedlabel' + index).classList.add('d-none');
+        });
+        checkboxChangesNewTask();
+    }
 }
 
 /**
