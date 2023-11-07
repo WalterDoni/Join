@@ -51,7 +51,7 @@ function createdTaskHTML(task, i) {
 
 function showDetailsTaskPopUpHTML(id) {
     return `
-<div class="editPopUpWindow" onclick="doNotCloseWhenClickedInsightContainer()">
+<div class="editPopUpWindow" onclick="doNotCloseWhenClickedInsightContainer(event)">
     <div class="editPopUpCatAndCanc"><span style="background-color:#${tasks[id]['categoryColor']}" class="editPopUpCategory"">${tasks[id]['category']}</span>
         <span onclick="closeEditTaskPopUp()"><img src="../img/cancelIcon.png"></span>
     </div>

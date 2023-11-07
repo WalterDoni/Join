@@ -17,7 +17,7 @@ async function init() {
     await loadRemote();
     await loadCategorys();
     addNameToHref();
-  
+    openAssignedToSelection();
 }
 
 /**
@@ -44,7 +44,12 @@ async function createNEWTASK() {
     if (checkTheSelectedSubtasks()) {
         subtask = checkedSubtaskNames;
     } 
-    if(formAssigned && formPrio && formCategory ){
+    if (formAssigned && formPrio && formCategory) {
+        createTaskAndClearEverything();
+    }
+}
+
+async function createTaskAndClearEverything() {
     getCategoryColor();
     const task = getNewTaskJson();
     await createdTaskSuccesfull();
@@ -53,12 +58,11 @@ async function createNEWTASK() {
     clearValues();
     await init();
     cancelCreateTask();
-    document.getElementById('addTaskPopUpWindowContent').style.display = 'none';
+    document.getElementById('taskCreated').style.display = 'none';
     formCorrect = false;
     priority = '';
     category = '';
     subTask = '';
-    }
 }
 
 function getNewTaskJson(){
@@ -241,12 +245,12 @@ function checkTheSelectedSubtasks() {
 function highlightPriority(prio) {
     if (selectedPriority) {
         let priority = 'select' + selectedPriority;
-        document.getElementById(priority).classList.remove(priority);
-        return
+        document.getElementById(priority).classList.remove('select' + selectedPriority)
     }
     selectedPriority = prio;
     let priority = 'select' + prio;
-    document.getElementById(priority).classList.add(priority);
+    document.getElementById(priority).classList.add('select' + selectedPriority);
+
 }
 
 //----OpenCategory----// 
@@ -351,7 +355,6 @@ function getCreatedCategorysHTML(id, category) {
  * Every possible contact will show up and can be selected.
  */
 function openAssignedToSelection() {
-
     let assignedToSelectionBox = document.getElementById('assignedToSelection');
     assignedToSelectionBox.innerHTML = assignedToBoxHTML();
     assignedToSelectionBox.innerHTML += `<label onclick="doNotCloseTheBoxOrReloadThePage(event)" id="assignedlabel" class="d-none" ><div id="assignedName0" >Myself</div><span><input id="checkboxAssignedTo0" type="checkbox"></span></label>`
@@ -362,7 +365,7 @@ function openAssignedToSelection() {
 }
 
 function assignedToBoxHTML() {
-    return `<div onclick="toggleVisability(); checkboxChangesNewTask()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
+    return `<div onclick="toggleVisability();doNotCloseTheBoxOrReloadThePage(event); checkboxChangesNewTask()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
 }
 
 function getContactsFromContactListHTML(contact, index) {
@@ -379,36 +382,47 @@ function toggleVisability() {
     contacts.forEach((contact, index) => {
         document.getElementById('assignedlabel' + index).classList.toggle('d-none');
     });
-    event.stopPropagation();
 }
 
-
-
+/**
+ * If the dropdown menu gets closed, below the "shorts" and "iconColor" will appear below the selected contact. 
+ *Every selected name will be pushed into the "assignedToSelection" array after it iterates through every possibility.
+ */
 function checkboxChangesNewTask() {
     let divId = document.getElementById('assignedToSelection');
     let labels = divId.querySelectorAll("label");
-    let editAssignedToNamesShorts = {
-        names: [],
-        colors: [],
-    };
+    let editAssignedToNamesShorts = { names: [], colors: [],};
     for (let i = 0; i < labels.length; i++) {
         let selected = labels[i];
         if (selected.querySelector("input").checked) {
-            if (selected.textContent == 'Myself') {
-                editAssignedToNamesShorts.names.push('M');
-                editAssignedToNamesShorts.colors.push('#04B404');
-            }
-            for (let i = 0; i < contacts.length; i++) {
-                let contactName = contacts[i]['name'];
-                let contactColor = contacts[i]['iconColor'];
-                let contactShort = contacts[i]['short'];
-                if (selected.textContent == contactName) {
-                    editAssignedToNamesShorts.names.push(contactShort);
-                    editAssignedToNamesShorts.colors.push(contactColor);
-                }
+            createArrayForIcons(selected, editAssignedToNamesShorts);
+        }
+    }
+    renderNewTaskAssignedMembers(editAssignedToNamesShorts);
+}
+
+/**
+ * Creates the neccesary array for the box below the "assignedTo" section.
+ * @param {*} selected --> Current name in label
+ */
+function createArrayForIcons(selected, editAssignedToNamesShorts) {
+    if (selected.textContent == 'Myself') {
+        editAssignedToNamesShorts.names.push('M');
+        editAssignedToNamesShorts.colors.push('#04B404');
+    } else {
+        for (let index = 0; index < contacts.length; index++) {
+            let contactName = contacts[index]['name'];
+            let contactColor = contacts[index]['iconColor'];
+            let contactShort = contacts[index]['short'];
+            if (selected.textContent == contactName) {
+                editAssignedToNamesShorts.names.push(contactShort);
+                editAssignedToNamesShorts.colors.push(contactColor);
             }
         }
     }
+}
+
+function renderNewTaskAssignedMembers(editAssignedToNamesShorts){
     document.getElementById('assginedMembersCreateTask').innerHTML = "";
     for (let a = 0; a < editAssignedToNamesShorts.names.length; a++) {
         document.getElementById('assginedMembersCreateTask').innerHTML += `<span class="memberIcon" style="background-color:${editAssignedToNamesShorts['colors'][a]}">${editAssignedToNamesShorts['names'][a]}</span> `;
@@ -457,6 +471,7 @@ function cancelCreateTask() {
     }
     document.getElementById('categorySelection').innerHTML = assignedToBoxHTML();
     document.getElementById('newCreatedSubtasks').innerHTML = "";
+    document.getElementById('assginedMembersCreateTask').innerHTML = "";
 }
 
 /**
@@ -468,11 +483,9 @@ function selectColor(color, id) {
     let colorSelectionContainer = document.getElementById("colorSelection");
     let colorBoxes = colorSelectionContainer.querySelectorAll("div");
     selectedColor = color;
-
     colorBoxes.forEach((colorBox) => {
         colorBox.classList.remove("selectedColorNewCategory");
     });
-
     let selectedColorBox = document.getElementById('color' + id);
     selectedColorBox.classList.add("selectedColorNewCategory");
 }

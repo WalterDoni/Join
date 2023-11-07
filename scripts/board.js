@@ -20,8 +20,8 @@ async function init() {
     await loadTasksForBoard();
     await renderTasks();
     addNameToHref();
-
 }
+
 /**
  * Load data from the remote storage and push it into the allTasks array, for some specific values, which are necessary for the board.
  *  @param {object} remoteTask --> Variable for the tasks values.
@@ -66,7 +66,6 @@ function processAssignedName(name, short, iconNameColor, contacts) {
  * Retrieves assigned short names and icon colors based on task assignments.
  */
 function getAssignedShortAndColor(task, short, iconNameColor) {
-
     let assignedNames = task.assignedTo;
     if (assignedNames.length === 1) {
         if (assignedNames[0] === "Myself" && short.length < 1) {
@@ -186,31 +185,44 @@ function showNamesAndSubtasks(id) {
     }
 }
 
+/**
+ * If the dropdown menu gets closed, below the "shorts" and "iconColor" will appear below the selected contact. 
+ * Every selected name will be pushed into the"editAssignedToNamesShorts" array after it iterates through every possibility.
+ */
 function checkboxChanges() {
     let divId = document.getElementById('editAssignedToSelection');
     let labels = divId.querySelectorAll("label");
-    let editAssignedToNamesShorts = {
-        names: [],
-        colors: [],
-    };
+    let editAssignedToNamesShorts = { names: [], colors: [],};
     for (let i = 0; i < labels.length; i++) {
         let selected = labels[i];
         if (selected.querySelector("input").checked) {
-            if (selected.textContent == 'Myself') {
-                editAssignedToNamesShorts.names.push('M');
-                editAssignedToNamesShorts.colors.push('#04B404');
-            }
-            for (let i = 0; i < contacts.length; i++) {
-                let contactName = contacts[i]['name'];
-                let contactColor = contacts[i]['iconColor'];
-                let contactShort = contacts[i]['short'];
-                if (selected.textContent == contactName) {
-                    editAssignedToNamesShorts.names.push(contactShort);
-                    editAssignedToNamesShorts.colors.push(contactColor);
-                }
-            }
+            createIconArray(selected, editAssignedToNamesShorts);
         }
     }
+    renderAssignedMembers(editAssignedToNamesShorts);
+}
+
+/**
+ * Creates the neccesary array for the box below the "assignedTo" section.
+ * @param {*} selected --> Current name in label
+ */
+function createIconArray(selected, editAssignedToNamesShorts) {
+    if (selected.textContent == 'Myself') {
+        editAssignedToNamesShorts.names.push('M');
+        editAssignedToNamesShorts.colors.push('#04B404');
+    }
+    for (let i = 0; i < contacts.length; i++) {
+        let contactName = contacts[i]['name'];
+        let contactColor = contacts[i]['iconColor'];
+        let contactShort = contacts[i]['short'];
+        if (selected.textContent == contactName) {
+            editAssignedToNamesShorts.names.push(contactShort);
+            editAssignedToNamesShorts.colors.push(contactColor);
+        }
+    }
+}
+
+function renderAssignedMembers(editAssignedToNamesShorts) {
     document.getElementById('assginedMembersEditTask').innerHTML = "";
     for (let a = 0; a < editAssignedToNamesShorts.names.length; a++) {
         document.getElementById('assginedMembersEditTask').innerHTML += `<span class="memberIcon" style="background-color:${editAssignedToNamesShorts['colors'][a]}">${editAssignedToNamesShorts['names'][a]}</span> `;
@@ -300,7 +312,7 @@ function editopenAssignedToSelection() {
 }
 
 function editassignedToBoxHTML() {
-    return `<div onclick="editToggleVisability(); checkboxChanges()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
+    return `<div onclick="editToggleVisability(); doNotCloseWhenClickedInsightContainer(event); checkboxChanges()"><p>Select contacts to assign</p><img src="../img/addtask-img/arrow_drop_down.png"></div>`;
 
 }
 
@@ -310,7 +322,6 @@ function editToggleVisability() {
     contacts.forEach((contact, index) => {
         document.getElementById('editAssignedlabel' + index).classList.toggle('d-none');
     });
-    event.stopPropagation();
 }
 
 function hideAssignedToDropDownMenu() {
@@ -498,7 +509,7 @@ async function deleteSelectedTask(id) {
 }
 
 
-function doNotCloseWhenClickedInsightContainer() {
+function doNotCloseWhenClickedInsightContainer(event) {
     event.stopPropagation();
 }
 
